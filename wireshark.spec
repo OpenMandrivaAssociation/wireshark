@@ -7,12 +7,13 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 1
+Release:	%mkrel 3
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
+Patch0:		wireshark_help_browser.patch.bz2
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 Requires:	net-snmp-mibs
@@ -94,6 +95,8 @@ by tcpdump and various other tools.
 %prep
 
 %setup -q -n %{name}-%{version}
+
+%patch0 -p1
 
 %build
 export WANT_AUTOCONF_2_5=1
