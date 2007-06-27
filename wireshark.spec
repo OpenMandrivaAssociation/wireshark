@@ -7,7 +7,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -99,6 +99,8 @@ by tcpdump and various other tools.
 %patch0 -p1
 
 %build
+%serverbuild
+
 export WANT_AUTOCONF_2_5=1
 rm -f configure wiretap/configure
 libtoolize --copy --force; aclocal-1.7 -I aclocal-fallback; autoconf; automake-1.7 --add-missing --copy
