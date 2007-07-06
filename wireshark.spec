@@ -2,20 +2,18 @@
 
 %define	major 0
 %define libname %mklibname wireshark %{major}
-%define main_version 0.99.5
+%define main_version 0.99.6
 
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 4
+Release:	%mkrel 1
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
 Patch0:		wireshark_help_browser.patch.bz2
-Requires(post): desktop-file-utils
-Requires(postun): desktop-file-utils
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 Requires:	usermode-consoleonly
@@ -230,11 +228,9 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 
 %post
 %update_menus
-%update_desktop_database
 
 %postun
 %clean_menus
-%clean_desktop_database
 
 %post -n %{libname} -p /sbin/ldconfig
 
@@ -298,5 +294,3 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog FAQ NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
 %attr(755,root,root) %{_libdir}/lib*.so.*
-
-
