@@ -110,6 +110,7 @@ export LIBS="-L%{_libdir}"
 export LDFLAGS="-L%{_libdir}"
 
 %configure2_5x \
+    --disable-warnings-as-errors --enable-warnings-as-errors=no \
     --disable-usr-local \
     --disable-static \
     --enable-gtk2 \
