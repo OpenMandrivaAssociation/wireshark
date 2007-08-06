@@ -8,13 +8,12 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
-Source2:        wireshark-includes.list
 Patch0:		wireshark_help_browser.patch.bz2
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
@@ -235,11 +234,14 @@ rm -f %{buildroot}%{_libdir}/wireshark/*.la
 
 # install includes
 mkdir -p %{buildroot}%{_includedir}/wireshark
-for include in `cat %{SOURCE2}`; do
+for include in `find epan -type f -name '*.h'`; do
         mkdir -p %{buildroot}%{_includedir}/wireshark/`dirname $include`
         install -m 0644 -D $include %{buildroot}%{_includedir}/wireshark/`dirname $include`
 done
-
+# remaining include files
+install -m 0644 color.h config.h %{buildroot}%{_includedir}/wireshark
+mkdir -p %{buildroot}%{_includedir}/wireshark/wiretap
+install -m 0644 wiretap/wtap.h %{buildroot}%{_includedir}/wireshark/wiretap
 
 # fix @SHELL@
 perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
