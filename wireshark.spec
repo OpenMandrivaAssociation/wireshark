@@ -2,17 +2,19 @@
 
 %define	major 0
 %define libname %mklibname wireshark %{major}
+%define libname_devel %mklibname -d wireshark
 %define main_version 0.99.6
 
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
+Source2:        wireshark-includes.list
 Patch0:		wireshark_help_browser.patch.bz2
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
@@ -57,6 +59,16 @@ systems. It is based on GTK+, a graphical user interface library,
 and libpcap, a packet capture and filtering library.
 
 %{blurb}
+
+%package -n     %{libname_devel}
+Summary:        Development files for %{name}
+Group:          Development/Other
+Provides:       libwireshark-devel = %{version}
+Requires:       %{libname} = %{version}
+
+%description -n %{libname_devel}
+This package contains files used for development with %{name}.
+
 
 %package	tools
 Summary:	Tools for manipulating capture files
@@ -218,11 +230,16 @@ pushd %{buildroot}%{_bindir}
     ln -s ../sbin/dumpcap dumpcap
 popd
 
-# do we need a development package?
-rm -f %{buildroot}%{_libdir}/*.so
-rm -f %{buildroot}%{_libdir}/*.a
-rm -f %{buildroot}%{_libdir}/*.la
-rm -f %{buildroot}%{_libdir}/%{name}/*.la
+# remove uneeded files
+rm -f %{buildroot}%{_libdir}/wireshark/*.la
+
+# install includes
+mkdir -p %{buildroot}%{_includedir}/wireshark
+for include in `cat %{SOURCE2}`; do
+        mkdir -p %{buildroot}%{_includedir}/wireshark/`dirname $include`
+        install -m 0644 -D $include %{buildroot}%{_includedir}/wireshark/`dirname $include`
+done
+
 
 # fix @SHELL@
 perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
@@ -295,3 +312,12 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog FAQ NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
 %attr(755,root,root) %{_libdir}/lib*.so.*
+
+%files -n %{libname_devel}
+%defattr(-,root,root)
+%{_includedir}/wireshark
+%{_libdir}/libwireshark.la
+%{_libdir}/libwireshark.so
+%{_libdir}/libwiretap.la
+%{_libdir}/libwiretap.so
+
