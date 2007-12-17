@@ -35,7 +35,6 @@ BuildRequires:	libgnutls-devel
 Provides:	ethereal = %{version}
 Obsoletes:	ethereal
 #Conflicts:	ethereal
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating
