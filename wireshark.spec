@@ -8,7 +8,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 0
+Release:	%mkrel 1
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -16,26 +16,31 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.gz
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
-Requires:	net-snmp-mibs
-Requires:	net-snmp-utils
 Requires:	usermode-consoleonly
-BuildRequires:	doxygen
+BuildRequires:	adns-devel
 BuildRequires:	autoconf2.5
 BuildRequires:	automake1.7
-BuildRequires:	libtool
+BuildRequires:	doxygen
 BuildRequires:	glib2-devel
 BuildRequires:	gtk+2-devel
-BuildRequires:	libelf-devel
-BuildRequires:	openssl-devel
-BuildRequires:	libpcap-devel >= 0.7.2
-BuildRequires:	net-snmp-devel
-BuildRequires:	pcre-devel
-BuildRequires:	adns-devel
 BuildRequires:	krb5-devel
+BuildRequires:	libcap-devel
+BuildRequires:	libelf-devel
 BuildRequires:	libgnutls-devel
+BuildRequires:	libpcap-devel >= 0.7.2
+BuildRequires:	libsmi-devel
+BuildRequires:	libtool
+BuildRequires:	lua-devel
+BuildRequires:	openssl-devel
+BuildRequires:	pcre-devel
+%if %mdkversion >= 200810
+BuildRequires:	portaudio-devel
+%endif
+BuildRequires:	zlib-devel
 Provides:	ethereal = %{version}
 Obsoletes:	ethereal
 #Conflicts:	ethereal
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating
@@ -121,25 +126,35 @@ export LIBS="-L%{_libdir}"
 export LDFLAGS="-L%{_libdir}"
 
 %configure2_5x \
+    --disable-static \
     --disable-warnings-as-errors --enable-warnings-as-errors=no \
     --disable-usr-local \
-    --disable-static \
     --enable-gtk2 \
+    --enable-threads \
     --enable-tshark \
     --enable-editcap \
-    --enable-dumpcap \
     --enable-capinfos \
     --enable-mergecap \
     --enable-text2pcap \
     --enable-idl2wrs \
     --enable-dftest \
     --enable-randpkt \
+    --enable-dumpcap \
     --enable-ipv6 \
+    --with-gnutls=no \
+    --with-gcrypt=no \
+    --with-libsmi=%{_prefix} \
     --with-pcap=%{_prefix} \
     --with-zlib=%{_prefix} \
     --with-pcre=%{_prefix} \
+    --with-lua=%{_prefix} \
+%if %mdkversion >= 200810
+    --with-portaudio=%{_prefix} \
+%endif
+    --with-libcap=%{_prefix} \
     --with-ssl=%{_prefix} \
-    --with-net-snmp=%{_prefix} \
+    --with-krb5 \
+    --with-adns=%{_prefix} \
     --with-plugins=%{_libdir}/%{name}
 
 %make
@@ -284,6 +299,9 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/smi_modules
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/tpncp/*
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
+%attr(644,root,root) %{_datadir}/%{name}/console.lua
+%attr(644,root,root) %{_datadir}/%{name}/dtd_gen.lua
+%attr(644,root,root) %{_datadir}/%{name}/init.lua
 %attr(644,root,root) %{_datadir}/%{name}/help/*
 %{_menudir}/%{name}
 %{_iconsdir}/*.png
