@@ -3,18 +3,19 @@
 %define	major 0
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
-%define main_version 0.99.6
+%define main_version 0.99.7
 
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 5
+Release:	%mkrel 0
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
-Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
+Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.gz
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
-Patch0:		wireshark_help_browser.patch.bz2
+Patch0:		wireshark_help_browser.patch
+Patch1:		wireshark-plugindir.patch
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 Requires:	usermode-consoleonly
@@ -103,8 +104,8 @@ by tcpdump and various other tools.
 %prep
 
 %setup -q -n %{name}-%{version}
-
-%patch0 -p1
+%patch0 -p0
+%patch1 -p0
 
 %build
 %serverbuild
@@ -267,14 +268,23 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %attr(755,root,root) %{_sbindir}/dumpcap
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.so
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/manuf
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/diameter
+%dir %{_datadir}/%{name}/help
+%dir %{_datadir}/%{name}/radius
+%dir %{_datadir}/%{name}/tpncp
+%dir %{_datadir}/%{name}/wimaxasncp
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/cfilters
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/colorfilters
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/dfilters
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/diameter/*
+%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/manuf
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/radius/dictionary*
+%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/services
+%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/smi_modules
+%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/tpncp/*
+%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
 %attr(644,root,root) %{_datadir}/%{name}/help/*
-%dir %{_datadir}/%{name}
 %{_menudir}/%{name}
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
@@ -321,4 +331,3 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.la
 %{_libdir}/libwiretap.so
-
