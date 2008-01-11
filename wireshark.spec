@@ -8,7 +8,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -317,11 +317,12 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 
 %files -n %{libname}
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog FAQ NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%doc AUTHORS FAQ NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
 %attr(755,root,root) %{_libdir}/lib*.so.*
 
 %files -n %{libname_devel}
 %defattr(-,root,root)
+%doc ChangeLog
 %{_includedir}/wireshark
 %{_libdir}/libwireshark.la
 %{_libdir}/libwireshark.so
