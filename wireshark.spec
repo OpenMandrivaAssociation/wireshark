@@ -171,27 +171,6 @@ make %{name}.1
 install -m0644 %{name}.1 %{buildroot}%{_mandir}/man1/
 
 # menu
-install -d %{buildroot}%{_menudir}
-cat > %{buildroot}%{_menudir}/%{name} <<EOF
-
-?package(%{name}): \
-command="%{name}" \
-title="Wireshark" \
-longtitle="Network traffic analyzer" \
-needs="x11" \
-icon="%{name}.png" \
-section="System/Monitoring" \
-xdg="true"
-
-?package(%{name}): \
-command="%{name}-root" \
-title="Wireshark (root user)" \
-longtitle="Network traffic analyzer (root user)" \
-needs="x11" \
-icon="%{name}.png" \
-section="System/Monitoring" \
-xdg="true"
-EOF
 
 # setup links for consolehelpper support to allow root access
 install -d %{buildroot}%{_sbindir}
@@ -303,7 +282,6 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %attr(644,root,root) %{_datadir}/%{name}/dtd_gen.lua
 %attr(644,root,root) %{_datadir}/%{name}/init.lua
 %attr(644,root,root) %{_datadir}/%{name}/help/*
-%{_menudir}/%{name}
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
