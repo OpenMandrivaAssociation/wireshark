@@ -8,7 +8,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
