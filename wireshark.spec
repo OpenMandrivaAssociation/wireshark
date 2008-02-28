@@ -38,6 +38,7 @@ BuildRequires:	portaudio-devel
 %endif
 BuildRequires:	zlib-devel
 BuildRequires:	bison
+BuildRequires:	flex
 Provides:	ethereal = %{version}
 Obsoletes:	ethereal
 #Conflicts:	ethereal
