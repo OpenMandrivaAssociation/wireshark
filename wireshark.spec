@@ -8,7 +8,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -182,7 +182,7 @@ make %{name}.1
 install -m0644 %{name}.1 %{buildroot}%{_mandir}/man1/
 
 # menu
-%if %mdkversion <= 200810
+%if %mdkversion <= 200700
 install -d %{buildroot}%{_menudir} 	 
 cat > %{buildroot}%{_menudir}/%{name} <<EOF 	 
 ?package(%{name}): \ 	 
@@ -192,9 +192,7 @@ longtitle="Network traffic analyzer" \
 needs="x11" \ 	 
 icon="%{name}.png" \ 	 
 section="System/Monitoring" \ 	 
-%if %{mdkversion} >= 200610
 xdg=true \
-%endif
 
 ?package(%{name}): \ 	 
 command="%{name}-root" \ 	 
@@ -203,9 +201,7 @@ longtitle="Network traffic analyzer (root user)" \
 needs="x11" \ 	 
 icon="%{name}.png" \ 	 
 section="System/Monitoring" \ 	 
-%if %{mdkversion} >= 200610
 xdg=true
-%endif
 EOF
 %endif
 
@@ -305,7 +301,7 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %dir %{_datadir}/%{name}/radius
 %dir %{_datadir}/%{name}/tpncp
 %dir %{_datadir}/%{name}/wimaxasncp
-%if %{mdkversion} <= 200810
+%if %mdkversion <= 200700
 %{_menudir}/%{name}
 %endif
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/cfilters
