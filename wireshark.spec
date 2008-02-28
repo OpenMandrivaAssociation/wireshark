@@ -37,6 +37,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	portaudio-devel
 %endif
 BuildRequires:	zlib-devel
+BuildRequires:	bison
 Provides:	ethereal = %{version}
 Obsoletes:	ethereal
 #Conflicts:	ethereal
