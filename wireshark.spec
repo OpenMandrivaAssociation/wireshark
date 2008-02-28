@@ -3,12 +3,12 @@
 %define	major 0
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
-%define main_version 0.99.7
+%define main_version 0.99.8
 
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 3
+Release:	%mkrel 1
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -116,11 +116,8 @@ by tcpdump and various other tools.
 %serverbuild
 
 export WANT_AUTOCONF_2_5=1
-rm -f configure wiretap/configure
+rm -f configure
 libtoolize --copy --force; aclocal-1.7 -I aclocal-fallback; autoconf; automake-1.7 --add-missing --copy
-pushd wiretap
-    aclocal-1.7 -I ../aclocal-fallback; autoconf; automake-1.7 --add-missing --copy
-popd
     
 export LIBS="-L%{_libdir}"
 export LDFLAGS="-L%{_libdir}"
