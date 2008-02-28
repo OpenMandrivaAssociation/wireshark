@@ -45,34 +45,35 @@ Obsoletes:	ethereal
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
-Wireshark is a network traffic analyzer for Unix-ish operating
-systems. It is based on GTK+, a graphical user interface library,
-and libpcap, a packet capture and filtering library.
+Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
+based on GTK+, a graphical user interface library, and libpcap, a packet
+capture and filtering library.
 
 %{blurb}
 
 %package -n	%{libname}
 Summary:	Network traffic and protocol analyzer libraries
-Group:         	System/Libraries
-Conflicts:      ethereal <= 0.10.5
+Group:		System/Libraries
+Conflicts:	ethereal <= 0.10.5
 Provides:	%{mklibname ethereal 0} = %{version}
 Obsoletes:	%{mklibname ethereal 0}
 #Conflicts:	%{mklibname ethereal 0}
 
 %description -n	%{libname}
-Wireshark is a network traffic analyzer for Unix-ish operating
-systems. It is based on GTK+, a graphical user interface library,
-and libpcap, a packet capture and filtering library.
+Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
+based on GTK+, a graphical user interface library, and libpcap, a packet
+capture and filtering library.
 
 %{blurb}
 
-%package -n     %{libname_devel}
-Summary:        Development files for %{name}
-Group:          Development/Other
-Provides:       libwireshark-devel = %{version}
-Requires:       %{libname} = %{version}
+%package -n	%{libname_devel}
+Summary:	Development files for %{name}
+Group:		Development/Other
+Provides:	libwireshark-devel = %{version}
+Provides:	wireshark-devel = %{version}
+Requires:	%{libname} = %{version}
 
-%description -n %{libname_devel}
+%description -n	%{libname_devel}
 This package contains files used for development with %{name}.
 
 
@@ -85,6 +86,7 @@ Obsoletes:	ethereal-tools
 
 %description	tools
 Set of tools for manipulating capture files. Contains:
+
 - editcap - Edit and/or translate the format of capture files
 - mergecap - Merges two capture files into one
 - text2cap - Generate a capture file from an ASCII hexdump of packets
@@ -98,13 +100,23 @@ Provides:	tethereal = %{version}
 Obsoletes:	tethereal
 #Conflicts:	tethereal
 
-%description -n tshark
-Twireshark is a network protocol analyzer. It lets you capture packet
-data from a live network, or read packets from a previously saved
-capture file, either printing a decoded form of those packets to the
-standard output or writing the packets to a file. Twireshark's native
-capture file format is libpcap format, which is also the format used
-by tcpdump and various other tools.
+%description -n	tshark
+Tshark is a network protocol analyzer. It lets you capture packet data from a
+live network, or read packets from a previously saved capture file, either
+printing a decoded form of those packets to the standard output or writing the
+packets to a file. Twireshark's native capture file format is libpcap format,
+which is also the format used by tcpdump and various other tools.
+
+%{blurb}
+
+%package -n	rawshark
+Summary:	Dump and analyze raw libpcap data
+Group:		Monitoring
+
+%description -n rawshark
+Rawshark reads a stream of packets from a file or pipe, and prints a line
+describing its output, followed by a set of matching fields for each packet on
+stdout.
 
 %{blurb}
 
@@ -170,6 +182,32 @@ make %{name}.1
 install -m0644 %{name}.1 %{buildroot}%{_mandir}/man1/
 
 # menu
+%if %mdkversion <= 200810
+install -d %{buildroot}%{_menudir} 	 
+cat > %{buildroot}%{_menudir}/%{name} <<EOF 	 
+?package(%{name}): \ 	 
+command="%{name}" \ 	 
+title="Wireshark" \ 	 
+longtitle="Network traffic analyzer" \ 	 
+needs="x11" \ 	 
+icon="%{name}.png" \ 	 
+section="System/Monitoring" \ 	 
+%if %{mdkversion} >= 200610
+xdg=true \
+%endif
+
+?package(%{name}): \ 	 
+command="%{name}-root" \ 	 
+title="Wireshark (root user)" \ 	 
+longtitle="Network traffic analyzer (root user)" \ 	 
+needs="x11" \ 	 
+icon="%{name}.png" \ 	 
+section="System/Monitoring" \ 	 
+%if %{mdkversion} >= 200610
+xdg=true
+%endif
+EOF
+%endif
 
 # setup links for consolehelpper support to allow root access
 install -d %{buildroot}%{_sbindir}
@@ -267,6 +305,9 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %dir %{_datadir}/%{name}/radius
 %dir %{_datadir}/%{name}/tpncp
 %dir %{_datadir}/%{name}/wimaxasncp
+%if %{mdkversion} <= 200810
+%{_menudir}/%{name}
+%endif
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/cfilters
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/colorfilters
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/dfilters
@@ -281,6 +322,7 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %attr(644,root,root) %{_datadir}/%{name}/dtd_gen.lua
 %attr(644,root,root) %{_datadir}/%{name}/init.lua
 %attr(644,root,root) %{_datadir}/%{name}/help/*
+%attr(644,root,root) %{_datadir}/%{name}/ws.css
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
@@ -313,6 +355,11 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/tshark
 %{_mandir}/man1/tshark*
+
+%files -n rawshark
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/rawshark
+%{_mandir}/man1/rawshark.1*
 
 %files -n %{libname}
 %defattr(644,root,root,755)
