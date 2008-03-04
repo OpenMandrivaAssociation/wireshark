@@ -8,7 +8,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -17,6 +17,7 @@ Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_ve
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Requires:	usermode-consoleonly
+Requires:	dumpcap
 BuildRequires:	adns-devel
 BuildRequires:	autoconf2.5
 BuildRequires:	automake1.7
@@ -98,6 +99,7 @@ Summary:	Text-mode network traffic and protocol analyzer
 Group:		Monitoring
 Provides:	tethereal = %{version}
 Obsoletes:	tethereal
+Requires:	dumpcap
 #Conflicts:	tethereal
 
 %description -n	tshark
@@ -117,6 +119,18 @@ Group:		Monitoring
 Rawshark reads a stream of packets from a file or pipe, and prints a line
 describing its output, followed by a set of matching fields for each packet on
 stdout.
+
+%{blurb}
+
+%package -n	dumpcap
+Summary:	Network traffic dump tool
+Group:		Monitoring
+# earlier dumpcap was part of the wireshark package
+Conflicts:	wireshark <= 0.99.8-2mdv2008.1
+
+%description -n dumpcap
+Dumpcap is a network traffic dump tool. It lets you capture packet data from a
+live network and write the packets to a file. Many wireshark utilities require it.
 
 %{blurb}
 
@@ -286,13 +300,17 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %clean
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
+%files -n dumpcap
+%defattr(-,root,root)
+%attr(755,root,root) %{_bindir}/dumpcap
+%attr(755,root,root) %{_sbindir}/dumpcap
+%{_mandir}/man1/dumpcap.1*
+
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/%{name}-root
-%attr(755,root,root) %{_bindir}/dumpcap
 %attr(755,root,root) %{_sbindir}/%{name}-root
-%attr(755,root,root) %{_sbindir}/dumpcap
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.so
 %dir %{_datadir}/%{name}
@@ -322,7 +340,6 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
-%{_mandir}/man1/dumpcap.1*
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man4/%{name}-filter.4*
 %{_datadir}/%{name}/*.html
