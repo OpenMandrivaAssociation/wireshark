@@ -3,12 +3,12 @@
 %define	major 0
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
-%define main_version 0.99.8
+%define main_version 1.0.0
 
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 3
+Release:	%mkrel 1
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
