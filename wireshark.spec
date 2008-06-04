@@ -114,6 +114,7 @@ which is also the format used by tcpdump and various other tools.
 %package -n	rawshark
 Summary:	Dump and analyze raw libpcap data
 Group:		Monitoring
+Conflicts:	wireshark-tools <= 0.99.8-1mdv2008.1
 
 %description -n rawshark
 Rawshark reads a stream of packets from a file or pipe, and prints a line
