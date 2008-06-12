@@ -288,11 +288,15 @@ install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
 # fix @SHELL@
 perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 
+%if %mdkversion < 200900
 %post
 %update_menus
+%endif
 
+%if %mdkversion < 200900
 %postun
 %clean_menus
+%endif
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
