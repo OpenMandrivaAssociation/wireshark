@@ -1,3 +1,5 @@
+%define _disable_ld_no_undefined 1
+
 %define	blurb Wireshark is a fork of Ethereal(tm)
 
 %define	major 0
