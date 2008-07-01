@@ -3,12 +3,12 @@
 %define	major 0
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
-%define main_version 1.0.0
+%define main_version 1.0.1
 
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 2
+Release:	%mkrel 1
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -43,7 +43,7 @@ BuildRequires:	flex
 Provides:	ethereal = %{version}
 Obsoletes:	ethereal
 #Conflicts:	ethereal
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
