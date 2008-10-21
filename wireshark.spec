@@ -6,7 +6,7 @@
 %define	major 0
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
-%define main_version 1.0.3
+%define main_version 1.0.4
 
 Summary:	Network traffic analyzer
 Name:		wireshark
