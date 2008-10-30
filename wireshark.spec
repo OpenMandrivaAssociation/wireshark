@@ -1,5 +1,7 @@
+%if %mdkversion >= 200810
 %define _disable_ld_as_needed 1
 %define _disable_ld_no_undefined 1
+%endif
 
 %define	blurb Wireshark is a fork of Ethereal(tm)
 
@@ -11,7 +13,13 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
-Release:	%mkrel 2
+%if %mdkversion >= 200800
+# this is for Cooker
+Release:	%mkrel 3
+%else
+# this is for -0 CS4 updates: mkrel is decremented when subrel is set
+Release:	%mkrel 1
+%endif
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -34,10 +42,10 @@ BuildRequires:	libgnutls-devel
 BuildRequires:	libpcap-devel >= 0.7.2
 BuildRequires:	libsmi-devel
 BuildRequires:	libtool
-BuildRequires:	lua-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
 %if %mdkversion >= 200810
+BuildRequires:	lua-devel
 BuildRequires:	portaudio-devel
 %endif
 BuildRequires:	zlib-devel
@@ -176,8 +184,8 @@ export LDFLAGS="-L%{_libdir}"
     --with-pcap=%{_prefix} \
     --with-zlib=%{_prefix} \
     --with-pcre=%{_prefix} \
-    --with-lua=%{_prefix} \
 %if %mdkversion >= 200810
+    --with-lua=%{_prefix} \
     --with-portaudio=%{_prefix} \
 %endif
     --with-libcap=%{_prefix} \
@@ -281,7 +289,7 @@ rm -f %{buildroot}%{_libdir}/wireshark/*.la
 mkdir -p %{buildroot}%{_includedir}/wireshark
 for include in `find epan -type f -name '*.h'`; do
         mkdir -p %{buildroot}%{_includedir}/wireshark/`dirname $include`
-        install -m 0644 -D $include %{buildroot}%{_includedir}/wireshark/`dirname $include`
+        install -m 0644 $include %{buildroot}%{_includedir}/wireshark/`dirname $include`
 done
 # remaining include files
 install -m 0644 *.h %{buildroot}%{_includedir}/wireshark
@@ -344,9 +352,11 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/smi_modules
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/tpncp/*
 %config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
+%if %mdkversion >= 200810
 %attr(644,root,root) %{_datadir}/%{name}/console.lua
 %attr(644,root,root) %{_datadir}/%{name}/dtd_gen.lua
 %attr(644,root,root) %{_datadir}/%{name}/init.lua
+%endif
 %attr(644,root,root) %{_datadir}/%{name}/help/*
 %attr(644,root,root) %{_datadir}/%{name}/ws.css
 %{_iconsdir}/*.png
