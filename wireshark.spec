@@ -15,7 +15,7 @@ Name:		wireshark
 Version:	%{main_version}
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 3
+Release:	%mkrel 4
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
@@ -27,6 +27,7 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.gz
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
+Patch2:		wireshark_pipe.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	adns-devel
@@ -151,6 +152,7 @@ live network and write the packets to a file. Many wireshark utilities require i
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
+%patch2 -p1
 
 %build
 %serverbuild
