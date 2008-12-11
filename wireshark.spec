@@ -8,14 +8,14 @@
 %define	major 0
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
-%define main_version 1.0.4
+%define main_version 1.0.5
 
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	%{main_version}
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 4
+Release:	%mkrel 1
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
