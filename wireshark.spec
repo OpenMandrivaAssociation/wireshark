@@ -18,10 +18,10 @@ Version:	%{main_version}
 %endif
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 1
+Release:	%mkrel 2
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
-Release:	%mkrel 2
+Release:	%mkrel 1
 %endif
 License:	GPL
 Group: 		Monitoring
