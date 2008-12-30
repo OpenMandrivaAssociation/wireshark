@@ -3,6 +3,14 @@
 %define _disable_ld_no_undefined 1
 %endif
 
+%if %mdkversion >= 200910
+%define Werror_cflags %{nil}
+%endif
+
+%if %mdkversion < 200900
+%define ldflags %{nil}
+%endif
+
 %define	blurb Wireshark is a fork of Ethereal(tm)
 
 %define	major 0
@@ -18,7 +26,7 @@ Version:	%{main_version}
 %endif
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 2
+Release:	%mkrel 3
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
@@ -165,7 +173,7 @@ rm -f configure
 libtoolize --copy --force; aclocal-1.7 -I aclocal-fallback; autoconf; automake-1.7 --add-missing --copy
     
 export LIBS="-L%{_libdir}"
-export LDFLAGS="-L%{_libdir}"
+export LDFLAGS="%{ldflags} -L%{_libdir}"
 
 %configure2_5x \
     --disable-static \
