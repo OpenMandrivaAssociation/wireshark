@@ -26,7 +26,7 @@ Version:	%{main_version}
 %endif
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 1
+Release:	%mkrel 2
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
@@ -50,7 +50,6 @@ BuildRequires:	gtk+2-devel
 BuildRequires:	krb5-devel
 BuildRequires:	libcap-devel
 BuildRequires:	libelf-devel
-BuildRequires:	libgnutls-devel
 BuildRequires:	libpcap-devel >= 0.7.2
 BuildRequires:	libsmi-devel
 BuildRequires:	libtool
@@ -59,6 +58,8 @@ BuildRequires:	pcre-devel
 %if %mdkversion >= 200810
 BuildRequires:	lua-devel
 BuildRequires:	portaudio-devel
+BuildRequires:	libgcrypt-devel >= 1.1.92
+BuildRequires:	libgnutls-devel >= 1.2.0
 %endif
 BuildRequires:	zlib-devel
 BuildRequires:	bison
@@ -171,7 +172,7 @@ live network and write the packets to a file. Many wireshark utilities require i
 export WANT_AUTOCONF_2_5=1
 rm -f configure
 libtoolize --copy --force; aclocal-1.7 -I aclocal-fallback; autoconf; automake-1.7 --add-missing --copy
-    
+
 export LIBS="-L%{_libdir}"
 export LDFLAGS="%{ldflags} -L%{_libdir}"
 
@@ -191,8 +192,6 @@ export LDFLAGS="%{ldflags} -L%{_libdir}"
     --enable-randpkt \
     --enable-dumpcap \
     --enable-ipv6 \
-    --with-gnutls=no \
-    --with-gcrypt=no \
     --with-libsmi=%{_prefix} \
     --with-pcap=%{_prefix} \
     --with-zlib=%{_prefix} \
@@ -200,6 +199,8 @@ export LDFLAGS="%{ldflags} -L%{_libdir}"
 %if %mdkversion >= 200810
     --with-lua=%{_prefix} \
     --with-portaudio=%{_prefix} \
+    --with-gnutls=yes \
+    --with-gcrypt=yes \
 %endif
     --with-libcap=%{_prefix} \
     --with-ssl=%{_prefix} \
