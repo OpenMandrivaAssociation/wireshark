@@ -20,13 +20,13 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	%{main_version}
+Version:	1.0.8
 %if %mdkversion < 200910
 %define subrel	1
 %endif
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 2
+Release:	%mkrel 1
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
