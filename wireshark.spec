@@ -16,7 +16,6 @@
 %define	major 0
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
-%define main_version 1.0.7
 
 Summary:	Network traffic analyzer
 Name:		wireshark
@@ -26,7 +25,7 @@ Version:	1.0.8
 %endif
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 1
+Release:	%mkrel 2
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
@@ -35,7 +34,7 @@ License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
-Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{main_version}.txt
+Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Patch2:		wireshark_pipe.patch
