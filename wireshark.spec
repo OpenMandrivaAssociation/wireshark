@@ -19,13 +19,13 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.0.8
+Version:	1.2.0
 %if %mdkversion < 200910
 %define subrel	1
 %endif
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 3
+Release:	%mkrel 1
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
@@ -43,7 +43,7 @@ Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	adns-devel
 BuildRequires:	autoconf2.5
-BuildRequires:	automake1.7
+BuildRequires:	automake1.9
 BuildRequires:	doxygen
 BuildRequires:	glib2-devel
 BuildRequires:	gtk+2-devel
@@ -163,7 +163,7 @@ live network and write the packets to a file. Many wireshark utilities require i
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
-%patch2 -p1
+#%patch2 -p1
 %patch3 -p0
 
 %build
@@ -171,7 +171,7 @@ live network and write the packets to a file. Many wireshark utilities require i
 
 export WANT_AUTOCONF_2_5=1
 rm -f configure
-libtoolize --copy --force; aclocal-1.7 -I aclocal-fallback; autoconf; automake-1.7 --add-missing --copy
+libtoolize --copy --force; aclocal-1.9 -I aclocal-fallback; autoconf; automake-1.9 --add-missing --copy
 
 export LIBS="-L%{_libdir}"
 export LDFLAGS="%{ldflags} -L%{_libdir}"
@@ -412,7 +412,7 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 
 %files -n %{libname}
 %defattr(644,root,root,755)
-%doc AUTHORS FAQ NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
 %attr(755,root,root) %{_libdir}/lib*.so.*
 
 %files -n %{libname_devel}
@@ -423,3 +423,5 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.la
 %{_libdir}/libwiretap.so
+%{_libdir}/libwsutil.la
+%{_libdir}/libwsutil.so
