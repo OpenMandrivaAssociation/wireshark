@@ -19,7 +19,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.2.0
+Version:	1.2.1
 %if %mdkversion < 200910
 %define subrel	1
 %endif
@@ -33,12 +33,11 @@ Release:	%mkrel 1
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
-Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
+Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.gz
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Patch2:		wireshark_pipe.patch
-Patch3:		wireshark-1.0.8-gnutls-2.8.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	adns-devel
@@ -164,7 +163,6 @@ live network and write the packets to a file. Many wireshark utilities require i
 %patch0 -p0
 %patch1 -p0
 #%patch2 -p1
-%patch3 -p0
 
 %build
 %serverbuild
