@@ -19,7 +19,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.2.1
+Version:	1.2.2
 %if %mdkversion < 200910
 %define subrel	1
 %endif
@@ -33,7 +33,7 @@ Release:	%mkrel 1
 License:	GPL
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
-Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.gz
+Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
