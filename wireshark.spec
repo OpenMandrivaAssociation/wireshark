@@ -19,7 +19,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.2.3
+Version:	1.2.4
 %if %mdkversion < 200910
 %define subrel	1
 %endif
