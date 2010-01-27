@@ -25,12 +25,12 @@ Version:	1.2.5
 %endif
 %if %mdkversion >= 200800
 # this is for Cooker
-Release:	%mkrel 1
+Release:	%mkrel 2
 %else
 # this is for -0 CS4 updates: mkrel is decremented when subrel is set
 Release:	%mkrel 1
 %endif
-License:	GPL
+License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
