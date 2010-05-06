@@ -17,19 +17,20 @@
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
 
+# (tpg) define release here
+%if %mandriva_branch == Cooker
+# Cooker
+%define release %mkrel 1
+%else
+# Old distros
+%define subrel 1
+%define release %mkrel 0
+%endif
+
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.2.6
-%if %mdkversion < 200910
-%define subrel	1
-%endif
-%if %mdkversion >= 200800
-# this is for Cooker
-Release:	%mkrel 5
-%else
-# this is for -0 CS4 updates: mkrel is decremented when subrel is set
-Release:	%mkrel 1
-%endif
+Version:	1.2.8
+Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
