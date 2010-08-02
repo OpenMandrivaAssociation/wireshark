@@ -1,8 +1,3 @@
-%if %mdkversion >= 200810
-%define _disable_ld_as_needed 1
-%define _disable_ld_no_undefined 1
-%endif
-
 %if %mdkversion >= 200910
 %define Werror_cflags %{nil}
 %endif
@@ -20,7 +15,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 1
+%define release %mkrel 2
 %else
 # Old distros
 %define subrel 1
@@ -38,7 +33,7 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
-Patch2:		wireshark_pipe.patch
+Patch3:		wireshark-1.1.2--as-needed.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	adns-devel
@@ -163,18 +158,11 @@ live network and write the packets to a file. Many wireshark utilities require i
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
-#%patch2 -p1
+%patch3 -p1
 
 %build
+autoreconf -fi
 %serverbuild
-
-export WANT_AUTOCONF_2_5=1
-rm -f configure
-libtoolize --copy --force; aclocal-1.9 -I aclocal-fallback; autoconf; automake-1.9 --add-missing --copy
-
-export LIBS="-L%{_libdir}"
-export LDFLAGS="%{ldflags} -L%{_libdir}"
-
 %configure2_5x \
     --disable-static \
     --disable-warnings-as-errors --enable-warnings-as-errors=no \
