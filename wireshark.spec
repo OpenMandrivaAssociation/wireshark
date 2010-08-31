@@ -308,6 +308,7 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %dir %{_datadir}/%{name}/diameter
 %dir %{_datadir}/%{name}/help
 %dir %{_datadir}/%{name}/radius
+%{_datadir}/%{name}/radius/*
 %dir %{_datadir}/%{name}/tpncp
 %dir %{_datadir}/%{name}/wimaxasncp
 %if %mdkversion <= 200700
@@ -352,9 +353,11 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %attr(755,root,root) %{_bindir}/randpkt
 %attr(755,root,root) %{_bindir}/text2pcap
 %{_mandir}/man1/capinfo*
+%{_mandir}/man1/dftest*
 %{_mandir}/man1/editcap*
 %{_mandir}/man1/idl2wrs*
 %{_mandir}/man1/mergecap*
+%{_mandir}/man1/randpkt*
 %{_mandir}/man1/text2pcap*
 
 %files -n tshark
