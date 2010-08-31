@@ -15,7 +15,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 3
+%define release %mkrel 1
 %else
 # Old distros
 %define subrel 1
@@ -24,7 +24,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.2.10
+Version:	1.4.0
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -33,12 +33,11 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
-Patch3:		wireshark-1.1.2--as-needed.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	adns-devel
-BuildRequires:	autoconf2.5
-BuildRequires:	automake1.9
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	doxygen
 BuildRequires:	glib2-devel
 BuildRequires:	gtk+2-devel
@@ -158,7 +157,6 @@ live network and write the packets to a file. Many wireshark utilities require i
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
-%patch3 -p1
 
 %build
 autoreconf -fi
@@ -167,7 +165,6 @@ autoreconf -fi
     --disable-static \
     --disable-warnings-as-errors --enable-warnings-as-errors=no \
     --disable-usr-local \
-    --enable-gtk2 \
     --enable-threads \
     --enable-tshark \
     --enable-editcap \
@@ -198,39 +195,12 @@ autoreconf -fi
 %make
 
 # duh?
-make %{name}.1
+#make %{name}.1
 
 %install
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
-%makeinstall_std transform=""
-
-# duh?
-install -m0644 %{name}.1 %{buildroot}%{_mandir}/man1/
-
-# menu
-%if %mdkversion <= 200700
-install -d %{buildroot}%{_menudir} 	 
-cat > %{buildroot}%{_menudir}/%{name} <<EOF 	 
-?package(%{name}): \ 	 
-command="%{name}" \ 	 
-title="Wireshark" \ 	 
-longtitle="Network traffic analyzer" \ 	 
-needs="x11" \ 	 
-icon="%{name}.png" \ 	 
-section="System/Monitoring" \ 	 
-xdg=true \
-
-?package(%{name}): \ 	 
-command="%{name}-root" \ 	 
-title="Wireshark (root user)" \ 	 
-longtitle="Network traffic analyzer (root user)" \ 	 
-needs="x11" \ 	 
-icon="%{name}.png" \ 	 
-section="System/Monitoring" \ 	 
-xdg=true
-EOF
-%endif
+%makeinstall_std 
 
 # setup links for consolehelpper support to allow root access
 install -d %{buildroot}%{_sbindir}
@@ -272,7 +242,7 @@ Exec=%{name}-root
 Icon=%{name}
 Terminal=false
 Type=Application
-Categories=GTK;X-MandrivaLinux-System-Monitoring;System;Monitor;
+Categories=GTK;System;Monitor;
 EOF
 
 # move this one to /usr/sbin
