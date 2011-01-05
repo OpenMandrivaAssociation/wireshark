@@ -15,7 +15,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 1
+%define release %mkrel 2
 %else
 # Old distros
 %define subrel 1
@@ -35,7 +35,6 @@ Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
-BuildRequires:	adns-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	doxygen
@@ -189,13 +188,10 @@ autoreconf -fi
     --with-libcap=%{_prefix} \
     --with-ssl=%{_prefix} \
     --with-krb5 \
-    --with-adns=%{_prefix} \
+    --with-adns=no \
     --with-plugins=%{_libdir}/%{name}
 
 %make
-
-# duh?
-#make %{name}.1
 
 %install
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
