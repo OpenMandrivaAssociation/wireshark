@@ -57,9 +57,6 @@ BuildRequires:	libgnutls-devel >= 1.2.0
 BuildRequires:	zlib-devel
 BuildRequires:	bison
 BuildRequires:	flex
-Provides:	ethereal = %{version}
-Obsoletes:	ethereal
-#Conflicts:	ethereal
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -72,10 +69,6 @@ capture and filtering library.
 %package -n	%{libname}
 Summary:	Network traffic and protocol analyzer libraries
 Group:		System/Libraries
-Conflicts:	ethereal <= 0.10.5
-Provides:	%{mklibname ethereal 0} = %{version}
-Obsoletes:	%{mklibname ethereal 0}
-#Conflicts:	%{mklibname ethereal 0}
 
 %description -n	%{libname}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
@@ -98,9 +91,6 @@ This package contains files used for development with %{name}.
 %package	tools
 Summary:	Tools for manipulating capture files
 Group:		Monitoring
-Provides:	ethereal-tools = %{version}
-Obsoletes:	ethereal-tools
-#Conflicts:	ethereal-tools
 
 %description	tools
 Set of tools for manipulating capture files. Contains:
@@ -114,10 +104,7 @@ Set of tools for manipulating capture files. Contains:
 %package -n	tshark
 Summary:	Text-mode network traffic and protocol analyzer
 Group:		Monitoring
-Provides:	tethereal = %{version}
-Obsoletes:	tethereal
 Requires:	dumpcap
-#Conflicts:	tethereal
 
 %description -n	tshark
 Tshark is a network protocol analyzer. It lets you capture packet data from a
