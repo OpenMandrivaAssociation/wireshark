@@ -15,7 +15,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 3
+%define release %mkrel 1
 %else
 # Old distros
 %define subrel 1
@@ -24,7 +24,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.4.2
+Version:	1.4.3
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -33,7 +33,6 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
-Patch2:		wireshark-1.4.2-CVE-2010-4538.diff
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	autoconf
@@ -144,7 +143,6 @@ live network and write the packets to a file. Many wireshark utilities require i
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
-%patch2 -p0 -b .CVE-2010-4538
 
 %build
 autoreconf -fi
