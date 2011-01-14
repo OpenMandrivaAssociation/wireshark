@@ -15,7 +15,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 1
+%define release %mkrel 2
 %else
 # Old distros
 %define subrel 1
@@ -57,6 +57,10 @@ BuildRequires:	libgnutls-devel >= 1.2.0
 BuildRequires:	zlib-devel
 BuildRequires:	bison
 BuildRequires:	flex
+# enable geoip for 2011.0 onward
+%if %mdkversion >= 201100
+BuildRequires:	libgeoip-devel
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
