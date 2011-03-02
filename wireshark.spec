@@ -15,7 +15,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 3
+%define release %mkrel 1
 %else
 # Old distros
 %define subrel 1
@@ -24,7 +24,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.4.3
+Version:	1.4.4
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
