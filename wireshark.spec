@@ -15,7 +15,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 1
+%define release %mkrel 2
 %else
 # Old distros
 %define subrel 1
@@ -175,6 +175,9 @@ autoreconf -fi
     --with-portaudio=%{_prefix} \
     --with-gnutls=yes \
     --with-gcrypt=yes \
+%endif
+%if %mdkversion >= 201100
+    --with-geoip=yes \
 %endif
     --with-libcap=%{_prefix} \
     --with-ssl=%{_prefix} \
