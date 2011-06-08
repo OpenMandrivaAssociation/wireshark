@@ -1,6 +1,6 @@
-%if %mdkversion >= 200910
-%define Werror_cflags %{nil}
-%endif
+#%%if %mdkversion >= 200910
+#%%define Werror_cflags %{nil}
+#%%endif
 
 %if %mdkversion < 200900
 %define ldflags %{nil}
@@ -8,7 +8,7 @@
 
 %define	blurb Wireshark is a fork of Ethereal(tm)
 
-%define	major 0
+%define	major 1
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
 
@@ -24,7 +24,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.4.7
+Version:	1.6.0
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -144,6 +144,7 @@ live network and write the packets to a file. Many wireshark utilities require i
 %{blurb}
 
 %prep
+
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
@@ -183,21 +184,24 @@ autoreconf -fi
     --with-ssl=%{_prefix} \
     --with-krb5 \
     --with-adns=no \
-    --with-plugins=%{_libdir}/%{name}
+    --with-plugins=%{_libdir}/%{name} \
+    --enable-packet-editor \
+    --enable-airpcap \
+    --with-gtk3=no
 
 %make
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
-%makeinstall_std 
+%makeinstall_std
 
 # setup links for consolehelpper support to allow root access
 install -d %{buildroot}%{_sbindir}
 pushd %{buildroot}%{_bindir}
-ln -sf consolehelper %{name}-root
+    ln -sf consolehelper %{name}-root
 cd %{buildroot}%{_sbindir}
-ln -s ../bin/%{name} %{name}-root
+    ln -s ../bin/%{name} %{name}-root
 popd
 
 # icon
@@ -279,48 +283,70 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %endif
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files -n dumpcap
 %defattr(-,root,root)
-%attr(755,root,root) %{_bindir}/dumpcap
-%attr(755,root,root) %{_sbindir}/dumpcap
+%attr(0755,root,root) %{_bindir}/dumpcap
+%attr(0755,root,root) %{_sbindir}/dumpcap
 %{_mandir}/man1/dumpcap.1*
 
 %files
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/%{name}
-%attr(755,root,root) %{_bindir}/%{name}-root
-%attr(755,root,root) %{_sbindir}/%{name}-root
+%defattr(0644,root,root,0755)
+%attr(0755,root,root) %{_bindir}/%{name}
+%attr(0755,root,root) %{_bindir}/%{name}-root
+%attr(0755,root,root) %{_sbindir}/%{name}-root
+# plugins
 %dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/*.so
+%attr(0755,root,root) %{_libdir}/%{name}/asn1.so
+%attr(0755,root,root) %{_libdir}/%{name}/coseventcomm.so
+%attr(0755,root,root) %{_libdir}/%{name}/cosnaming.so
+%attr(0755,root,root) %{_libdir}/%{name}/docsis.so
+%attr(0755,root,root) %{_libdir}/%{name}/ethercat.so
+%attr(0755,root,root) %{_libdir}/%{name}/gryphon.so
+%attr(0755,root,root) %{_libdir}/%{name}/interlink.so
+%attr(0755,root,root) %{_libdir}/%{name}/irda.so
+%attr(0755,root,root) %{_libdir}/%{name}/m2m.so
+%attr(0755,root,root) %{_libdir}/%{name}/mate.so
+%attr(0755,root,root) %{_libdir}/%{name}/opcua.so
+%attr(0755,root,root) %{_libdir}/%{name}/parlay.so
+%attr(0755,root,root) %{_libdir}/%{name}/profinet.so
+%attr(0755,root,root) %{_libdir}/%{name}/sercosiii.so
+%attr(0755,root,root) %{_libdir}/%{name}/stats_tree.so
+%attr(0755,root,root) %{_libdir}/%{name}/tango.so
+%attr(0755,root,root) %{_libdir}/%{name}/unistim.so
+%attr(0755,root,root) %{_libdir}/%{name}/wimaxasncp.so
+%attr(0755,root,root) %{_libdir}/%{name}/wimax.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/diameter
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/diameter/*
+%dir %{_datadir}/%{name}/dtds
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dtds/*
 %dir %{_datadir}/%{name}/help
+%attr(0644,root,root) %{_datadir}/%{name}/help/*
 %dir %{_datadir}/%{name}/radius
-%{_datadir}/%{name}/radius/*
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/radius/dictionary*
+%attr(0644,root,root) %{_datadir}/%{name}/radius/README.radius_dictionary
 %dir %{_datadir}/%{name}/tpncp
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/tpncp/*
 %dir %{_datadir}/%{name}/wimaxasncp
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/cfilters
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/colorfilters
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dfilters
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/manuf
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/pdml2html.xsl
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/services
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/smi_modules
 %if %mdkversion <= 200700
 %{_menudir}/%{name}
 %endif
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/cfilters
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/colorfilters
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/dfilters
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/diameter/*
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/manuf
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/radius/dictionary*
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/services
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/smi_modules
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/tpncp/*
-%config(noreplace) %attr(644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
 %if %mdkversion >= 200810
-%attr(644,root,root) %{_datadir}/%{name}/console.lua
-%attr(644,root,root) %{_datadir}/%{name}/dtd_gen.lua
-%attr(644,root,root) %{_datadir}/%{name}/init.lua
+%attr(0644,root,root) %{_datadir}/%{name}/console.lua
+%attr(0644,root,root) %{_datadir}/%{name}/dtd_gen.lua
+%attr(0644,root,root) %{_datadir}/%{name}/init.lua
 %endif
-%attr(644,root,root) %{_datadir}/%{name}/help/*
-%attr(644,root,root) %{_datadir}/%{name}/ws.css
+%attr(0644,root,root) %{_datadir}/%{name}/ws.css
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
@@ -329,19 +355,17 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %{_datadir}/%{name}/*.html
 %{_datadir}/%{name}/AUTHORS-SHORT
 %{_datadir}/%{name}/COPYING
-%dir %{_datadir}/%{name}/dtds
-%{_datadir}/%{name}/dtds/*
 %{_datadir}/applications/*.desktop
 
 %files tools
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/capinfos
-%attr(755,root,root) %{_bindir}/dftest
-%attr(755,root,root) %{_bindir}/editcap
-%attr(755,root,root) %{_bindir}/idl2wrs
-%attr(755,root,root) %{_bindir}/mergecap
-%attr(755,root,root) %{_bindir}/randpkt
-%attr(755,root,root) %{_bindir}/text2pcap
+%defattr(0644,root,root,755)
+%attr(0755,root,root) %{_bindir}/capinfos
+%attr(0755,root,root) %{_bindir}/dftest
+%attr(0755,root,root) %{_bindir}/editcap
+%attr(0755,root,root) %{_bindir}/idl2wrs
+%attr(0755,root,root) %{_bindir}/mergecap
+%attr(0755,root,root) %{_bindir}/randpkt
+%attr(0755,root,root) %{_bindir}/text2pcap
 %{_mandir}/man1/capinfo*
 %{_mandir}/man1/dftest*
 %{_mandir}/man1/editcap*
@@ -351,19 +375,21 @@ perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 %{_mandir}/man1/text2pcap*
 
 %files -n tshark
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/tshark
+%defattr(0644,root,root,755)
+%attr(0755,root,root) %{_bindir}/tshark
 %{_mandir}/man1/tshark*
 
 %files -n rawshark
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/rawshark
+%defattr(0644,root,root,755)
+%attr(0755,root,root) %{_bindir}/rawshark
 %{_mandir}/man1/rawshark.1*
 
 %files -n %{libname}
-%defattr(644,root,root,755)
+%defattr(0644,root,root,755)
 %doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
-%attr(755,root,root) %{_libdir}/lib*.so.*
+%attr(0755,root,root) %{_libdir}/libwireshark.so.%{major}*
+%attr(0755,root,root) %{_libdir}/libwiretap.so.%{major}*
+%attr(0755,root,root) %{_libdir}/libwsutil.so.%{major}*
 
 %files -n %{libname_devel}
 %defattr(-,root,root)
