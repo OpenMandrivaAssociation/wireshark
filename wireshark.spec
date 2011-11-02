@@ -1,11 +1,3 @@
-#%%if %mdkversion >= 200910
-#%%define Werror_cflags %{nil}
-#%%endif
-
-%if %mdkversion < 200900
-%define ldflags %{nil}
-%endif
-
 %define	blurb Wireshark is a fork of Ethereal(tm)
 
 %define	major 1
@@ -24,7 +16,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.6.2
+Version:	1.6.3
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -48,12 +40,10 @@ BuildRequires:	libsmi-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
-%if %mdkversion >= 200810
 BuildRequires:	lua-devel
 BuildRequires:	portaudio-devel
 BuildRequires:	libgcrypt-devel >= 1.1.92
 BuildRequires:	libgnutls-devel >= 1.2.0
-%endif
 BuildRequires:	zlib-devel
 BuildRequires:	bison
 BuildRequires:	flex
@@ -171,12 +161,10 @@ autoreconf -fi
     --with-pcap=%{_prefix} \
     --with-zlib=%{_prefix} \
     --with-pcre=%{_prefix} \
-%if %mdkversion >= 200810
     --with-lua=%{_prefix} \
     --with-portaudio=%{_prefix} \
     --with-gnutls=yes \
     --with-gcrypt=yes \
-%endif
 %if %mdkversion >= 201100
     --with-geoip=yes \
 %endif
@@ -264,24 +252,6 @@ install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
 # fix @SHELL@
 perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
 
-%if %mdkversion < 200900
-%post
-%update_menus
-%endif
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
 %clean
 rm -rf %{buildroot}
 
@@ -338,14 +308,9 @@ rm -rf %{buildroot}
 %config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/pdml2html.xsl
 %config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/services
 %config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/smi_modules
-%if %mdkversion <= 200700
-%{_menudir}/%{name}
-%endif
-%if %mdkversion >= 200810
 %attr(0644,root,root) %{_datadir}/%{name}/console.lua
 %attr(0644,root,root) %{_datadir}/%{name}/dtd_gen.lua
 %attr(0644,root,root) %{_datadir}/%{name}/init.lua
-%endif
 %attr(0644,root,root) %{_datadir}/%{name}/ws.css
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
