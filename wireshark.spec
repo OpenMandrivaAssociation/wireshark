@@ -33,17 +33,17 @@ BuildRequires:	doxygen
 BuildRequires:	glib2-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	krb5-devel
-BuildRequires:	libcap-devel
-BuildRequires:	libelf-devel
-BuildRequires:	libpcap-devel >= 0.7.2
-BuildRequires:	libsmi-devel
+BuildRequires:	cap-devel
+BuildRequires:	elfutils-devel
+BuildRequires:	pcap-devel >= 0.7.2
+BuildRequires:	smi-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
 BuildRequires:	lua-devel
 BuildRequires:	portaudio-devel
 BuildRequires:	libgcrypt-devel >= 1.1.92
-BuildRequires:	libgnutls-devel >= 1.2.0
+BuildRequires:	gnutls-devel >= 1.2.0
 BuildRequires:	zlib-devel
 BuildRequires:	bison
 BuildRequires:	flex
