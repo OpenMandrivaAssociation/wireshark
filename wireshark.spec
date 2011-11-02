@@ -177,6 +177,9 @@ autoreconf -fi
     --enable-airpcap \
     --with-gtk3=no
 
+# try to fix the build...
+find -name "Makefile" | xargs perl -pi -e "s|/usr/lib\b|%{_libdir}|g"
+
 %make
 
 %install
