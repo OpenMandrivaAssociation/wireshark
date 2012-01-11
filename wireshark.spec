@@ -7,7 +7,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 2
+%define release %mkrel 1
 %else
 # Old distros
 %define subrel 1
@@ -16,7 +16,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.6.3
+Version:	1.6.5
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -129,7 +129,8 @@ Conflicts:	wireshark <= 0.99.8-2mdv2008.1
 
 %description -n dumpcap
 Dumpcap is a network traffic dump tool. It lets you capture packet data from a
-live network and write the packets to a file. Many wireshark utilities require it.
+live network and write the packets to a file. Many wireshark utilities require
+it.
 
 %{blurb}
 
