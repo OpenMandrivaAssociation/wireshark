@@ -364,9 +364,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc ChangeLog
 %{_includedir}/wireshark
-%{_libdir}/libwireshark.la
+#%{_libdir}/libwireshark.la
 %{_libdir}/libwireshark.so
-%{_libdir}/libwiretap.la
+#%{_libdir}/libwiretap.la
 %{_libdir}/libwiretap.so
-%{_libdir}/libwsutil.la
+#%{_libdir}/libwsutil.la
 %{_libdir}/libwsutil.so
