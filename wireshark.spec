@@ -7,7 +7,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release %mkrel 3
+%define release 4
 %else
 # Old distros
 %define subrel 1
@@ -43,7 +43,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	lua-devel
 BuildRequires:	portaudio-devel
 BuildRequires:	libgcrypt-devel >= 1.1.92
-BuildRequires:	gnutls-devel >= 1.2.0
+BuildRequires:	gnutls-devel >= 3.0
 BuildRequires:	zlib-devel
 BuildRequires:	bison
 BuildRequires:	flex
@@ -51,7 +51,6 @@ BuildRequires:	flex
 %if %mdkversion >= 201100
 BuildRequires:	libgeoip-devel
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
