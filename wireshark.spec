@@ -7,7 +7,7 @@
 # (tpg) define release here
 %if %mandriva_branch == Cooker
 # Cooker
-%define release 4
+%define release 1
 %else
 # Old distros
 %define subrel 1
@@ -16,7 +16,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.6.5
+Version:	1.6.6
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -363,9 +363,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc ChangeLog
 %{_includedir}/wireshark
-#%{_libdir}/libwireshark.la
 %{_libdir}/libwireshark.so
-#%{_libdir}/libwiretap.la
 %{_libdir}/libwiretap.so
-#%{_libdir}/libwsutil.la
 %{_libdir}/libwsutil.so
