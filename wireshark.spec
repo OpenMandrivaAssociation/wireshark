@@ -1,6 +1,6 @@
 %define	blurb Wireshark is a fork of Ethereal(tm)
 
-%define	major 1
+%define	major 2
 %define libname %mklibname wireshark %{major}
 %define libname_devel %mklibname -d wireshark
 
@@ -16,7 +16,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.6.8
+Version:	1.8.0
 Release:	%{release}
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -25,10 +25,10 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
+Patch2:		wireshark-1.8.0-enable_gnutls3_despite_unknown_licensing_issue.diff
 Requires:	usermode-consoleonly
 Requires:	dumpcap
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	autoconf automake libtool
 BuildRequires:	doxygen
 BuildRequires:	glib2-devel
 BuildRequires:	gtk+2-devel
@@ -37,13 +37,11 @@ BuildRequires:	cap-devel
 BuildRequires:	elfutils-devel
 BuildRequires:	pcap-devel >= 0.7.2
 BuildRequires:	smi-devel
-BuildRequires:	libtool
 BuildRequires:	openssl-devel
-BuildRequires:	pcre-devel
 BuildRequires:	lua-devel
 BuildRequires:	portaudio-devel
 BuildRequires:	libgcrypt-devel >= 1.1.92
-BuildRequires:	gnutls-devel >= 3.0
+BuildRequires:	gnutls-devel
 BuildRequires:	zlib-devel
 BuildRequires:	bison
 BuildRequires:	flex
@@ -123,8 +121,6 @@ stdout.
 %package -n	dumpcap
 Summary:	Network traffic dump tool
 Group:		Monitoring
-# earlier dumpcap was part of the wireshark package
-Conflicts:	wireshark <= 0.99.8-2mdv2008.1
 
 %description -n dumpcap
 Dumpcap is a network traffic dump tool. It lets you capture packet data from a
@@ -138,6 +134,7 @@ it.
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 
 %build
 autoreconf -fi
@@ -146,36 +143,35 @@ autoreconf -fi
     --disable-static \
     --disable-warnings-as-errors --enable-warnings-as-errors=no \
     --disable-usr-local \
-    --enable-threads \
+    --enable-wireshark \
+    --enable-packet-editor \
     --enable-tshark \
     --enable-editcap \
     --enable-capinfos \
     --enable-mergecap \
     --enable-text2pcap \
-    --enable-idl2wrs \
     --enable-dftest \
     --enable-randpkt \
+    --enable-airpcap \
     --enable-dumpcap \
+    --enable-rawshark \
     --enable-ipv6 \
+    --with-gnutls=yes \
+    --with-gcrypt=yes \
+    --with-gtk3=no \
     --with-libsmi=%{_prefix} \
     --with-pcap=%{_prefix} \
     --with-zlib=%{_prefix} \
-    --with-pcre=%{_prefix} \
     --with-lua=%{_prefix} \
     --with-portaudio=%{_prefix} \
-    --with-gnutls=yes \
-    --with-gcrypt=yes \
-%if %mdkversion >= 201100
-    --with-geoip=yes \
-%endif
     --with-libcap=%{_prefix} \
     --with-ssl=%{_prefix} \
     --with-krb5 \
     --with-adns=no \
-    --with-plugins=%{_libdir}/%{name} \
-    --enable-packet-editor \
-    --enable-airpcap \
-    --with-gtk3=no
+%if %mdkversion >= 201100
+    --with-geoip=yes \
+%endif
+    --with-plugins=%{_libdir}/%{name}
 
 # try to fix the build...
 find -name "Makefile" | xargs perl -pi -e "s|/usr/lib\b|%{_libdir}|g"
@@ -183,7 +179,6 @@ find -name "Makefile" | xargs perl -pi -e "s|/usr/lib\b|%{_libdir}|g"
 %make
 
 %install
-rm -rf %{buildroot}
 
 %makeinstall_std
 
@@ -252,41 +247,27 @@ install -m 0644 *.h %{buildroot}%{_includedir}/wireshark
 mkdir -p %{buildroot}%{_includedir}/wireshark/wiretap
 install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
 
-# fix @SHELL@
-perl -pi -e "s|\@SHELL\@|/bin/sh|g" %{buildroot}%{_bindir}/idl2wrs
-
-%clean
-rm -rf %{buildroot}
-
 %files -n dumpcap
-%defattr(-,root,root)
 %attr(0755,root,root) %{_bindir}/dumpcap
 %attr(0755,root,root) %{_sbindir}/dumpcap
 %{_mandir}/man1/dumpcap.1*
 
 %files
-%defattr(0644,root,root,0755)
 %attr(0755,root,root) %{_bindir}/%{name}
 %attr(0755,root,root) %{_bindir}/%{name}-root
 %attr(0755,root,root) %{_sbindir}/%{name}-root
 # plugins
 %dir %{_libdir}/%{name}
 %attr(0755,root,root) %{_libdir}/%{name}/asn1.so
-%attr(0755,root,root) %{_libdir}/%{name}/coseventcomm.so
-%attr(0755,root,root) %{_libdir}/%{name}/cosnaming.so
 %attr(0755,root,root) %{_libdir}/%{name}/docsis.so
 %attr(0755,root,root) %{_libdir}/%{name}/ethercat.so
 %attr(0755,root,root) %{_libdir}/%{name}/gryphon.so
-%attr(0755,root,root) %{_libdir}/%{name}/interlink.so
 %attr(0755,root,root) %{_libdir}/%{name}/irda.so
 %attr(0755,root,root) %{_libdir}/%{name}/m2m.so
 %attr(0755,root,root) %{_libdir}/%{name}/mate.so
 %attr(0755,root,root) %{_libdir}/%{name}/opcua.so
-%attr(0755,root,root) %{_libdir}/%{name}/parlay.so
 %attr(0755,root,root) %{_libdir}/%{name}/profinet.so
-%attr(0755,root,root) %{_libdir}/%{name}/sercosiii.so
 %attr(0755,root,root) %{_libdir}/%{name}/stats_tree.so
-%attr(0755,root,root) %{_libdir}/%{name}/tango.so
 %attr(0755,root,root) %{_libdir}/%{name}/unistim.so
 %attr(0755,root,root) %{_libdir}/%{name}/wimaxasncp.so
 %attr(0755,root,root) %{_libdir}/%{name}/wimax.so
@@ -326,41 +307,34 @@ rm -rf %{buildroot}
 %{_datadir}/applications/*.desktop
 
 %files tools
-%defattr(0644,root,root,755)
 %attr(0755,root,root) %{_bindir}/capinfos
 %attr(0755,root,root) %{_bindir}/dftest
 %attr(0755,root,root) %{_bindir}/editcap
-%attr(0755,root,root) %{_bindir}/idl2wrs
 %attr(0755,root,root) %{_bindir}/mergecap
 %attr(0755,root,root) %{_bindir}/randpkt
 %attr(0755,root,root) %{_bindir}/text2pcap
 %{_mandir}/man1/capinfo*
 %{_mandir}/man1/dftest*
 %{_mandir}/man1/editcap*
-%{_mandir}/man1/idl2wrs*
 %{_mandir}/man1/mergecap*
 %{_mandir}/man1/randpkt*
 %{_mandir}/man1/text2pcap*
 
 %files -n tshark
-%defattr(0644,root,root,755)
 %attr(0755,root,root) %{_bindir}/tshark
 %{_mandir}/man1/tshark*
 
 %files -n rawshark
-%defattr(0644,root,root,755)
 %attr(0755,root,root) %{_bindir}/rawshark
 %{_mandir}/man1/rawshark.1*
 
 %files -n %{libname}
-%defattr(0644,root,root,755)
 %doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
 %attr(0755,root,root) %{_libdir}/libwireshark.so.%{major}*
 %attr(0755,root,root) %{_libdir}/libwiretap.so.%{major}*
 %attr(0755,root,root) %{_libdir}/libwsutil.so.%{major}*
 
 %files -n %{libname_devel}
-%defattr(-,root,root)
 %doc ChangeLog
 %{_includedir}/wireshark
 %{_libdir}/libwireshark.so
