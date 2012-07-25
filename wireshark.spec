@@ -136,6 +136,9 @@ it.
 %patch1 -p0
 %patch2 -p0
 
+# lib64 fix
+perl -pi -e "s|/lib\b|/%{_lib}|g" *
+
 %build
 autoreconf -fi
 %serverbuild
