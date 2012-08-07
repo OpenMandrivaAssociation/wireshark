@@ -343,3 +343,7 @@ install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.so
 %{_libdir}/libwsutil.so
+%{_libdir}/libwireshark.la
+%{_libdir}/libwiretap.la
+%{_libdir}/libwsutil.la
+
