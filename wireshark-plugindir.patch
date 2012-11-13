@@ -1,0 +1,11 @@
+--- configure.in	2012-06-26 12:47:26.276387748 -0400
++++ configure.in.oden	2012-06-26 12:48:49.146386871 -0400
+@@ -1889,7 +1889,7 @@
+ dnl check for plugins directory - stolen from Amanda's configure.in
+ dnl
+ dnl we don't wish to expand ${libdir} yet
+-plugindir='${libdir}/wireshark/plugins/${VERSION}'
++plugindir='${libdir}/wireshark'
+ AC_ARG_WITH(plugins,
+   AC_HELP_STRING( [--with-plugins@<:@=DIR@:>@],
+                   [support plugins (installed in DIR, if supplied) @<:@default=yes, if possible@:>@]),
