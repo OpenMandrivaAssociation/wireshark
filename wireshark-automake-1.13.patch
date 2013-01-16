@@ -1,0 +1,11 @@
+--- wireshark-1.8.4/configure.in.bero	2013-01-16 03:56:23.670401000 +0100
++++ wireshark-1.8.4/configure.in	2013-01-16 03:56:30.500322445 +0100
+@@ -1960,7 +1960,7 @@ ifdef(_CUSTOM_AC_OUTPUT_,, define(_CUSTO
+ sinclude(asn1/Custom.m4) dnl
+ ifdef(_CUSTOM_ASN1_AC_OUTPUT_,, define(_CUSTOM_ASN1_AC_OUTPUT_, )) dnl
+ 
+-AM_CONFIG_HEADER(config.h)
++AC_CONFIG_HEADERS([config.h])
+ AC_OUTPUT(
+   Makefile
+   doxygen.cfg
