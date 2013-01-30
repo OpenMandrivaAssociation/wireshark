@@ -6,8 +6,8 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.8.4
-Release:	2
+Version:	1.8.5
+Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 URL: 		http://www.wireshark.org
@@ -16,7 +16,6 @@ Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Patch2:		wireshark-1.8.0-enable_gnutls3_despite_unknown_licensing_issue.diff
-Patch3:		wireshark-automake-1.13.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	autoconf automake libtool
@@ -123,7 +122,6 @@ it.
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%patch3 -p1 -b .am113~
 
 # lib64 fix
 perl -pi -e "s|/lib\b|/%{_lib}|g" *

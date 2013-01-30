@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+wireshark-1.8.5.tar.bz2: 24196532 bytes
+MD5(wireshark-1.8.5.tar.bz2)=fde40a8d4555cab12271e67f9778f5d5
+SHA1(wireshark-1.8.5.tar.bz2)=76c719d92a2e200588a5452bbe61178b915eb99b
+RIPEMD160(wireshark-1.8.5.tar.bz2)=ecf67d55cd2d9218c28335163ede3969a9776d97
+
+Wireshark-win64-1.8.5.exe: 26860800 bytes
+MD5(Wireshark-win64-1.8.5.exe)=ed774df3452f186619094df62fe13d16
+SHA1(Wireshark-win64-1.8.5.exe)=062d5ffbf43fa89794c4ccaa2628daf4d76f4ac6
+RIPEMD160(Wireshark-win64-1.8.5.exe)=14a260091f82083b88eeefb0397468762924be53
+
+Wireshark-win32-1.8.5.exe: 21166192 bytes
+MD5(Wireshark-win32-1.8.5.exe)=659e81ba08448f40e8b51f82e48d07c7
+SHA1(Wireshark-win32-1.8.5.exe)=8dacc70405038a1b4e1d74d297a4dfa04f3ec806
+RIPEMD160(Wireshark-win32-1.8.5.exe)=5c5b79bccd003e1a191dc156f84fc16daf2b0ce1
+
+Wireshark-1.8.5.u3p: 28593651 bytes
+MD5(Wireshark-1.8.5.u3p)=bbff3cb7a0752f335bea9f4686a2825a
+SHA1(Wireshark-1.8.5.u3p)=92e757d82630864c78b336fe654cb7e2aa3c490e
+RIPEMD160(Wireshark-1.8.5.u3p)=e14cfb73b9faae96f6e854562b443e665f57cb5e
+
+WiresharkPortable-1.8.5.paf.exe: 22069160 bytes
+MD5(WiresharkPortable-1.8.5.paf.exe)=6649ce85e593eccbbdb3a33e320be883
+SHA1(WiresharkPortable-1.8.5.paf.exe)=6b60392d6033a2d8763b8366c0af587ba55c9ecc
+RIPEMD160(WiresharkPortable-1.8.5.paf.exe)=45fb67b70d6cef377c3e1dd6ad3f1d8a3f586af0
+
+Wireshark 1.8.5 Intel 32.dmg: 22108772 bytes
+MD5(Wireshark 1.8.5 Intel 32.dmg)=bc6dbe8125199b320eab26dc3f301843
+SHA1(Wireshark 1.8.5 Intel 32.dmg)=f826da7ef51bde41487ae348fb1048d5c1d6d5c0
+RIPEMD160(Wireshark 1.8.5 Intel 32.dmg)=9b8596a18072909793de47c5f89da2542328fc5b
+
+Wireshark 1.8.5 PPC 32.dmg: 22908606 bytes
+MD5(Wireshark 1.8.5 PPC 32.dmg)=cd7f51cfae4798e5463feabbbe524e2e
+SHA1(Wireshark 1.8.5 PPC 32.dmg)=b6e3f1816a5dcedfd3462629158b7de1b0eefb54
+RIPEMD160(Wireshark 1.8.5 PPC 32.dmg)=d42cf92bdf904ec814609cc817f897ffea18add7
+
+Wireshark 1.8.5 Intel 64.dmg: 21787064 bytes
+MD5(Wireshark 1.8.5 Intel 64.dmg)=682eaf21d3393ce0dc73e8ee10bd85d6
+SHA1(Wireshark 1.8.5 Intel 64.dmg)=7e3ced1be71d8042ba19aa3dcf779fde360466c9
+RIPEMD160(Wireshark 1.8.5 Intel 64.dmg)=2abeddb0b37a8e459d9e7042aa33d5f787e7cbce
+
+patch-wireshark-1.8.4-to-1.8.5.diff.bz2: 240007 bytes
+MD5(patch-wireshark-1.8.4-to-1.8.5.diff.bz2)=772cf8a7e5581ead075d1022e52df4ba
+SHA1(patch-wireshark-1.8.4-to-1.8.5.diff.bz2)=19bdabcdbdb2f6261c2183db1d5c73a2efbaf937
+RIPEMD160(patch-wireshark-1.8.4-to-1.8.5.diff.bz2)=861a073d9347a105e6449600488d3ffa4bcc0c53
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (Darwin)
+
+iEYEARECAAYFAlEIPqsACgkQpw8IXSHylJoNlgCgsmEN3zBivuFBKUKZdVAi13OP
+TXQAoJcvd7zGxls8jsPRq/NxEWakydii
+=psEh
+-----END PGP SIGNATURE-----
