@@ -1,8 +1,8 @@
-%define	blurb Wireshark is a fork of Ethereal(tm)
+%define blurb Wireshark is a fork of Ethereal(tm)
 
-%define	major 2
+%define major 2
 %define libname %mklibname wireshark %{major}
-%define libname_devel %mklibname -d wireshark
+%define devname %mklibname -d wireshark
 
 Summary:	Network traffic analyzer
 Name:		wireshark
@@ -16,6 +16,7 @@ Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Patch2:		wireshark-1.8.0-enable_gnutls3_despite_unknown_licensing_issue.diff
+Patch3:		wireshark-1.8.4-automake-1.13.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	autoconf automake libtool
@@ -44,6 +45,62 @@ capture and filtering library.
 
 %{blurb}
 
+%files
+%attr(0755,root,root) %{_bindir}/%{name}
+%attr(0755,root,root) %{_bindir}/%{name}-root
+%attr(0755,root,root) %{_sbindir}/%{name}-root
+# plugins
+%dir %{_libdir}/%{name}
+%attr(0755,root,root) %{_libdir}/%{name}/asn1.so
+%attr(0755,root,root) %{_libdir}/%{name}/docsis.so
+%attr(0755,root,root) %{_libdir}/%{name}/ethercat.so
+%attr(0755,root,root) %{_libdir}/%{name}/gryphon.so
+%attr(0755,root,root) %{_libdir}/%{name}/irda.so
+%attr(0755,root,root) %{_libdir}/%{name}/m2m.so
+%attr(0755,root,root) %{_libdir}/%{name}/mate.so
+%attr(0755,root,root) %{_libdir}/%{name}/opcua.so
+%attr(0755,root,root) %{_libdir}/%{name}/profinet.so
+%attr(0755,root,root) %{_libdir}/%{name}/stats_tree.so
+%attr(0755,root,root) %{_libdir}/%{name}/unistim.so
+%attr(0755,root,root) %{_libdir}/%{name}/wimaxasncp.so
+%attr(0755,root,root) %{_libdir}/%{name}/wimax.so
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/diameter
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/diameter/*
+%dir %{_datadir}/%{name}/dtds
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dtds/*
+%dir %{_datadir}/%{name}/help
+%attr(0644,root,root) %{_datadir}/%{name}/help/*
+%dir %{_datadir}/%{name}/radius
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/radius/dictionary*
+%attr(0644,root,root) %{_datadir}/%{name}/radius/README.radius_dictionary
+%dir %{_datadir}/%{name}/tpncp
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/tpncp/*
+%dir %{_datadir}/%{name}/wimaxasncp
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/cfilters
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/colorfilters
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dfilters
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/manuf
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/pdml2html.xsl
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/services
+%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/smi_modules
+%attr(0644,root,root) %{_datadir}/%{name}/console.lua
+%attr(0644,root,root) %{_datadir}/%{name}/dtd_gen.lua
+%attr(0644,root,root) %{_datadir}/%{name}/init.lua
+%attr(0644,root,root) %{_datadir}/%{name}/ws.css
+%{_iconsdir}/*.png
+%{_miconsdir}/*.png
+%{_liconsdir}/*.png
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man4/%{name}-filter.4*
+%{_datadir}/%{name}/*.html
+%{_datadir}/%{name}/AUTHORS-SHORT
+%{_datadir}/%{name}/COPYING
+%{_datadir}/applications/*.desktop
+
+#------------------------------------------------------------------------
+
 %package -n	%{libname}
 Summary:	Network traffic and protocol analyzer libraries
 Group:		System/Libraries
@@ -55,16 +112,32 @@ capture and filtering library.
 
 %{blurb}
 
-%package -n	%{libname_devel}
+%files -n %{libname}
+%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%attr(0755,root,root) %{_libdir}/libwireshark.so.%{major}*
+%attr(0755,root,root) %{_libdir}/libwiretap.so.%{major}*
+%attr(0755,root,root) %{_libdir}/libwsutil.so.%{major}*
+
+#------------------------------------------------------------------------
+
+%package -n	%{devname}
 Summary:	Development files for %{name}
 Group:		Development/Other
 Provides:	libwireshark-devel = %{version}
 Provides:	wireshark-devel = %{version}
 Requires:	%{libname} = %{version}
 
-%description -n	%{libname_devel}
+%description -n	%{devname}
 This package contains files used for development with %{name}.
 
+%files -n %{devname}
+%doc ChangeLog
+%{_includedir}/wireshark
+%{_libdir}/libwireshark.so
+%{_libdir}/libwiretap.so
+%{_libdir}/libwsutil.so
+
+#------------------------------------------------------------------------
 
 %package	tools
 Summary:	Tools for manipulating capture files
@@ -78,6 +151,22 @@ Set of tools for manipulating capture files. Contains:
 - text2cap - Generate a capture file from an ASCII hexdump of packets
 
 %{blurb}
+
+%files tools
+%attr(0755,root,root) %{_bindir}/capinfos
+%attr(0755,root,root) %{_bindir}/dftest
+%attr(0755,root,root) %{_bindir}/editcap
+%attr(0755,root,root) %{_bindir}/mergecap
+%attr(0755,root,root) %{_bindir}/randpkt
+%attr(0755,root,root) %{_bindir}/text2pcap
+%{_mandir}/man1/capinfo*
+%{_mandir}/man1/dftest*
+%{_mandir}/man1/editcap*
+%{_mandir}/man1/mergecap*
+%{_mandir}/man1/randpkt*
+%{_mandir}/man1/text2pcap*
+
+#------------------------------------------------------------------------
 
 %package -n	tshark
 Summary:	Text-mode network traffic and protocol analyzer
@@ -93,6 +182,12 @@ which is also the format used by tcpdump and various other tools.
 
 %{blurb}
 
+%files -n tshark
+%attr(0755,root,root) %{_bindir}/tshark
+%{_mandir}/man1/tshark*
+
+#------------------------------------------------------------------------
+
 %package -n	rawshark
 Summary:	Dump and analyze raw libpcap data
 Group:		Monitoring
@@ -105,6 +200,12 @@ stdout.
 
 %{blurb}
 
+%files -n rawshark
+%attr(0755,root,root) %{_bindir}/rawshark
+%{_mandir}/man1/rawshark.1*
+
+#------------------------------------------------------------------------
+
 %package -n	dumpcap
 Summary:	Network traffic dump tool
 Group:		Monitoring
@@ -116,12 +217,19 @@ it.
 
 %{blurb}
 
-%prep
+%files -n dumpcap
+%attr(0755,root,root) %{_bindir}/dumpcap
+%attr(0755,root,root) %{_sbindir}/dumpcap
+%{_mandir}/man1/dumpcap.1*
 
+#------------------------------------------------------------------------
+
+%prep
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p1
 
 # lib64 fix
 perl -pi -e "s|/lib\b|/%{_lib}|g" *
@@ -233,99 +341,5 @@ done
 install -m 0644 *.h %{buildroot}%{_includedir}/wireshark
 mkdir -p %{buildroot}%{_includedir}/wireshark/wiretap
 install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
-
-%files -n dumpcap
-%attr(0755,root,root) %{_bindir}/dumpcap
-%attr(0755,root,root) %{_sbindir}/dumpcap
-%{_mandir}/man1/dumpcap.1*
-
-%files
-%attr(0755,root,root) %{_bindir}/%{name}
-%attr(0755,root,root) %{_bindir}/%{name}-root
-%attr(0755,root,root) %{_sbindir}/%{name}-root
-# plugins
-%dir %{_libdir}/%{name}
-%attr(0755,root,root) %{_libdir}/%{name}/asn1.so
-%attr(0755,root,root) %{_libdir}/%{name}/docsis.so
-%attr(0755,root,root) %{_libdir}/%{name}/ethercat.so
-%attr(0755,root,root) %{_libdir}/%{name}/gryphon.so
-%attr(0755,root,root) %{_libdir}/%{name}/irda.so
-%attr(0755,root,root) %{_libdir}/%{name}/m2m.so
-%attr(0755,root,root) %{_libdir}/%{name}/mate.so
-%attr(0755,root,root) %{_libdir}/%{name}/opcua.so
-%attr(0755,root,root) %{_libdir}/%{name}/profinet.so
-%attr(0755,root,root) %{_libdir}/%{name}/stats_tree.so
-%attr(0755,root,root) %{_libdir}/%{name}/unistim.so
-%attr(0755,root,root) %{_libdir}/%{name}/wimaxasncp.so
-%attr(0755,root,root) %{_libdir}/%{name}/wimax.so
-%dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/diameter
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/diameter/*
-%dir %{_datadir}/%{name}/dtds
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dtds/*
-%dir %{_datadir}/%{name}/help
-%attr(0644,root,root) %{_datadir}/%{name}/help/*
-%dir %{_datadir}/%{name}/radius
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/radius/dictionary*
-%attr(0644,root,root) %{_datadir}/%{name}/radius/README.radius_dictionary
-%dir %{_datadir}/%{name}/tpncp
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/tpncp/*
-%dir %{_datadir}/%{name}/wimaxasncp
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/cfilters
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/colorfilters
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dfilters
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/manuf
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/pdml2html.xsl
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/services
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/smi_modules
-%attr(0644,root,root) %{_datadir}/%{name}/console.lua
-%attr(0644,root,root) %{_datadir}/%{name}/dtd_gen.lua
-%attr(0644,root,root) %{_datadir}/%{name}/init.lua
-%attr(0644,root,root) %{_datadir}/%{name}/ws.css
-%{_iconsdir}/*.png
-%{_miconsdir}/*.png
-%{_liconsdir}/*.png
-%{_mandir}/man1/%{name}.1*
-%{_mandir}/man4/%{name}-filter.4*
-%{_datadir}/%{name}/*.html
-%{_datadir}/%{name}/AUTHORS-SHORT
-%{_datadir}/%{name}/COPYING
-%{_datadir}/applications/*.desktop
-
-%files tools
-%attr(0755,root,root) %{_bindir}/capinfos
-%attr(0755,root,root) %{_bindir}/dftest
-%attr(0755,root,root) %{_bindir}/editcap
-%attr(0755,root,root) %{_bindir}/mergecap
-%attr(0755,root,root) %{_bindir}/randpkt
-%attr(0755,root,root) %{_bindir}/text2pcap
-%{_mandir}/man1/capinfo*
-%{_mandir}/man1/dftest*
-%{_mandir}/man1/editcap*
-%{_mandir}/man1/mergecap*
-%{_mandir}/man1/randpkt*
-%{_mandir}/man1/text2pcap*
-
-%files -n tshark
-%attr(0755,root,root) %{_bindir}/tshark
-%{_mandir}/man1/tshark*
-
-%files -n rawshark
-%attr(0755,root,root) %{_bindir}/rawshark
-%{_mandir}/man1/rawshark.1*
-
-%files -n %{libname}
-%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
-%attr(0755,root,root) %{_libdir}/libwireshark.so.%{major}*
-%attr(0755,root,root) %{_libdir}/libwiretap.so.%{major}*
-%attr(0755,root,root) %{_libdir}/libwsutil.so.%{major}*
-
-%files -n %{libname_devel}
-%doc ChangeLog
-%{_includedir}/wireshark
-%{_libdir}/libwireshark.so
-%{_libdir}/libwiretap.so
-%{_libdir}/libwsutil.so
 
 
