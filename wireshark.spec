@@ -6,7 +6,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.8.5
+Version:	1.8.6
 Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -19,23 +19,23 @@ Patch2:		wireshark-1.8.0-enable_gnutls3_despite_unknown_licensing_issue.diff
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	autoconf automake libtool
+BuildRequires:	bison
 BuildRequires:	doxygen
-BuildRequires:	glib2-devel
-BuildRequires:	gtk+2-devel
-BuildRequires:	krb5-devel
+BuildRequires:	flex
 BuildRequires:	cap-devel
 BuildRequires:	elfutils-devel
-BuildRequires:	pcap-devel >= 0.7.2
-BuildRequires:	smi-devel
-BuildRequires:	openssl-devel
-BuildRequires:	lua-devel
-BuildRequires:	portaudio-devel
+BuildRequires:	krb5-devel
 BuildRequires:	libgcrypt-devel >= 1.1.92
-BuildRequires:	gnutls-devel
-BuildRequires:	zlib-devel
-BuildRequires:	bison
-BuildRequires:	flex
 BuildRequires:	libgeoip-devel
+BuildRequires:	lua-devel
+BuildRequires:	pcap-devel >= 0.7.2
+BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(gnutls)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(libsmi)
+BuildRequires:	pkgconfig(openssl)
+BuildRequires:	pkgconfig(portaudio-2.0)
+BuildRequires:	pkgconfig(zlib)
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
@@ -167,7 +167,6 @@ find -name "Makefile" | xargs perl -pi -e "s|/usr/lib\b|%{_libdir}|g"
 %make
 
 %install
-
 %makeinstall_std
 
 # setup links for consolehelpper support to allow root access
