@@ -1,7 +1,7 @@
---- configure.in	2012-06-26 12:47:26.276387748 -0400
-+++ configure.in.oden	2012-06-26 12:48:49.146386871 -0400
-@@ -1889,7 +1889,7 @@
- dnl check for plugins directory - stolen from Amanda's configure.in
+--- wireshark-1.10.0/configure.ac.orig	2013-06-15 17:31:57.400334988 +0200
++++ wireshark-1.10.0/configure.ac	2013-06-15 17:32:43.564757854 +0200
+@@ -2232,7 +2232,7 @@ dnl check whether plugins should be enab
+ dnl check for plugins directory - stolen from Amanda's configure.ac
  dnl
  dnl we don't wish to expand ${libdir} yet
 -plugindir='${libdir}/wireshark/plugins/${VERSION}'

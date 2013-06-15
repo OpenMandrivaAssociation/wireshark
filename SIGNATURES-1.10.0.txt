@@ -1,0 +1,44 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+wireshark-1.10.0.tar.bz2: 27101631 bytes
+MD5(wireshark-1.10.0.tar.bz2)=72e51cd33fd33c7044a41c2ab51ad7af
+SHA1(wireshark-1.10.0.tar.bz2)=c78a5d5e589edc8ebc702eb00a284ccbca7721bc
+RIPEMD160(wireshark-1.10.0.tar.bz2)=924e8d94275c1512b9624d009d69fefa8626b5b2
+
+Wireshark-win32-1.10.0.exe: 22238848 bytes
+MD5(Wireshark-win32-1.10.0.exe)=32c76e130a7c0746e738bd56f07da3ba
+SHA1(Wireshark-win32-1.10.0.exe)=f6fad836afe9f44e451773ce617a56165646c202
+RIPEMD160(Wireshark-win32-1.10.0.exe)=15887841d1084e2cfc26706a048355bae737fdb8
+
+Wireshark-win64-1.10.0.exe: 28087416 bytes
+MD5(Wireshark-win64-1.10.0.exe)=7a053d1ef8a133429802f705d574cb58
+SHA1(Wireshark-win64-1.10.0.exe)=344192f708ced148705536b49f45a2f325cac814
+RIPEMD160(Wireshark-win64-1.10.0.exe)=64ed5c9a91363328ef15d4b101f2b4987e575bcc
+
+Wireshark-1.10.0.u3p: 30772650 bytes
+MD5(Wireshark-1.10.0.u3p)=973cb0abe4a5c3409be5aa623704f4f0
+SHA1(Wireshark-1.10.0.u3p)=7b00ba6ee13e528cd65c716a0fb4f27d7c909f3a
+RIPEMD160(Wireshark-1.10.0.u3p)=76f46ed49fe908ac12e24bd1573c8b2c2fa41b19
+
+WiresharkPortable-1.10.0.paf.exe: 23594648 bytes
+MD5(WiresharkPortable-1.10.0.paf.exe)=3a2bb29ad8c87366d1bcd210b69941d1
+SHA1(WiresharkPortable-1.10.0.paf.exe)=411ebf3c448e7ae79c8de694b2089a8e644c89f3
+RIPEMD160(WiresharkPortable-1.10.0.paf.exe)=03e18603bd42c9f0d416162f42f20e0b92b7b49f
+
+Wireshark 1.10.0 Intel 64.dmg: 23905721 bytes
+MD5(Wireshark 1.10.0 Intel 64.dmg)=b49214148e57551a3b6d94eb02d0ee14
+SHA1(Wireshark 1.10.0 Intel 64.dmg)=4e7a94ff56f418ca6e25439196efb9f4671687a2
+RIPEMD160(Wireshark 1.10.0 Intel 64.dmg)=858db55d405d5bffc2ce8647393d173dd0b4c88e
+
+Wireshark 1.10.0 Intel 32.dmg: 21857711 bytes
+MD5(Wireshark 1.10.0 Intel 32.dmg)=5926c5018617d5d01127b873f7fddb62
+SHA1(Wireshark 1.10.0 Intel 32.dmg)=540abecf355e1b35b1b713ed37da4c5d47155b3e
+RIPEMD160(Wireshark 1.10.0 Intel 32.dmg)=15b43fd47ce8d4b35349106d10e58d59ab574ebe
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (Darwin)
+
+iEYEARECAAYFAlGvhkwACgkQpw8IXSHylJqhogCgqk24EpieK9oFxOgUb3cqawfj
+8zAAoKrbxy5ywMzMo5qLorwz0V5sbPE3
+=sYV8
+-----END PGP SIGNATURE-----

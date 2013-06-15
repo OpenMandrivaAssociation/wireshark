@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   wireshark-1.8.6.tar.bz2: 0f51ed901b5e07cceb1373f3368f739be8f1e827
+sources:
+  wireshark-1.10.0.tar.bz2: c78a5d5e589edc8ebc702eb00a284ccbca7721bc
