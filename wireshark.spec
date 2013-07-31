@@ -1,16 +1,20 @@
 %define blurb Wireshark is a fork of Ethereal(tm)
 
-%define major 3
-%define libname %mklibname wireshark %{major}
-%define devname %mklibname -d wireshark
+%define major 2
+%define wiretap_major 3
+%define wsutil_major 3
+%define libname %mklibname %{name} %{major}
+%define libwiretap %mklibname wiretap %{wiretap_major}
+%define libwsutil %mklibname wsutil %{wsutil_major}
+%define devname %mklibname -d %{name}
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.10.0
+Version:	1.10.1
 Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
-URL: 		http://www.wireshark.org
+Url: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
@@ -24,23 +28,23 @@ BuildRequires:	flex
 BuildRequires:	cap-devel
 BuildRequires:	elfutils-devel
 BuildRequires:	krb5-devel
-BuildRequires:	pkgconfig(libgcrypt) >= 1.1.92
-BuildRequires:	pkgconfig(geoip)
-BuildRequires:	pkgconfig(lua)
 BuildRequires:	pcap-devel >= 0.7.2
+BuildRequires:	pkgconfig(geoip)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gnutls)
 BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(libgcrypt) >= 1.1.92
 BuildRequires:	pkgconfig(libsmi)
+BuildRequires:	pkgconfig(lua)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(portaudio-2.0)
 BuildRequires:	pkgconfig(zlib)
 
 %track
-prog %name = {
+prog %{name} = {
 	url = http://www.wireshark.org/download/src/all-versions
-	version = %version
-	regex = %name-(__VER__)\.tar\.bz2
+	version = %{version}
+	regex = %{name}-(__VER__)\.tar\.bz2
 }
 
 %description
@@ -54,6 +58,8 @@ capture and filtering library.
 %{_bindir}/%{name}
 %{_bindir}/%{name}-root
 %{_sbindir}/%{name}-root
+%{_sysconfdir}/pam.d/%{name}-root
+%{_sysconfdir}/security/console.apps/%{name}-root
 # plugins
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/asn1.so
@@ -123,20 +129,55 @@ capture and filtering library.
 %files -n %{libname}
 %doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
 %{_libdir}/libwireshark.so.%{major}*
-%{_libdir}/libwiretap.so.%{major}*
-%{_libdir}/libwsutil.so.%{major}*
+
+#------------------------------------------------------------------------
+
+%package -n	%{libwiretap}
+Summary:	Network traffic and protocol analyzer libraries
+Group:		System/Libraries
+Conflicts:	%{_lib}wireshark3 < 1.10.1
+
+%description -n	%{libwiretap}
+Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
+based on GTK+, a graphical user interface library, and libpcap, a packet
+capture and filtering library.
+
+%{blurb}
+
+%files -n %{libwiretap}
+%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%{_libdir}/libwiretap.so.%{wiretap_major}*
+
+#------------------------------------------------------------------------
+
+%package -n	%{libwsutil}
+Summary:	Network traffic and protocol analyzer libraries
+Group:		System/Libraries
+Conflicts:	%{_lib}wireshark3 < 1.10.1
+
+%description -n	%{libwsutil}
+Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
+based on GTK+, a graphical user interface library, and libpcap, a packet
+capture and filtering library.
+
+%{blurb}
+
+%files -n %{libwsutil}
+%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%{_libdir}/libwsutil.so.%{wsutil_major}*
 
 #------------------------------------------------------------------------
 
 %package -n	%{devname}
-Summary:	Development files for %{name}
+Summary:	Development files for Wireshark
 Group:		Development/Other
-Provides:	libwireshark-devel = %{version}
-Provides:	wireshark-devel = %{version}
-Requires:	%{libname} = %{version}
+Provides:	%{name}-devel = %{EVRD}
+Requires:	%{libname} = %{EVRD}
+Requires:	%{libwiretap} = %{EVRD}
+Requires:	%{libwsutil} = %{EVRD}
 
 %description -n	%{devname}
-This package contains files used for development with %{name}.
+This package contains files used for development with Wireshark.
 
 %files -n %{devname}
 %doc ChangeLog
@@ -284,6 +325,23 @@ find -name "Makefile" | xargs perl -pi -e "s|/usr/lib\b|%{_libdir}|g"
 
 %install
 %makeinstall_std
+
+# helpers to make sure we can start wireshark-root from user with root password
+mkdir -p %{buildroot}%{_sysconfdir}/pam.d
+cat > %{buildroot}%{_sysconfdir}/pam.d/%{name}-root << EOF
+#%PAM-1.0
+auth		include		config-util
+account		include		config-util
+session		include		config-util
+EOF
+
+mkdir -p %{buildroot}%{_sysconfdir}/security/console.apps
+cat > %{buildroot}%{_sysconfdir}/security/console.apps/%{name}-root << EOF
+USER=root
+PROGRAM=/usr/sbin/wireshark-root
+FALLBACK=false
+SESSION=true
+EOF
 
 # setup links for consolehelpper support to allow root access
 install -d %{buildroot}%{_sbindir}
