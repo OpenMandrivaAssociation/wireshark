@@ -11,7 +11,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	1.10.1
-Release:	1
+Release:	2
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org
@@ -118,6 +118,7 @@ capture and filtering library.
 %package -n	%{libname}
 Summary:	Network traffic and protocol analyzer libraries
 Group:		System/Libraries
+Obsoletes:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libname}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
