@@ -11,7 +11,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	1.10.1
-Release:	2
+Release:	3
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org
