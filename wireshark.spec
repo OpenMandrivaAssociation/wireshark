@@ -1,6 +1,6 @@
 %define blurb Wireshark is a fork of Ethereal(tm)
 
-%define major 2
+%define major 3
 %define wiretap_major 3
 %define wsutil_major 3
 %define libname %mklibname %{name} %{major}
@@ -10,8 +10,8 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.10.1
-Release:	3
+Version:	1.10.6
+Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org

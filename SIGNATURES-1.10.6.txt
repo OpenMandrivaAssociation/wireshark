@@ -1,0 +1,49 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+wireshark-1.10.6.tar.bz2: 26719003 bytes
+MD5(wireshark-1.10.6.tar.bz2)=c67435039d67ef1757bfff0ab88824ab
+SHA1(wireshark-1.10.6.tar.bz2)=081a2daf85e3257d7a2699e84a330712e3e5b9bb
+RIPEMD160(wireshark-1.10.6.tar.bz2)=3018f4d60d1ac86dfffd875a53373c85f5be44e8
+
+Wireshark-win64-1.10.6.exe: 27997568 bytes
+MD5(Wireshark-win64-1.10.6.exe)=e8f43d082c9e231d2e26ab425c813024
+SHA1(Wireshark-win64-1.10.6.exe)=b80d3ac8f5d5a8a117791e04f5dab535082a3b26
+RIPEMD160(Wireshark-win64-1.10.6.exe)=965df3d1d1d53651c92119215e8d3313b824567b
+
+Wireshark-win32-1.10.6.exe: 22144296 bytes
+MD5(Wireshark-win32-1.10.6.exe)=dbd18f81ddfc2b9ce7d9dafbb867c839
+SHA1(Wireshark-win32-1.10.6.exe)=677089c75cb133481d28e99c4a18d5fcc9cdde2d
+RIPEMD160(Wireshark-win32-1.10.6.exe)=0a66f96cb9a38e5d95394939afdbf87e52ad550b
+
+Wireshark-1.10.6.u3p: 30626145 bytes
+MD5(Wireshark-1.10.6.u3p)=b2e091e1ed46892c786499aa99a4370d
+SHA1(Wireshark-1.10.6.u3p)=b729564b9f2ba91b0506b8745c7ae6d251b163b0
+RIPEMD160(Wireshark-1.10.6.u3p)=48a6d9f6cd95992cf8a0b5258a3b70f7115e8507
+
+WiresharkPortable-1.10.6.paf.exe: 23510304 bytes
+MD5(WiresharkPortable-1.10.6.paf.exe)=5521237175d8e6c49d657739d18ff7c6
+SHA1(WiresharkPortable-1.10.6.paf.exe)=bcd9d4456e201ccbc1ff4099920d86a6c4fc6394
+RIPEMD160(WiresharkPortable-1.10.6.paf.exe)=6ae8d157fb52f55122d357e9cf2d96c98a7f7656
+
+Wireshark 1.10.6 Intel 32.dmg: 20440930 bytes
+MD5(Wireshark 1.10.6 Intel 32.dmg)=676dba2204867b2eea02e4538369f805
+SHA1(Wireshark 1.10.6 Intel 32.dmg)=883aa4f8a295d2d81a86ea1489e5ee5afea20345
+RIPEMD160(Wireshark 1.10.6 Intel 32.dmg)=2a4656286f9c9069e25b05bcee53f1ab7143859d
+
+Wireshark 1.10.6 Intel 64.dmg: 24759668 bytes
+MD5(Wireshark 1.10.6 Intel 64.dmg)=2b7869244d5be26b1c041789fa734702
+SHA1(Wireshark 1.10.6 Intel 64.dmg)=2e03a4ee893ccf1f6bd27a665ace99bdd9b78c98
+RIPEMD160(Wireshark 1.10.6 Intel 64.dmg)=c70679036eb3cdc8edc3774e6ed0ef22ac4f65aa
+
+patch-wireshark-1.10.5-to-1.10.6.bz2: 522044 bytes
+MD5(patch-wireshark-1.10.5-to-1.10.6.bz2)=4ed579c3ddb27818f020c2a213d7cd08
+SHA1(patch-wireshark-1.10.5-to-1.10.6.bz2)=b32555c43935c537b1602277f978b9c421acb83d
+RIPEMD160(patch-wireshark-1.10.5-to-1.10.6.bz2)=f85b7f2eab0945ef808edbb483cb1f24ded5db24
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (Darwin)
+
+iEYEARECAAYFAlMaFXIACgkQpw8IXSHylJo1dwCfTX9M3QgN/g27+hkszkla7Qxj
+38cAni1ru8UxqBApp+orAnDpFphDEYZr
+=CJte
+-----END PGP SIGNATURE-----
