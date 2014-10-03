@@ -309,7 +309,7 @@ perl -pi -e "s|/lib\b|/%{_lib}|g" *
 %build
 autoreconf -fi
 %serverbuild
-export PATH=$PATH:%_qt5_dir
+export PATH=$PATH:%_qt5_bindir
 %configure2_5x \
     --disable-static \
     --disable-warnings-as-errors --enable-warnings-as-errors=no \
