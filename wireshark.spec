@@ -11,7 +11,7 @@
 %define devname %mklibname -d %{name}
 
 Summary:	Network traffic analyzer
-Name:		wiresharkI 
+Name:		wireshark
 Version:	1.12.1
 Release:	1
 License:	GPLv2+ and GPLv3
