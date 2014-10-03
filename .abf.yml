@@ -1,4 +1,5 @@
 removed_sources:
   wireshark-1.10.8.tar.bz2: aa6067ce91637506504c8b954caf75ac98742152
-sources:
   wireshark-1.10.9.tar.bz2: 902b0eb6f3e007c9ffcf6f76c02403bd90319f96
+sources:
+  wireshark-1.12.1.tar.bz2: e1508ea25ccf077c5a7fa2af3b88f3ae199f77fb

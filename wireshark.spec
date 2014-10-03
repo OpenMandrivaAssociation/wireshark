@@ -1,16 +1,18 @@
 %define blurb Wireshark is a fork of Ethereal(tm)
 
-%define major 3
-%define wiretap_major 3
-%define wsutil_major 3
+%define major 5
+%define wiretap_major 4
+%define wsutil_major 4
+%define filetap_major 0
 %define libname %mklibname %{name} %{major}
 %define libwiretap %mklibname wiretap %{wiretap_major}
 %define libwsutil %mklibname wsutil %{wsutil_major}
+%define libfiletap %mklibname filetap %{filetap_major}
 %define devname %mklibname -d %{name}
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.10.9
+Version:	1.12.1
 Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
@@ -30,9 +32,9 @@ BuildRequires:	elfutils-devel
 BuildRequires:	krb5-devel
 BuildRequires:	pcap-devel >= 0.7.2
 BuildRequires:	pkgconfig(geoip)
-BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gnutls)
-BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	qt5-devel
+BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libgcrypt) >= 1.1.92
 BuildRequires:	pkgconfig(libsmi)
 BuildRequires:	pkgconfig(lua)
@@ -49,20 +51,19 @@ prog %{name} = {
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on GTK+, a graphical user interface library, and libpcap, a packet
+based on QT5, a graphical user interface library, and libpcap, a packet
 capture and filtering library.
 
 %{blurb}
 
 %files
-%{_bindir}/%{name}
+%{_bindir}/%{name}-qt
 %{_bindir}/%{name}-root
 %{_sbindir}/%{name}-root
 %{_sysconfdir}/pam.d/%{name}-root
 %{_sysconfdir}/security/console.apps/%{name}-root
 # plugins
 %dir %{_libdir}/%{name}
-%{_libdir}/%{name}/asn1.so
 %{_libdir}/%{name}/docsis.so
 %{_libdir}/%{name}/ethercat.so
 %{_libdir}/%{name}/gryphon.so
@@ -122,7 +123,7 @@ Obsoletes:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libname}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on GTK+, a graphical user interface library, and libpcap, a packet
+based on QT5, a graphical user interface library, and libpcap, a packet
 capture and filtering library.
 
 %{blurb}
@@ -140,7 +141,7 @@ Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libwiretap}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on GTK+, a graphical user interface library, and libpcap, a packet
+based on QT5, a graphical user interface library, and libpcap, a packet
 capture and filtering library.
 
 %{blurb}
@@ -158,7 +159,7 @@ Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libwsutil}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on GTK+, a graphical user interface library, and libpcap, a packet
+based on QT5, a graphical user interface library, and libpcap, a packet
 capture and filtering library.
 
 %{blurb}
@@ -169,6 +170,24 @@ capture and filtering library.
 
 #------------------------------------------------------------------------
 
+%package -n     %{libfiletap}
+Summary:        Network traffic and protocol analyzer libraries
+Group:          System/Libraries
+Conflicts:      %{_lib}wireshark3 < 1.10.1
+
+%description -n %{libfiletap}
+Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
+based on QT5, a graphical user interface library, and libpcap, a packet
+capture and filtering library.
+
+%{blurb}
+
+%files -n %{libfiletap}
+%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%{_libdir}/libfiletap.so.%{filetap_major}*
+
+#------------------------------------------------------------------------
+
 %package -n	%{devname}
 Summary:	Development files for Wireshark
 Group:		Development/Other
@@ -176,6 +195,7 @@ Provides:	%{name}-devel = %{EVRD}
 Requires:	%{libname} = %{EVRD}
 Requires:	%{libwiretap} = %{EVRD}
 Requires:	%{libwsutil} = %{EVRD}
+Requires:	%{libfiletap} = %{EVRD}
 
 %description -n	%{devname}
 This package contains files used for development with Wireshark.
@@ -186,6 +206,7 @@ This package contains files used for development with Wireshark.
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.so
 %{_libdir}/libwsutil.so
+%{_libdir}/libfiletap.so
 
 #------------------------------------------------------------------------
 
@@ -203,6 +224,7 @@ Set of tools for manipulating capture files. Contains:
 %{blurb}
 
 %files tools
+%{_bindir}/captype
 %{_bindir}/capinfos
 %{_bindir}/dftest
 %{_bindir}/editcap
@@ -306,7 +328,7 @@ autoreconf -fi
     --enable-ipv6 \
     --with-gnutls=yes \
     --with-gcrypt=yes \
-    --with-gtk3=no \
+    --with-qt=yes \
     --with-libsmi=%{_prefix} \
     --with-pcap=%{_prefix} \
     --with-zlib=%{_prefix} \
@@ -322,7 +344,7 @@ autoreconf -fi
 # try to fix the build...
 find -name "Makefile" | xargs perl -pi -e "s|/usr/lib\b|%{_libdir}|g"
 
-%make
+%make MOC=%_qt5_bindir/moc UIC=%_qt5_bindir/uic
 
 %install
 %makeinstall_std
@@ -369,11 +391,11 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=Wireshark
 Comment=Network traffic analyzer
-Exec=%{name}
+Exec=%{name}-qt
 Icon=%{name}
 Terminal=false
 Type=Application
-Categories=GTK;X-MandrivaLinux-System-Monitoring;System;Monitor;
+Categories=Qt;X-MandrivaLinux-System-Monitoring;System;Monitor;
 EOF
 
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}-root.desktop << EOF
@@ -384,7 +406,7 @@ Exec=%{name}-root
 Icon=%{name}
 Terminal=false
 Type=Application
-Categories=GTK;System;Monitor;
+Categories=Qt;System;Monitor;
 EOF
 
 # move this one to /usr/sbin
