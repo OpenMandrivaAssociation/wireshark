@@ -11,7 +11,7 @@
 %define devname %mklibname -d %{name}
 
 Summary:	Network traffic analyzer
-Name:		wireshark
+Name:		wiresharkI 
 Version:	1.12.1
 Release:	1
 License:	GPLv2+ and GPLv3
@@ -309,6 +309,7 @@ perl -pi -e "s|/lib\b|/%{_lib}|g" *
 %build
 autoreconf -fi
 %serverbuild
+export PATH=$PATH:%_qt5_dir
 %configure2_5x \
     --disable-static \
     --disable-warnings-as-errors --enable-warnings-as-errors=no \
