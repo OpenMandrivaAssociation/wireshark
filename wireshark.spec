@@ -1,19 +1,17 @@
 %define blurb Wireshark is a fork of Ethereal(tm)
 
-%define major 5
-%define wiretap_major 4
-%define wsutil_major 4
-%define filetap_major 0
+%define major 0
+%define wiretap_major 0
+%define wsutil_major 0
 %define libname %mklibname %{name} %{major}
 %define libwiretap %mklibname wiretap %{wiretap_major}
 %define libwsutil %mklibname wsutil %{wsutil_major}
-%define libfiletap %mklibname filetap %{filetap_major}
 %define devname %mklibname -d %{name}
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.12.1
-Release:	2
+Version:	1.99.1
+Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org
@@ -57,7 +55,7 @@ capture and filtering library.
 %{blurb}
 
 %files
-%{_bindir}/%{name}-qt
+%{_bindir}/%{name}
 %{_bindir}/%{name}-root
 %{_sbindir}/%{name}-root
 %{_sysconfdir}/pam.d/%{name}-root
@@ -105,6 +103,9 @@ capture and filtering library.
 %attr(0644,root,root) %{_datadir}/%{name}/init.lua
 %attr(0644,root,root) %{_datadir}/%{name}/ws.css
 %{_iconsdir}/*.png
+%{_iconsdir}/hicolor/*/apps/*
+%{_iconsdir}/hicolor/*/mimetypes/*
+%{_datadir}/mime/packages/%{name}.xml
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
 %{_mandir}/man1/%{name}.1*
@@ -170,24 +171,6 @@ capture and filtering library.
 
 #------------------------------------------------------------------------
 
-%package -n     %{libfiletap}
-Summary:        Network traffic and protocol analyzer libraries
-Group:          System/Libraries
-Conflicts:      %{_lib}wireshark3 < 1.10.1
-
-%description -n %{libfiletap}
-Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on QT5, a graphical user interface library, and libpcap, a packet
-capture and filtering library.
-
-%{blurb}
-
-%files -n %{libfiletap}
-%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
-%{_libdir}/libfiletap.so.%{filetap_major}*
-
-#------------------------------------------------------------------------
-
 %package -n	%{devname}
 Summary:	Development files for Wireshark
 Group:		Development/Other
@@ -195,7 +178,6 @@ Provides:	%{name}-devel = %{EVRD}
 Requires:	%{libname} = %{EVRD}
 Requires:	%{libwiretap} = %{EVRD}
 Requires:	%{libwsutil} = %{EVRD}
-Requires:	%{libfiletap} = %{EVRD}
 
 %description -n	%{devname}
 This package contains files used for development with Wireshark.
@@ -206,7 +188,6 @@ This package contains files used for development with Wireshark.
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.so
 %{_libdir}/libwsutil.so
-%{_libdir}/libfiletap.so
 
 #------------------------------------------------------------------------
 
