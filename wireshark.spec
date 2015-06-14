@@ -11,7 +11,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	1.99.1
-Release:	1
+Release:	2
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org
@@ -291,7 +291,7 @@ perl -pi -e "s|/lib\b|/%{_lib}|g" *
 autoreconf -fi
 %serverbuild
 export PATH=$PATH:%_qt5_bindir
-%configure2_5x \
+%configure \
     --disable-static \
     --disable-warnings-as-errors --enable-warnings-as-errors=no \
     --disable-usr-local \
