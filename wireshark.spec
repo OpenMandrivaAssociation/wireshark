@@ -19,6 +19,7 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
+Patch2:		wireshark-1.10.14-canopen.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	autoconf automake libtool
@@ -280,6 +281,7 @@ it.
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 %patch1 -p1
+%patch2 -p1
 
 # lib64 fix
 perl -pi -e "s|/lib\b|/%{_lib}|g" *
