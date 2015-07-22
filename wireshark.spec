@@ -10,8 +10,8 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.99.1
-Release:	3
+Version:	1.99.7
+Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org
@@ -19,6 +19,7 @@ Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
 Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
+Patch2:		wireshark-1.99.7-lua-5.3.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
 BuildRequires:	autoconf automake libtool
@@ -56,8 +57,10 @@ capture and filtering library.
 
 %files
 %{_bindir}/%{name}
+%{_bindir}/androiddump
 %{_bindir}/%{name}-root
 %{_sbindir}/%{name}-root
+%{_datadir}/appdata/*.xml
 %{_sysconfdir}/pam.d/%{name}-root
 %{_sysconfdir}/security/console.apps/%{name}-root
 # plugins
@@ -281,8 +284,9 @@ it.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p0
-%patch1 -p1
+%patch0 -p0 -b .p0~
+%patch1 -p1 -b .p1~
+%patch2 -p1 -b .p2~
 
 # lib64 fix
 perl -pi -e "s|/lib\b|/%{_lib}|g" *
