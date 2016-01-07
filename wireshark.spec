@@ -10,8 +10,8 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	1.99.7
-Release:	2
+Version:	2.0.1
+Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org

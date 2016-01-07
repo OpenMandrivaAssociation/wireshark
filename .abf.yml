@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   wireshark-1.99.7.tar.bz2: 50097628b47c2f1f273aa3e2a14a6b2a530d05a6
+sources:
+  wireshark-2.0.1.tar.bz2: 6703221128305ac33802f0da13d368476ce90688
