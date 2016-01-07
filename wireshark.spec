@@ -1,8 +1,8 @@
 %define blurb Wireshark is a fork of Ethereal(tm)
 
-%define major 0
-%define wiretap_major 0
-%define wsutil_major 0
+%define major 6
+%define wiretap_major 5
+%define wsutil_major 6
 %define libname %mklibname %{name} %{major}
 %define libwiretap %mklibname wiretap %{wiretap_major}
 %define libwsutil %mklibname wsutil %{wsutil_major}
@@ -187,6 +187,7 @@ This package contains files used for development with Wireshark.
 
 %files -n %{devname}
 %doc ChangeLog
+%{_bindir}/idl2wrs
 %{_includedir}/wireshark
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.so
