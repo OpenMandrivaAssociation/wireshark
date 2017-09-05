@@ -1,8 +1,8 @@
 %define blurb Wireshark is a fork of Ethereal(tm)
 
-%define major 6
-%define wiretap_major 5
-%define wsutil_major 6
+%define major 10
+%define wiretap_major 7
+%define wsutil_major 8
 %define libname %mklibname %{name} %{major}
 %define libwiretap %mklibname wiretap %{wiretap_major}
 %define libwsutil %mklibname wsutil %{wsutil_major}
@@ -10,18 +10,18 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	2.0.2
-Release:	3
+Version:	2.4.1
+Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
-Source1:	http://www.wireshark.org/download/src/all-versions/SIGNATURES-%{version}.txt
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Patch2:		wireshark-1.99.7-lua-5.3.patch
 Requires:	usermode-consoleonly
 Requires:	dumpcap
+Requires:	xdg-utils
 BuildRequires:	autoconf automake libtool
 BuildRequires:	bison
 BuildRequires:	doxygen
@@ -192,6 +192,7 @@ This package contains files used for development with Wireshark.
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.so
 %{_libdir}/libwsutil.so
+%{_libdir}/pkgconfig/*.pc
 
 #------------------------------------------------------------------------
 
@@ -293,12 +294,16 @@ it.
 perl -pi -e "s|/lib\b|/%{_lib}|g" *
 
 %build
-autoreconf -fi
 %serverbuild
+./autogen.sh
 export PATH=$PATH:%{_qt5_bindir}
+export CFLAGS="%{optflags} -fPIC"
+export CXXFLAGS="%{optflags} -fPIC"
+
 %configure \
     --disable-static \
-    --disable-warnings-as-errors --enable-warnings-as-errors=no \
+    --disable-warnings-as-errors \
+    --enable-warnings-as-errors=no \
     --disable-usr-local \
     --enable-wireshark \
     --enable-packet-editor \
@@ -313,6 +318,7 @@ export PATH=$PATH:%{_qt5_bindir}
     --enable-dumpcap \
     --enable-rawshark \
     --enable-ipv6 \
+    --enable-setuid-install \
     --with-gnutls=yes \
     --with-gcrypt=yes \
     --with-qt=yes \
@@ -378,7 +384,7 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=Wireshark
 Comment=Network traffic analyzer
-Exec=%{name}-qt
+Exec=%{name}
 Icon=%{name}
 Terminal=false
 Type=Application
@@ -417,3 +423,21 @@ done
 install -m 0644 *.h %{buildroot}%{_includedir}/wireshark
 mkdir -p %{buildroot}%{_includedir}/wireshark/wiretap
 install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
+
+# pkg-config support
+install -d %{buildroot}%{_libdir}/pkgconfig/
+cat > %{buildroot}%{_libdir}/pkgconfig/wireshark.pc << EOF
+prefix=%{_prefix}
+exec_prefix=%{_prefix}
+libdir=%{_libdir}
+includedir=%{_includedir}/wireshark
+plugindir=%{_libdir}/wireshark
+
+Name: wireshark
+Description: wireshark network packet dissection library
+Version: %{version}
+
+Requires:
+Libs: -L\${libdir} -lwireshark
+Cflags: -I\${includedir}
+EOF
