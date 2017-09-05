@@ -15,7 +15,7 @@ Release:	1
 License:	GPLv2+ and GPLv3
 Group: 		Monitoring
 Url: 		http://www.wireshark.org
-Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.bz2
+Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
 Patch0:		wireshark_help_browser.patch
 Patch1:		wireshark-plugindir.patch
 Patch2:		wireshark-1.99.7-lua-5.3.patch
