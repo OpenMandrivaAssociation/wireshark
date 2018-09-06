@@ -41,13 +41,6 @@ BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(portaudio-2.0)
 BuildRequires:	pkgconfig(zlib)
 
-%track
-prog %{name} = {
-	url = http://www.wireshark.org/download/src/all-versions
-	version = %{version}
-	regex = %{name}-(__VER__)\.tar\.bz2
-}
-
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
 based on QT5, a graphical user interface library, and libpcap, a packet
