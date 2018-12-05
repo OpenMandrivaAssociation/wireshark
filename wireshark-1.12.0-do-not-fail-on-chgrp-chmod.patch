@@ -1,0 +1,23 @@
+--- wireshark-1.12.0/Makefile.am~	2014-07-31 15:22:30.000000000 -0400
++++ wireshark-1.12.0/Makefile.am	2014-08-01 15:29:45.982226869 -0400
+@@ -1044,15 +1044,15 @@ EXTRA_DIST = \
+ 
+ install-exec-hook:
+ if HAVE_DUMPCAP_GROUP
+-	chgrp $(DUMPCAP_GROUP) $(DESTDIR)$(bindir)/dumpcap
++	-chgrp $(DUMPCAP_GROUP) $(DESTDIR)$(bindir)/dumpcap
+ endif
+ if SETCAP_INSTALL
+-	$(SETCAP) cap_net_raw,cap_net_admin+ep $(DESTDIR)$(bindir)/dumpcap
+-	chmod o-rws $(DESTDIR)$(bindir)/dumpcap
++	-$(SETCAP) cap_net_raw,cap_net_admin+ep $(DESTDIR)$(bindir)/dumpcap
++	-chmod o-rws $(DESTDIR)$(bindir)/dumpcap
+ else
+ if SETUID_INSTALL
+-	chmod o-rws $(DESTDIR)$(bindir)/dumpcap
+-	chmod +s $(DESTDIR)$(bindir)/dumpcap
++	-chmod o-rws $(DESTDIR)$(bindir)/dumpcap
++	-chmod +s $(DESTDIR)$(bindir)/dumpcap
+ endif
+ endif
+ 

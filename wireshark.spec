@@ -1,193 +1,113 @@
-%define blurb Wireshark is a fork of Ethereal(tm)
+%define Werror_cflags %{nil}
+%define _disable_rebuild_configure %nil
+%bcond_with lua
 
-%define major 10
-%define wiretap_major 7
-%define wsutil_major 8
-%define libname %mklibname %{name} %{major}
-%define libwiretap %mklibname wiretap %{wiretap_major}
-%define libwsutil %mklibname wsutil %{wsutil_major}
-%define devname %mklibname -d %{name}
+%define	major		10
+%define wiretapmajor	8
+%define wscodecsmajor	2
+%define wsutilmajor	9
+%define libname		%mklibname wireshark %{major}
+%define libwiretap	%mklibname wiretap %{wiretapmajor}
+%define libwscodecs	%mklibname wscodecs %{wscodecsmajor}
+%define libwsutil	%mklibname wsutil %{wsutilmajor}
+%define libname_devel	%mklibname -d wireshark
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	2.4.1
-Release:	3
+Version:	2.6.5
+Release:	%mkrel 1
 License:	GPLv2+ and GPLv3
-Group: 		Monitoring
-Url: 		http://www.wireshark.org
+Group:		Monitoring
+URL:		http://www.wireshark.org
 Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
-Patch0:		wireshark_help_browser.patch
-Patch1:		wireshark-plugindir.patch
-Patch2:		wireshark-1.99.7-lua-5.3.patch
-Requires:	usermode-consoleonly
+Source10:	README.urpmi
+Patch0:		wireshark-1.12.0-do-not-fail-on-chgrp-chmod.patch
 Requires:	dumpcap
 Requires:	xdg-utils
-BuildRequires:	autoconf automake libtool
-BuildRequires:	bison
 BuildRequires:	doxygen
-BuildRequires:	flex
-BuildRequires:	cap-devel
-BuildRequires:	elfutils-devel
+BuildRequires:	pkgconfig(Qt5Core)
+BuildRequires:	pkgconfig(Qt5Gui)
+BuildRequires:	pkgconfig(Qt5PrintSupport)
+BuildRequires:	pkgconfig(Qt5MultimediaWidgets)
+BuildRequires:	pkgconfig(Qt5Help)
+BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	krb5-devel
-BuildRequires:	pcap-devel >= 0.7.2
-BuildRequires:	pkgconfig(geoip)
-BuildRequires:	pkgconfig(gnutls)
-BuildRequires:	qt5-devel
-BuildRequires:	pkgconfig(glib-2.0)
-BuildRequires:	pkgconfig(libgcrypt) >= 1.1.92
-BuildRequires:	pkgconfig(libsmi)
-BuildRequires:	pkgconfig(lua)
-BuildRequires:	pkgconfig(openssl)
-BuildRequires:	pkgconfig(portaudio-2.0)
-BuildRequires:	pkgconfig(zlib)
+BuildRequires:	libcap-devel
+BuildRequires:	pkgconfig(libelf)
+BuildRequires:	libpcap-devel >= 0.7.2
+BuildRequires:	libsmi-devel
+BuildRequires:	openssl-devel
+BuildRequires:	pcre-devel
+%if %{with lua}
+BuildRequires:	lua-devel
+%endif
+BuildRequires:	portaudio-devel
+BuildRequires:	libgcrypt-devel >= 1.1.92
+BuildRequires:	gnutls-devel >= 1.2.0
+BuildRequires:	pkgconfig(libnl-3.0)
+BuildRequires:	zlib-devel
+BuildRequires:	bison
+BuildRequires:	flex
+BuildRequires:	pkgconfig(libmaxminddb)
+BuildRequires:	libtool
+BuildRequires:	perl-Pod-Html
+Obsoletes:	wireshark-gtk < 2.0.0
+Obsoletes:	wireshark-common < 2.0.0
+Conflicts:	wireshark-common < 2.0.0
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on QT5, a graphical user interface library, and libpcap, a packet
+based on Qt, a graphical user interface library, and libpcap, a packet
 capture and filtering library.
-
-%{blurb}
-
-%files
-%{_bindir}/%{name}
-%{_bindir}/androiddump
-%{_bindir}/%{name}-root
-%{_sbindir}/%{name}-root
-%{_datadir}/appdata/*.xml
-%{_sysconfdir}/pam.d/%{name}-root
-%{_sysconfdir}/security/console.apps/%{name}-root
-# plugins
-%dir %{_libdir}/%{name}
-%{_libdir}/%{name}/docsis.so
-%{_libdir}/%{name}/ethercat.so
-%{_libdir}/%{name}/gryphon.so
-%{_libdir}/%{name}/irda.so
-%{_libdir}/%{name}/m2m.so
-%{_libdir}/%{name}/mate.so
-%{_libdir}/%{name}/opcua.so
-%{_libdir}/%{name}/profinet.so
-%{_libdir}/%{name}/stats_tree.so
-%{_libdir}/%{name}/unistim.so
-%{_libdir}/%{name}/wimaxasncp.so
-%{_libdir}/%{name}/wimax.so
-%{_libdir}/%{name}/wimaxmacphy.so
-%dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/diameter
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/diameter/*
-%dir %{_datadir}/%{name}/dtds
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dtds/*
-%dir %{_datadir}/%{name}/help
-%attr(0644,root,root) %{_datadir}/%{name}/help/*
-%{_datadir}/%{name}/profiles
-%dir %{_datadir}/%{name}/radius
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/radius/dictionary*
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/radius/custom.includes
-%attr(0644,root,root) %{_datadir}/%{name}/radius/README.radius_dictionary
-%dir %{_datadir}/%{name}/tpncp
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/tpncp/*
-%dir %{_datadir}/%{name}/wimaxasncp
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/wimaxasncp/dictionary.*
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/cfilters
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/colorfilters
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/dfilters
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/manuf
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/pdml2html.xsl
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/services
-%config(noreplace) %attr(0644,root,root) %{_datadir}/%{name}/smi_modules
-%attr(0644,root,root) %{_datadir}/%{name}/console.lua
-%attr(0644,root,root) %{_datadir}/%{name}/dtd_gen.lua
-%attr(0644,root,root) %{_datadir}/%{name}/init.lua
-%attr(0644,root,root) %{_datadir}/%{name}/ws.css
-%{_iconsdir}/*.png
-%{_iconsdir}/hicolor/*/apps/*
-%{_iconsdir}/hicolor/*/mimetypes/*
-%{_datadir}/mime/packages/%{name}.xml
-%{_miconsdir}/*.png
-%{_liconsdir}/*.png
-%{_mandir}/man1/%{name}.1*
-%{_mandir}/man4/%{name}-filter.4*
-%{_datadir}/%{name}/*.html
-%{_datadir}/%{name}/AUTHORS-SHORT
-%{_datadir}/%{name}/COPYING
-%{_datadir}/applications/*.desktop
-
-#------------------------------------------------------------------------
 
 %package -n	%{libname}
 Summary:	Network traffic and protocol analyzer libraries
 Group:		System/Libraries
-Obsoletes:	%{_lib}wireshark3 < 1.10.1
+Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libname}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on QT5, a graphical user interface library, and libpcap, a packet
+based on Qt, a graphical user interface library, and libpcap, a packet
 capture and filtering library.
 
-%{blurb}
-
-%files -n %{libname}
-%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
-%{_libdir}/libwireshark.so.%{major}*
-
-#------------------------------------------------------------------------
-
 %package -n	%{libwiretap}
-Summary:	Network traffic and protocol analyzer libraries
+Summary:	Packet-capture library for %{name}
 Group:		System/Libraries
 Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libwiretap}
-Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on QT5, a graphical user interface library, and libpcap, a packet
-capture and filtering library.
+The wiretap library is a packet-capture library currently under development
+parallel to wireshark.
 
-%{blurb}
+Wiretap is used in wireshark for its ability to read multiple file types.
 
-%files -n %{libwiretap}
-%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
-%{_libdir}/libwiretap.so.%{wiretap_major}*
+%package -n	%{libwscodecs}
+Summary:	Network packet dissection codecs library
+Group:		System/Libraries
 
-#------------------------------------------------------------------------
+%description -n	%{libwscodecs}
+The libwscodecs library provides a codecs interface for wireshark.
 
 %package -n	%{libwsutil}
-Summary:	Network traffic and protocol analyzer libraries
+Summary:	Network packet dissection utilities library
 Group:		System/Libraries
 Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libwsutil}
-Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
-based on QT5, a graphical user interface library, and libpcap, a packet
-capture and filtering library.
+The libwsutil library provides utility functions for wireshark.
 
-%{blurb}
-
-%files -n %{libwsutil}
-%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
-%{_libdir}/libwsutil.so.%{wsutil_major}*
-
-#------------------------------------------------------------------------
-
-%package -n	%{devname}
-Summary:	Development files for Wireshark
+%package -n	%{libname_devel}
+Summary:	Development files for %{name}
 Group:		Development/Other
-Provides:	%{name}-devel = %{EVRD}
-Requires:	%{libname} = %{EVRD}
-Requires:	%{libwiretap} = %{EVRD}
-Requires:	%{libwsutil} = %{EVRD}
+Provides:	lib%{name}-devel = %{version}-%{release}
+Provides:	wireshark-devel = %{version}-%{release}
+Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libwiretap} = %{version}-%{release}
+Requires:	%{libwscodecs} = %{version}-%{release}
+Requires:	%{libwsutil} = %{version}-%{release}
 
-%description -n	%{devname}
-This package contains files used for development with Wireshark.
-
-%files -n %{devname}
-%doc ChangeLog
-%{_bindir}/idl2wrs
-%{_includedir}/wireshark
-%{_libdir}/libwireshark.so
-%{_libdir}/libwiretap.so
-%{_libdir}/libwsutil.so
-%{_libdir}/pkgconfig/*.pc
-
-#------------------------------------------------------------------------
+%description -n	%{libname_devel}
+This package contains files used for development with %{name}.
 
 %package	tools
 Summary:	Tools for manipulating capture files
@@ -199,27 +119,6 @@ Set of tools for manipulating capture files. Contains:
 - editcap - Edit and/or translate the format of capture files
 - mergecap - Merges two capture files into one
 - text2cap - Generate a capture file from an ASCII hexdump of packets
-
-%{blurb}
-
-%files tools
-%{_bindir}/captype
-%{_bindir}/capinfos
-%{_bindir}/dftest
-%{_bindir}/editcap
-%{_bindir}/mergecap
-%{_bindir}/randpkt
-%{_bindir}/reordercap
-%{_bindir}/text2pcap
-%{_mandir}/man1/capinfo*
-%{_mandir}/man1/dftest*
-%{_mandir}/man1/editcap*
-%{_mandir}/man1/mergecap*
-%{_mandir}/man1/randpkt*
-%{_mandir}/man1/reordercap*
-%{_mandir}/man1/text2pcap*
-
-#------------------------------------------------------------------------
 
 %package -n	tshark
 Summary:	Text-mode network traffic and protocol analyzer
@@ -233,69 +132,40 @@ printing a decoded form of those packets to the standard output or writing the
 packets to a file. Twireshark's native capture file format is libpcap format,
 which is also the format used by tcpdump and various other tools.
 
-%{blurb}
-
-%files -n tshark
-%{_bindir}/tshark
-%{_mandir}/man1/tshark*
-
-#------------------------------------------------------------------------
-
 %package -n	rawshark
 Summary:	Dump and analyze raw libpcap data
 Group:		Monitoring
-Conflicts:	wireshark-tools <= 0.99.8-1mdv2008.1
 
-%description -n rawshark
+%description -n	rawshark
 Rawshark reads a stream of packets from a file or pipe, and prints a line
 describing its output, followed by a set of matching fields for each packet on
 stdout.
-
-%{blurb}
-
-%files -n rawshark
-%{_bindir}/rawshark
-%{_mandir}/man1/rawshark.1*
-
-#------------------------------------------------------------------------
 
 %package -n	dumpcap
 Summary:	Network traffic dump tool
 Group:		Monitoring
 
-%description -n dumpcap
+%description -n	dumpcap
 Dumpcap is a network traffic dump tool. It lets you capture packet data from a
-live network and write the packets to a file. Many wireshark utilities require
-it.
-
-%{blurb}
-
-%files -n dumpcap
-%{_bindir}/dumpcap
-%{_sbindir}/dumpcap
-%{_mandir}/man1/dumpcap.1*
-
-#------------------------------------------------------------------------
+live network and write the packets to a file. Many wireshark utilities require it.
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch0 -p0 -b .p0~
-%patch1 -p1 -b .p1~
-%patch2 -p1 -b .p2~
+%setup -q
+%autopatch -p1
 
-# lib64 fix
-perl -pi -e "s|/lib\b|/%{_lib}|g" *
+# README.urpmi
+install -Dm644 %{SOURCE10} .
 
 %build
-%serverbuild
 ./autogen.sh
 export PATH=$PATH:%{_qt5_bindir}
 export CFLAGS="%{optflags} -fPIC"
 export CXXFLAGS="%{optflags} -fPIC"
-
+touch config.h.in
 %configure \
     --disable-static \
     --disable-warnings-as-errors \
+    --disable-silent-rules \
     --enable-warnings-as-errors=no \
     --disable-usr-local \
     --enable-wireshark \
@@ -312,99 +182,44 @@ export CXXFLAGS="%{optflags} -fPIC"
     --enable-rawshark \
     --enable-ipv6 \
     --enable-setuid-install \
+    --enable-plugins \
     --with-gnutls=yes \
     --with-gcrypt=yes \
+    --with-maxminddb \
+    --with-krb5 \
+    --with-adns=no \
+    --with-gtk3=no \
     --with-qt=yes \
+    --with-libnl=3 \
     --with-libsmi=%{_prefix} \
     --with-pcap=%{_prefix} \
     --with-zlib=%{_prefix} \
+%if %{with lua}
     --with-lua=%{_prefix} \
+%endif
     --with-portaudio=%{_prefix} \
-    --with-libcap=%{_prefix} \
-    --with-ssl=%{_prefix} \
-    --with-krb5 \
-    --with-adns=no \
-    --with-geoip=yes \
-    --with-plugins=%{_libdir}/%{name}
+    --with-libcap=%{_prefix}
 
-# try to fix the build...
-find -name "Makefile" | xargs perl -pi -e "s|/usr/lib\b|%{_libdir}|g"
-
-%make MOC=%_qt5_bindir/moc UIC=%_qt5_bindir/uic
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
-# helpers to make sure we can start wireshark-root from user with root password
-mkdir -p %{buildroot}%{_sysconfdir}/pam.d
-cat > %{buildroot}%{_sysconfdir}/pam.d/%{name}-root << EOF
-#%PAM-1.0
-auth		include		config-util
-account		include		config-util
-session		include		config-util
-EOF
+# link to main executable
+mv %{buildroot}%{_bindir}/wireshark %{buildroot}%{_bindir}/wireshark-qt
+ln -s wireshark-qt %{buildroot}%{_bindir}/wireshark
 
-mkdir -p %{buildroot}%{_sysconfdir}/security/console.apps
-cat > %{buildroot}%{_sysconfdir}/security/console.apps/%{name}-root << EOF
-USER=root
-PROGRAM=/usr/sbin/wireshark-root
-FALLBACK=false
-SESSION=true
-EOF
-
-# setup links for consolehelpper support to allow root access
-install -d %{buildroot}%{_sbindir}
-pushd %{buildroot}%{_bindir}
-    ln -sf consolehelper %{name}-root
-cd %{buildroot}%{_sbindir}
-    ln -s ../bin/%{name} %{name}-root
-popd
-
-# icon
-install -d %{buildroot}%{_miconsdir}
-install -d %{buildroot}%{_iconsdir}
-install -d %{buildroot}%{_liconsdir}
-
-install -m0644 image/wsicon16.png %{buildroot}%{_miconsdir}/%{name}.png
-install -m0644 image/wsicon32.png %{buildroot}%{_iconsdir}/%{name}.png
-install -m0644 image/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
+# icons
+install -Dpm0644 image/wsicon16.png %{buildroot}%{_miconsdir}/%{name}.png
+install -Dpm0644 image/wsicon32.png %{buildroot}%{_iconsdir}/%{name}.png
+install -Dpm0644 image/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
 
 # XDG menu
-install -d %{buildroot}%{_datadir}/applications
-install -m0644 wireshark.desktop %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
-
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
-[Desktop Entry]
-Name=Wireshark
-Comment=Network traffic analyzer
-Exec=%{name}
-Icon=%{name}
-Terminal=false
-Type=Application
-Categories=Qt;X-MandrivaLinux-System-Monitoring;System;Monitor;
-EOF
-
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}-root.desktop << EOF
-[Desktop Entry]
-Name=Wireshark (root user)
-Comment=Network traffic analyzer (root user)
-Exec=%{name}-root
-Icon=%{name}
-Terminal=false
-Type=Application
-Categories=Qt;System;Monitor;
-EOF
-
-# move this one to /usr/sbin
-mv %{buildroot}%{_bindir}/dumpcap %{buildroot}%{_sbindir}/dumpcap
-
-# fix one odd bug...
-pushd %{buildroot}%{_bindir}
-    ln -s ../sbin/dumpcap dumpcap
-popd
+install -d %{buildroot}%{_datadir}/applications/
+install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications/
 
 # remove uneeded files
-rm -f %{buildroot}%{_libdir}/wireshark/*.la
+find %{buildroot} -name "*.la" -delete
 
 # install includes
 mkdir -p %{buildroot}%{_includedir}/wireshark
@@ -412,10 +227,17 @@ for include in `find epan -type f -name '*.h'`; do
         mkdir -p %{buildroot}%{_includedir}/wireshark/`dirname $include`
         install -m 0644 $include %{buildroot}%{_includedir}/wireshark/`dirname $include`
 done
+
 # remaining include files
 install -m 0644 *.h %{buildroot}%{_includedir}/wireshark
 mkdir -p %{buildroot}%{_includedir}/wireshark/wiretap
 install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
+mkdir -p %{buildroot}%{_includedir}/wireshark/codecs
+install -m 0644 codecs/*.h %{buildroot}%{_includedir}/wireshark/codecs
+mkdir -p %{buildroot}%{_includedir}/wireshark/wsutil
+install -m 0644 wsutil/*.h %{buildroot}%{_includedir}/wireshark/wsutil
+
+chmod a+r %{buildroot}%{_bindir}/dumpcap
 
 # pkg-config support
 install -d %{buildroot}%{_libdir}/pkgconfig/
@@ -434,3 +256,88 @@ Requires:
 Libs: -L\${libdir} -lwireshark
 Cflags: -I\${includedir}
 EOF
+
+%pre -n dumpcap
+if ! getent group wireshark > /dev/null ;then
+	%{_sbindir}/groupadd -r -f wireshark
+fi
+
+%files -n dumpcap
+%attr(4750, root, wireshark) %{_bindir}/dumpcap
+%{_mandir}/man1/dumpcap.1*
+
+%files
+%doc README.urpmi
+%{_bindir}/%{name}
+%{_bindir}/%{name}-qt
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/plugins/
+%{_datadir}/%{name}
+%{_iconsdir}/*.png
+%{_miconsdir}/*.png
+%{_liconsdir}/*.png
+%{_iconsdir}/hicolor/*/*/*.png
+%{_iconsdir}/hicolor/*/*/*.svg
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man4/%{name}-filter.4*
+%{_datadir}/applications/*.desktop
+%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/mime/packages/%{name}.xml
+
+%files tools
+%{_bindir}/capinfos
+%{_bindir}/captype
+%{_bindir}/editcap
+%{_bindir}/idl2wrs
+%{_bindir}/mergecap
+%{_bindir}/mmdbresolve
+%{_bindir}/randpkt
+%{_bindir}/reordercap
+%{_bindir}/text2pcap
+%{_bindir}/sharkd
+%{_libdir}/%{name}/extcap/androiddump
+%{_libdir}/%{name}/extcap/randpktdump
+%{_libdir}/%{name}/extcap/udpdump
+%{_mandir}/man1/androiddump*
+%{_mandir}/man1/capinfo*
+%{_mandir}/man1/captype*
+%{_mandir}/man1/dftest*
+%{_mandir}/man1/editcap*
+%{_mandir}/man1/mergecap*
+%{_mandir}/man1/mmdbresolve*
+%{_mandir}/man1/randpkt*
+%{_mandir}/man1/reordercap*
+%{_mandir}/man1/text2pcap*
+%{_mandir}/man1/udpdump*
+%{_mandir}/man4/extcap*
+
+%files -n tshark
+%doc README.urpmi
+%{_bindir}/tshark
+%{_mandir}/man1/tshark*
+
+%files -n rawshark
+%{_bindir}/rawshark
+%{_mandir}/man1/rawshark.1*
+
+%files -n %{libname}
+%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%{_libdir}/libwireshark.so.%{major}*
+
+%files -n %{libwiretap}
+%{_libdir}/libwiretap.so.%{wiretapmajor}*
+
+%files -n %{libwscodecs}
+%{_libdir}/libwscodecs.so.%{wscodecsmajor}*
+
+%files -n %{libwsutil}
+%{_libdir}/libwsutil.so.%{wsutilmajor}*
+
+%files -n %{libname_devel}
+%doc ChangeLog
+%{_includedir}/wireshark
+%{_libdir}/libwireshark.so
+%{_libdir}/libwiretap.so
+%{_libdir}/libwscodecs.so
+%{_libdir}/libwsutil.so
+%{_libdir}/pkgconfig/*.pc

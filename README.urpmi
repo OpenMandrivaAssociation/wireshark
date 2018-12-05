@@ -1,0 +1,23 @@
+Since Mageia 3 there are two ways of using Wireshark/Tshark:
+
+1. Using dumpcap without allowing non-root users to capture packets
+
+   Only root user will be able to capture packets. It is advised to capture
+   packets with the bundled dumpcap program as root and then run 
+   Wireshark/Tshark as an ordinary user to analyze the captured logs. [2]
+
+   This is the default.
+
+2. Using dumpcap and allowing non-root users to capture packets
+
+   Members of the wireshark group will be able to capture packets on network 
+   interfaces. This is the preferred way of installation if Wireshark/Tshark
+   will be used for capturing and displaying packets at the same time, since
+   that way only the dumpcap process has to be run with elevated privileges 
+   thanks to the privilege separation [1].
+
+   Note that no user will be added to group wireshark automatically, the 
+   system administrator has to add them manually.
+
+   [1] http://wiki.wireshark.org/Development/PrivilegeSeparation
+   [2] http://wiki.wireshark.org/CaptureSetup/CapturePrivileges
