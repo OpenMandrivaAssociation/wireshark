@@ -164,6 +164,8 @@ install -Dm644 %{SOURCE10} .
 export PATH=$PATH:%{_qt5_bindir}
 export CFLAGS="%{optflags} -fPIC"
 export CXXFLAGS="%{optflags} -fPIC"
+export LRELEASE=%{_qt5_bindir}
+
 %configure \
     --disable-static \
     --disable-warnings-as-errors \
