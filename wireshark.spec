@@ -34,6 +34,7 @@ BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	krb5-devel
 BuildRequires:	qt5-qtchooser
+BuildRequires:	qt5-linguist-tools
 BuildRequires:	libcap-devel
 BuildRequires:	pkgconfig(libelf)
 BuildRequires:	libpcap-devel >= 0.7.2
