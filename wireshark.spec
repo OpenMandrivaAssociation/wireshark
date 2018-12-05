@@ -164,7 +164,6 @@ install -Dm644 %{SOURCE10} .
 export PATH=$PATH:%{_qt5_bindir}
 export CFLAGS="%{optflags} -fPIC"
 export CXXFLAGS="%{optflags} -fPIC"
-touch config.h.in
 %configure \
     --disable-static \
     --disable-warnings-as-errors \
