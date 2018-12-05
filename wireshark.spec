@@ -31,6 +31,7 @@ BuildRequires:	pkgconfig(Qt5PrintSupport)
 BuildRequires:	pkgconfig(Qt5MultimediaWidgets)
 BuildRequires:	pkgconfig(Qt5Help)
 BuildRequires:	pkgconfig(Qt5Widgets)
+BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	krb5-devel
 BuildRequires:	libcap-devel
 BuildRequires:	pkgconfig(libelf)
