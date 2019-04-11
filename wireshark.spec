@@ -1,62 +1,61 @@
 %define Werror_cflags %{nil}
-%define _disable_rebuild_configure %nil
-%bcond_with lua
 
-%define	major		10
-%define wiretapmajor	8
+%define	major		12
+%define wiretapmajor	9
 %define wscodecsmajor	2
-%define wsutilmajor	9
+%define wsutilmajor	10
 %define libname		%mklibname wireshark %{major}
 %define libwiretap	%mklibname wiretap %{wiretapmajor}
 %define libwscodecs	%mklibname wscodecs %{wscodecsmajor}
 %define libwsutil	%mklibname wsutil %{wsutilmajor}
-%define libname_devel	%mklibname -d wireshark
+%define devname		%mklibname -d wireshark
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	2.6.5
-Release:	%mkrel 1
+Version:	3.0.1
+Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
-URL:		http://www.wireshark.org
-Source0:	http://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
-Source10:	README.urpmi
-Patch0:		wireshark-1.12.0-do-not-fail-on-chgrp-chmod.patch
+URL:		https://www.wireshark.org
+Source0:	https://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
+BuildRequires:	bison
+BuildRequires:	cmake
+BuildRequires:	flex
+BuildRequires:	elfutils-devel
+BuildRequires:	openssl-devel
+BuildRequires:	perl-Pod-Html
+BuildRequires:	pcre-devel
+BuildRequires:	cmake(Qt5Core)
+BuildRequires:	cmake(Qt5Gui)
+BuildRequires:	cmake(Qt5Help)
+BuildRequires:	cmake(Qt5MultimediaWidgets)
+BuildRequires:	cmake(Qt5PrintSupport)
+BuildRequires:	cmake(Qt5Svg)
+BuildRequires:	cmake(Qt5Widgets)
+# Optional BRs
+BuildRequires:	doxygen
+BuildRequires:	git-core
+BuildRequires:	krb5-devel
+BuildRequires:	libcap-devel
+BuildRequires:	gnutls-devel
+BuildRequires:	pcap-devel
+BuildRequires:	libsmi-devel
+BuildRequires:	lua5.2-devel
+#BuildRequires:	pkgconfig(libbcg729)
+BuildRequires:	pkgconfig(libcares)
+BuildRequires:	pkgconfig(libgcrypt)
+BuildRequires:	pkgconfig(libnghttp2)
+BuildRequires:	pkgconfig(libnl-3.0)
+BuildRequires:	pkgconfig(libmaxminddb)
+BuildRequires:	pkgconfig(libssh)
+BuildRequires:	pkgconfig(sbc)
+BuildRequires:	pkgconfig(snappy)
+BuildRequires:	pkgconfig(spandsp)
+BuildRequires:	xsltproc
+BuildRequires:	zlib-devel
+
 Requires:	dumpcap
 Requires:	xdg-utils
-BuildRequires:	doxygen
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	pkgconfig(Qt5Gui)
-BuildRequires:	pkgconfig(Qt5PrintSupport)
-BuildRequires:	pkgconfig(Qt5MultimediaWidgets)
-BuildRequires:	pkgconfig(Qt5Help)
-BuildRequires:	pkgconfig(Qt5Widgets)
-BuildRequires:	pkgconfig(glib-2.0)
-BuildRequires:	krb5-devel
-BuildRequires:	qt5-qtchooser
-BuildRequires:	qt5-linguist-tools
-BuildRequires:	libcap-devel
-BuildRequires:	pkgconfig(libelf)
-BuildRequires:	libpcap-devel >= 0.7.2
-BuildRequires:	libsmi-devel
-BuildRequires:	openssl-devel
-BuildRequires:	pcre-devel
-%if %{with lua}
-BuildRequires:	lua-devel
-%endif
-BuildRequires:	portaudio-devel
-BuildRequires:	libgcrypt-devel >= 1.1.92
-BuildRequires:	gnutls-devel >= 1.2.0
-BuildRequires:	pkgconfig(libnl-3.0)
-BuildRequires:	zlib-devel
-BuildRequires:	bison
-BuildRequires:	flex
-BuildRequires:	pkgconfig(libmaxminddb)
-BuildRequires:	libtool
-BuildRequires:	perl-Pod-Html
-Obsoletes:	wireshark-gtk < 2.0.0
-Obsoletes:	wireshark-common < 2.0.0
-Conflicts:	wireshark-common < 2.0.0
 
 %description
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
@@ -66,7 +65,6 @@ capture and filtering library.
 %package -n	%{libname}
 Summary:	Network traffic and protocol analyzer libraries
 Group:		System/Libraries
-Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libname}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
@@ -76,7 +74,6 @@ capture and filtering library.
 %package -n	%{libwiretap}
 Summary:	Packet-capture library for %{name}
 Group:		System/Libraries
-Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libwiretap}
 The wiretap library is a packet-capture library currently under development
@@ -94,12 +91,11 @@ The libwscodecs library provides a codecs interface for wireshark.
 %package -n	%{libwsutil}
 Summary:	Network packet dissection utilities library
 Group:		System/Libraries
-Conflicts:	%{_lib}wireshark3 < 1.10.1
 
 %description -n	%{libwsutil}
 The libwsutil library provides utility functions for wireshark.
 
-%package -n	%{libname_devel}
+%package -n	%{devname}
 Summary:	Development files for %{name}
 Group:		Development/Other
 Provides:	lib%{name}-devel = %{version}-%{release}
@@ -109,7 +105,7 @@ Requires:	%{libwiretap} = %{version}-%{release}
 Requires:	%{libwscodecs} = %{version}-%{release}
 Requires:	%{libwsutil} = %{version}-%{release}
 
-%description -n	%{libname_devel}
+%description -n	%{devname}
 This package contains files used for development with %{name}.
 
 %package	tools
@@ -156,58 +152,17 @@ live network and write the packets to a file. Many wireshark utilities require i
 %setup -q
 %autopatch -p1
 
-# README.urpmi
-install -Dm644 %{SOURCE10} .
-
 %build
-./autogen.sh
-export PATH=$PATH:%{_qt5_bindir}
-export CFLAGS="%{optflags} -fPIC"
-export CXXFLAGS="%{optflags} -fPIC"
-export LRELEASE=%{_qt5_bindir}
-
-%configure \
-    --disable-static \
-    --disable-warnings-as-errors \
-    --disable-silent-rules \
-    --enable-warnings-as-errors=no \
-    --disable-usr-local \
-    --enable-wireshark \
-    --enable-packet-editor \
-    --enable-tshark \
-    --enable-editcap \
-    --enable-capinfos \
-    --enable-mergecap \
-    --enable-text2pcap \
-    --enable-dftest \
-    --enable-randpkt \
-    --enable-airpcap \
-    --enable-dumpcap \
-    --enable-rawshark \
-    --enable-ipv6 \
-    --enable-setuid-install \
-    --enable-plugins \
-    --with-gnutls=yes \
-    --with-gcrypt=yes \
-    --with-maxminddb \
-    --with-krb5 \
-    --with-adns=no \
-    --with-gtk3=no \
-    --with-qt=yes \
-    --with-libnl=3 \
-    --with-libsmi=%{_prefix} \
-    --with-pcap=%{_prefix} \
-    --with-zlib=%{_prefix} \
-%if %{with lua}
-    --with-lua=%{_prefix} \
-%endif
-    --with-portaudio=%{_prefix} \
-    --with-libcap=%{_prefix}
-
+%cmake_qt5 \
+	-DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \
+	-DENABLE_EXTRA_COMPILER_WARNINGS:BOOL=ON \
+	-DDUMPCAP_INSTALL_OPTION:STRING="suid" \
+	-DENABLE_DUMPCAP_GROUP:BOOL=ON \
+	-DDUMPCAP_INSTALL_GROUP:STRING="wireshark"
 %make_build
 
 %install
-%make_install
+%make_install -C build
 
 # link to main executable
 mv %{buildroot}%{_bindir}/wireshark %{buildroot}%{_bindir}/wireshark-qt
@@ -228,8 +183,8 @@ find %{buildroot} -name "*.la" -delete
 # install includes
 mkdir -p %{buildroot}%{_includedir}/wireshark
 for include in `find epan -type f -name '*.h'`; do
-        mkdir -p %{buildroot}%{_includedir}/wireshark/`dirname $include`
-        install -m 0644 $include %{buildroot}%{_includedir}/wireshark/`dirname $include`
+	mkdir -p %{buildroot}%{_includedir}/wireshark/`dirname $include`
+	install -m 0644 $include %{buildroot}%{_includedir}/wireshark/`dirname $include`
 done
 
 # remaining include files
@@ -267,16 +222,19 @@ if ! getent group wireshark > /dev/null ;then
 fi
 
 %files -n dumpcap
+%doc %{_docdir}/%{name}/dumpcap.html
 %attr(4750, root, wireshark) %{_bindir}/dumpcap
 %{_mandir}/man1/dumpcap.1*
 
 %files
-%doc README.urpmi
+%doc %{_docdir}/%{name}/wireshark-filter.html
+%doc %{_docdir}/%{name}/wireshark.html
 %{_bindir}/%{name}
 %{_bindir}/%{name}-qt
-%dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/
 %{_libdir}/%{name}/plugins/
-%{_datadir}/%{name}
+%dir %{_libdir}/%{name}/extcap/
+%{_datadir}/%{name}/
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
@@ -289,6 +247,22 @@ fi
 %{_datadir}/mime/packages/%{name}.xml
 
 %files tools
+%doc %{_docdir}/%{name}/androiddump.html
+%doc %{_docdir}/%{name}/capinfos.html
+%doc %{_docdir}/%{name}/captype.html
+%doc %{_docdir}/%{name}/ciscodump.html
+%doc %{_docdir}/%{name}/dftest.html
+%doc %{_docdir}/%{name}/dpauxmon.html
+%doc %{_docdir}/%{name}/editcap.html
+%doc %{_docdir}/%{name}/extcap.html
+%doc %{_docdir}/%{name}/mergecap.html
+%doc %{_docdir}/%{name}/mmdbresolve.html
+%doc %{_docdir}/%{name}/randpkt.html
+%doc %{_docdir}/%{name}/randpktdump.html
+%doc %{_docdir}/%{name}/reordercap.html
+%doc %{_docdir}/%{name}/sshdump.html
+%doc %{_docdir}/%{name}/text2pcap.html
+%doc %{_docdir}/%{name}/udpdump.html
 %{_bindir}/capinfos
 %{_bindir}/captype
 %{_bindir}/editcap
@@ -300,32 +274,44 @@ fi
 %{_bindir}/text2pcap
 %{_bindir}/sharkd
 %{_libdir}/%{name}/extcap/androiddump
+%{_libdir}/%{name}/extcap/ciscodump
+%{_libdir}/%{name}/extcap/dpauxmon
 %{_libdir}/%{name}/extcap/randpktdump
+%{_libdir}/%{name}/extcap/sdjournal
+%{_libdir}/%{name}/extcap/sshdump
 %{_libdir}/%{name}/extcap/udpdump
-%{_mandir}/man1/androiddump*
-%{_mandir}/man1/capinfo*
-%{_mandir}/man1/captype*
-%{_mandir}/man1/dftest*
-%{_mandir}/man1/editcap*
-%{_mandir}/man1/mergecap*
-%{_mandir}/man1/mmdbresolve*
-%{_mandir}/man1/randpkt*
-%{_mandir}/man1/reordercap*
-%{_mandir}/man1/text2pcap*
-%{_mandir}/man1/udpdump*
-%{_mandir}/man4/extcap*
+%{_mandir}/man1/androiddump.1*
+%{_mandir}/man1/capinfos.1*
+%{_mandir}/man1/captype.1*
+%{_mandir}/man1/ciscodump.1*
+%{_mandir}/man1/dftest.1*
+%{_mandir}/man1/dpauxmon.1*
+%{_mandir}/man1/editcap.1*
+%{_mandir}/man1/mergecap.1*
+%{_mandir}/man1/mmdbresolve.1*
+%{_mandir}/man1/randpkt.1*
+%{_mandir}/man1/randpktdump.1*
+%{_mandir}/man1/reordercap.1*
+%{_mandir}/man1/sdjournal.1*
+%{_mandir}/man1/sdjournal.html*
+%{_mandir}/man1/sshdump.1*
+%{_mandir}/man1/text2pcap.1*
+%{_mandir}/man1/udpdump.1*
+%{_mandir}/man4/extcap.4*
 
 %files -n tshark
 %doc README.urpmi
+%doc %{_docdir}/%{name}/tshark.html
 %{_bindir}/tshark
 %{_mandir}/man1/tshark*
 
 %files -n rawshark
+%doc %{_docdir}/%{name}/rawshark.html
 %{_bindir}/rawshark
 %{_mandir}/man1/rawshark.1*
 
 %files -n %{libname}
-%doc AUTHORS NEWS README{,.[lv]*} doc/{randpkt.txt,README.*}
+%doc AUTHORS NEWS README.{md,[lv]*} doc/{randpkt.txt,README.*}
 %{_libdir}/libwireshark.so.%{major}*
 
 %files -n %{libwiretap}
@@ -337,11 +323,12 @@ fi
 %files -n %{libwsutil}
 %{_libdir}/libwsutil.so.%{wsutilmajor}*
 
-%files -n %{libname_devel}
+%files -n %{devname}
 %doc ChangeLog
-%{_includedir}/wireshark
+%{_includedir}/wireshark/
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.so
 %{_libdir}/libwscodecs.so
 %{_libdir}/libwsutil.so
 %{_libdir}/pkgconfig/*.pc
+%{_libdir}/wireshark/cmake/
