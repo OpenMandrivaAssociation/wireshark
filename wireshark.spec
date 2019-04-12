@@ -26,6 +26,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	perl-Pod-Html
 BuildRequires:	pcre-devel
 BuildRequires:	qt5-macros
+BuildRequires:	qmake-qt5
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	cmake(Qt5Core)
