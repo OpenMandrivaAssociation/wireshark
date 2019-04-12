@@ -28,6 +28,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	qt5-macros
 BuildRequires:	qmake5
 BuildRequires:	qt5-linguist-tools
+BuildRequires:	tiff-devel
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	cmake(Qt5Core)
