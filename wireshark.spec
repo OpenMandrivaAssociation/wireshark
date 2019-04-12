@@ -25,6 +25,7 @@ BuildRequires:	elfutils-devel
 BuildRequires:	openssl-devel
 BuildRequires:	perl-Pod-Html
 BuildRequires:	pcre-devel
+BuildRequires:	qt5-macros
 BuildRequires:	cmake(Qt5Core)
 BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Help)
