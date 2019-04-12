@@ -306,7 +306,6 @@ fi
 %{_mandir}/man4/extcap.4*
 
 %files -n tshark
-%doc README.urpmi
 %doc %{_docdir}/%{name}/tshark.html
 %{_bindir}/tshark
 %{_mandir}/man1/tshark*
