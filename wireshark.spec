@@ -27,6 +27,7 @@ BuildRequires:	perl-Pod-Html
 BuildRequires:	pcre-devel
 BuildRequires:	qt5-macros
 BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	cmake(Qt5Core)
 BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Help)
