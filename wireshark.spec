@@ -12,7 +12,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.0.1
+Version:	3.0.2
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
