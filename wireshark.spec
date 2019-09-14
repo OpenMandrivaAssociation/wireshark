@@ -12,7 +12,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.0.3
+Version:	3.0.4
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
@@ -215,7 +215,7 @@ plugindir=%{_libdir}/wireshark
 
 Name: wireshark
 Description: wireshark network packet dissection library
-Version: %{version}
+Version:	3.0.4
 
 Requires:
 Libs: -L\${libdir} -lwireshark
