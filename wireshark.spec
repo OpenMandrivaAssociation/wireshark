@@ -257,6 +257,7 @@ fi
 %doc %{_docdir}/%{name}/sshdump.html
 %doc %{_docdir}/%{name}/text2pcap.html
 %doc %{_docdir}/%{name}/udpdump.html
+%doc %{_docdir}/%{name}/sdjournal.html
 %{_bindir}/capinfos
 %{_bindir}/captype
 %{_bindir}/editcap
@@ -287,7 +288,6 @@ fi
 %{_mandir}/man1/randpktdump.1*
 %{_mandir}/man1/reordercap.1*
 %{_mandir}/man1/sdjournal.1*
-#{_mandir}/man1/sdjournal.html*
 %{_mandir}/man1/sshdump.1*
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*
