@@ -287,7 +287,7 @@ fi
 %{_mandir}/man1/randpktdump.1*
 %{_mandir}/man1/reordercap.1*
 %{_mandir}/man1/sdjournal.1*
-%{_mandir}/man1/sdjournal.html*
+#{_mandir}/man1/sdjournal.html*
 %{_mandir}/man1/sshdump.1*
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*
