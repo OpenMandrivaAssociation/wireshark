@@ -1,18 +1,16 @@
 %define Werror_cflags %{nil}
 
-%define	major		12
-%define wiretapmajor	9
-%define wscodecsmajor	2
-%define wsutilmajor	10
+%define	major		13
+%define wiretapmajor	10
+%define wsutilmajor	11
 %define libname		%mklibname wireshark %{major}
 %define libwiretap	%mklibname wiretap %{wiretapmajor}
-%define libwscodecs	%mklibname wscodecs %{wscodecsmajor}
 %define libwsutil	%mklibname wsutil %{wsutilmajor}
 %define devname		%mklibname -d wireshark
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.0.7
+Version:	3.2.1
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
@@ -87,13 +85,6 @@ parallel to wireshark.
 
 Wiretap is used in wireshark for its ability to read multiple file types.
 
-%package -n	%{libwscodecs}
-Summary:	Network packet dissection codecs library
-Group:		System/Libraries
-
-%description -n	%{libwscodecs}
-The libwscodecs library provides a codecs interface for wireshark.
-
 %package -n	%{libwsutil}
 Summary:	Network packet dissection utilities library
 Group:		System/Libraries
@@ -108,7 +99,6 @@ Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	wireshark-devel = %{version}-%{release}
 Requires:	%{libname} = %{version}-%{release}
 Requires:	%{libwiretap} = %{version}-%{release}
-Requires:	%{libwscodecs} = %{version}-%{release}
 Requires:	%{libwsutil} = %{version}-%{release}
 
 %description -n	%{devname}
@@ -197,8 +187,6 @@ done
 install -m 0644 *.h %{buildroot}%{_includedir}/wireshark
 mkdir -p %{buildroot}%{_includedir}/wireshark/wiretap
 install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
-mkdir -p %{buildroot}%{_includedir}/wireshark/codecs
-install -m 0644 codecs/*.h %{buildroot}%{_includedir}/wireshark/codecs
 mkdir -p %{buildroot}%{_includedir}/wireshark/wsutil
 install -m 0644 wsutil/*.h %{buildroot}%{_includedir}/wireshark/wsutil
 
@@ -269,6 +257,7 @@ fi
 %doc %{_docdir}/%{name}/sshdump.html
 %doc %{_docdir}/%{name}/text2pcap.html
 %doc %{_docdir}/%{name}/udpdump.html
+%doc %{_docdir}/%{name}/sdjournal.html
 %{_bindir}/capinfos
 %{_bindir}/captype
 %{_bindir}/editcap
@@ -299,7 +288,6 @@ fi
 %{_mandir}/man1/randpktdump.1*
 %{_mandir}/man1/reordercap.1*
 %{_mandir}/man1/sdjournal.1*
-%{_mandir}/man1/sdjournal.html*
 %{_mandir}/man1/sshdump.1*
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*
@@ -322,9 +310,6 @@ fi
 %files -n %{libwiretap}
 %{_libdir}/libwiretap.so.%{wiretapmajor}*
 
-%files -n %{libwscodecs}
-%{_libdir}/libwscodecs.so.%{wscodecsmajor}*
-
 %files -n %{libwsutil}
 %{_libdir}/libwsutil.so.%{wsutilmajor}*
 
@@ -333,7 +318,6 @@ fi
 %{_includedir}/wireshark/
 %{_libdir}/libwireshark.so
 %{_libdir}/libwiretap.so
-%{_libdir}/libwscodecs.so
 %{_libdir}/libwsutil.so
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/wireshark/cmake/
