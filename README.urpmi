@@ -1,4 +1,4 @@
-Since Mageia 3 there are two ways of using Wireshark/Tshark:
+There are two ways of using Wireshark/Tshark:
 
 1. Using dumpcap without allowing non-root users to capture packets
 
