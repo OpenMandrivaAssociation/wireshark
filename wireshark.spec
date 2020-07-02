@@ -20,7 +20,7 @@ BuildRequires:	bison
 BuildRequires:	cmake
 BuildRequires:	flex
 BuildRequires:	elfutils-devel
-BuildRequires:	openssl-devel
+BuildRequires:	pkgconfig(openssl)
 BuildRequires:	perl-Pod-Html
 BuildRequires:	pcre-devel
 BuildRequires:	qt5-macros
