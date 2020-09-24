@@ -1,8 +1,8 @@
 %define Werror_cflags %{nil}
 
-%define	major		13
-%define wiretapmajor	10
-%define wsutilmajor	11
+%define	major		0
+%define wiretapmajor	0
+%define wsutilmajor	0
 %define libname		%mklibname wireshark %{major}
 %define libwiretap	%mklibname wiretap %{wiretapmajor}
 %define libwsutil	%mklibname wsutil %{wsutilmajor}
@@ -10,7 +10,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.2.6
+Version:	3.3.0
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
@@ -184,7 +184,7 @@ for include in `find epan -type f -name '*.h'`; do
 done
 
 # remaining include files
-install -m 0644 *.h %{buildroot}%{_includedir}/wireshark
+install -m 0644 *.h build/*.h %{buildroot}%{_includedir}/wireshark
 mkdir -p %{buildroot}%{_includedir}/wireshark/wiretap
 install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
 mkdir -p %{buildroot}%{_includedir}/wireshark/wsutil
@@ -203,7 +203,7 @@ plugindir=%{_libdir}/wireshark
 
 Name: wireshark
 Description: wireshark network packet dissection library
-Version:	3.0.7
+Version:	%{version}
 
 Requires:
 Libs: -L\${libdir} -lwireshark
