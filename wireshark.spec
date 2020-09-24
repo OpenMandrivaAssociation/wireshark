@@ -28,6 +28,7 @@ BuildRequires:	qt5-macros
 BuildRequires:	qmake5
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	tiff-devel
+BuildRequires:	perl-open
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	cmake(Qt5Core)
@@ -56,6 +57,12 @@ BuildRequires:	pkgconfig(libssh)
 BuildRequires:	pkgconfig(sbc)
 BuildRequires:	pkgconfig(snappy)
 BuildRequires:	pkgconfig(spandsp)
+BuildRequires:	pkgconfig(minizip)
+BuildRequires:	pkgconfig(libbrotlienc)
+BuildRequires:	pkgconfig(liblz4)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(speexdsp)
+BuildRequires:	asciidoc
 BuildRequires:	xsltproc
 BuildRequires:	zlib-devel
 
