@@ -18,6 +18,7 @@ URL:		https://www.wireshark.org
 Source0:	https://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
 BuildRequires:	bison
 BuildRequires:	cmake
+BuildRequires:	ninja
 BuildRequires:	flex
 BuildRequires:	elfutils-devel
 BuildRequires:	pkgconfig(openssl)
@@ -154,11 +155,12 @@ live network and write the packets to a file. Many wireshark utilities require i
 	-DENABLE_EXTRA_COMPILER_WARNINGS:BOOL=ON \
 	-DDUMPCAP_INSTALL_OPTION:STRING="suid" \
 	-DENABLE_DUMPCAP_GROUP:BOOL=ON \
-	-DDUMPCAP_INSTALL_GROUP:STRING="wireshark"
-%make_build
+	-DDUMPCAP_INSTALL_GROUP:STRING="wireshark" \
+	-G Ninja
+%ninja_build
 
 %install
-%make_install -C build
+%ninja_install -C build
 
 # link to main executable
 mv %{buildroot}%{_bindir}/wireshark %{buildroot}%{_bindir}/wireshark-qt
