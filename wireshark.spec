@@ -1,8 +1,8 @@
 %define Werror_cflags %{nil}
 
-%define	major		0
-%define wiretapmajor	0
-%define wsutilmajor	0
+%define	major		14
+%define wiretapmajor	11
+%define wsutilmajor	12
 %define libname		%mklibname wireshark %{major}
 %define libwiretap	%mklibname wiretap %{wiretapmajor}
 %define libwsutil	%mklibname wsutil %{wsutilmajor}
@@ -10,7 +10,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.3.1
+Version:	3.4.0
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
