@@ -44,7 +44,7 @@ BuildRequires:	git-core
 BuildRequires:	krb5-devel
 BuildRequires:	libcap-devel
 BuildRequires:	gnutls-devel
-BuildRequires:	pcap-devel
+BuildRequires:	pkgconfig(libcap)
 BuildRequires:	libsmi-devel
 BuildRequires:	lua5.2-devel
 #BuildRequires:	pkgconfig(libbcg729)
