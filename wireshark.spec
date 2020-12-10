@@ -198,7 +198,9 @@ install -m 0644 wiretap/*.h %{buildroot}%{_includedir}/wireshark/wiretap
 mkdir -p %{buildroot}%{_includedir}/wireshark/wsutil
 install -m 0644 wsutil/*.h %{buildroot}%{_includedir}/wireshark/wsutil
 
+%ifnach %aarch64
 chmod a+r %{buildroot}%{_bindir}/dumpcap
+%endif
 
 # pkg-config support
 install -d %{buildroot}%{_libdir}/pkgconfig/
