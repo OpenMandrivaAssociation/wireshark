@@ -42,7 +42,6 @@ BuildRequires:	cmake(Qt5Widgets)
 BuildRequires:	doxygen
 BuildRequires:	git-core
 BuildRequires:	krb5-devel
-BuildRequires:	libcap-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	pkgconfig(libcap)
 BuildRequires:	libsmi-devel
