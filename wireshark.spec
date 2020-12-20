@@ -199,7 +199,7 @@ mkdir -p %{buildroot}%{_includedir}/wireshark/wsutil
 install -m 0644 wsutil/*.h %{buildroot}%{_includedir}/wireshark/wsutil
 
 %ifnarch %aarch64
-chmod a+r %{buildroot}%{_bindir}/dumpcap
+#chmod a+r %{buildroot}%{_bindir}/dumpcap
 %endif
 
 # pkg-config support
