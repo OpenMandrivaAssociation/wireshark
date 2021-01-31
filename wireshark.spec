@@ -10,7 +10,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.4.2
+Version:	3.4.3
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
@@ -45,7 +45,7 @@ BuildRequires:	krb5-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	pkgconfig(libcap)
 BuildRequires:	libsmi-devel
-BuildRequires:	lua5.2-devel
+BuildRequires:	lua-devel
 #BuildRequires:	pkgconfig(libbcg729)
 BuildRequires:	pkgconfig(libcares)
 BuildRequires:	pkgconfig(libgcrypt)
