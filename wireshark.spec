@@ -45,7 +45,7 @@ BuildRequires:	krb5-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	pkgconfig(libcap)
 BuildRequires:	libsmi-devel
-BuildRequires:	lua-devel
+BuildRequires:	lua5.2-devel
 #BuildRequires:	pkgconfig(libbcg729)
 BuildRequires:	pkgconfig(libcares)
 BuildRequires:	pkgconfig(libgcrypt)
@@ -61,6 +61,10 @@ BuildRequires:	pkgconfig(libbrotlienc)
 BuildRequires:	pkgconfig(liblz4)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(speexdsp)
+BuildRequires:	pkgconfig(libpcap)
+BuildRequires:	pkgconfig(libilbc)
+BuildRequires:	pkgconfig(opus)
+BuildRequires:	asciidoctor
 BuildRequires:	asciidoc
 BuildRequires:	xsltproc
 BuildRequires:	zlib-devel
