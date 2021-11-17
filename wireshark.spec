@@ -11,7 +11,7 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	3.4.8
-Release:	1
+Release:	2
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
 URL:		https://www.wireshark.org
@@ -156,8 +156,7 @@ Dumpcap is a network traffic dump tool. It lets you capture packet data from a
 live network and write the packets to a file. Many wireshark utilities require it.
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 
 %build
 %cmake_qt5 \
@@ -248,8 +247,8 @@ fi
 %{_liconsdir}/*.png
 %{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/*/*/*.svg
-%{_mandir}/man1/%{name}.1*
-%{_mandir}/man4/%{name}-filter.4*
+%doc %{_mandir}/man1/%{name}.1*
+%doc %{_mandir}/man4/%{name}-filter.4*
 %{_datadir}/applications/*.desktop
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/mime/packages/%{name}.xml
@@ -289,33 +288,33 @@ fi
 %{_libdir}/%{name}/extcap/sdjournal
 %{_libdir}/%{name}/extcap/sshdump
 %{_libdir}/%{name}/extcap/udpdump
-%{_mandir}/man1/androiddump.1*
-%{_mandir}/man1/capinfos.1*
-%{_mandir}/man1/captype.1*
-%{_mandir}/man1/ciscodump.1*
-%{_mandir}/man1/dftest.1*
-%{_mandir}/man1/dpauxmon.1*
-%{_mandir}/man1/editcap.1*
-%{_mandir}/man1/mergecap.1*
-%{_mandir}/man1/mmdbresolve.1*
-%{_mandir}/man1/randpkt.1*
-%{_mandir}/man1/randpktdump.1*
-%{_mandir}/man1/reordercap.1*
-%{_mandir}/man1/sdjournal.1*
-%{_mandir}/man1/sshdump.1*
-%{_mandir}/man1/text2pcap.1*
-%{_mandir}/man1/udpdump.1*
-%{_mandir}/man4/extcap.4*
+%doc %{_mandir}/man1/androiddump.1*
+%doc %{_mandir}/man1/capinfos.1*
+%doc %{_mandir}/man1/captype.1*
+%doc %{_mandir}/man1/ciscodump.1*
+%doc %{_mandir}/man1/dftest.1*
+%doc %{_mandir}/man1/dpauxmon.1*
+%doc %{_mandir}/man1/editcap.1*
+%doc %{_mandir}/man1/mergecap.1*
+%doc %{_mandir}/man1/mmdbresolve.1*
+%doc %{_mandir}/man1/randpkt.1*
+%doc %{_mandir}/man1/randpktdump.1*
+%doc %{_mandir}/man1/reordercap.1*
+%doc %{_mandir}/man1/sdjournal.1*
+%doc %{_mandir}/man1/sshdump.1*
+%doc %{_mandir}/man1/text2pcap.1*
+%doc %{_mandir}/man1/udpdump.1*
+%doc %{_mandir}/man4/extcap.4*
 
 %files -n tshark
 %doc %{_docdir}/%{name}/tshark.html
 %{_bindir}/tshark
-%{_mandir}/man1/tshark*
+%doc %{_mandir}/man1/tshark*
 
 %files -n rawshark
 %doc %{_docdir}/%{name}/rawshark.html
 %{_bindir}/rawshark
-%{_mandir}/man1/rawshark.1*
+%doc %{_mandir}/man1/rawshark.1*
 
 %files -n %{libname}
 %doc AUTHORS NEWS README.{md,[lv]*} doc/{randpkt.txt,README.*}
