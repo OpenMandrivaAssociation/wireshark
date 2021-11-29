@@ -182,7 +182,7 @@ install -Dpm0644 image/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
 
 # XDG menu
 install -d %{buildroot}%{_datadir}/applications/
-install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications/
+#install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications/
 
 # remove uneeded files
 find %{buildroot} -name "*.la" -delete
@@ -249,7 +249,7 @@ fi
 %{_iconsdir}/hicolor/*/*/*.svg
 %doc %{_mandir}/man1/%{name}.1*
 %doc %{_mandir}/man4/%{name}-filter.4*
-%{_datadir}/applications/*.desktop
+#{_datadir}/applications/*.desktop
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/mime/packages/%{name}.xml
 
