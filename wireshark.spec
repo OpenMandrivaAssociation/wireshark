@@ -1,8 +1,8 @@
 %define Werror_cflags %{nil}
 
-%define	major		14
-%define wiretapmajor	11
-%define wsutilmajor	12
+%define	major		15
+%define wiretapmajor	12
+%define wsutilmajor	13
 %define libname		%mklibname wireshark %{major}
 %define libwiretap	%mklibname wiretap %{wiretapmajor}
 %define libwsutil	%mklibname wsutil %{wsutilmajor}
