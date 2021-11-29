@@ -234,8 +234,8 @@ fi
 %{_mandir}/man1/dumpcap.1*
 
 %files
-%doc %{_docdir}/%{name}/wireshark-filter.html
-%doc %{_docdir}/%{name}/wireshark.html
+#doc #{_docdir}/%{name}/wireshark-filter.html
+#doc #{_docdir}/%{name}/wireshark.html
 %{_bindir}/%{name}
 %{_bindir}/%{name}-qt
 %dir %{_libdir}/%{name}/
@@ -247,11 +247,11 @@ fi
 %{_liconsdir}/*.png
 %{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/*/*/*.svg
-%doc %{_mandir}/man1/%{name}.1*
-%doc %{_mandir}/man4/%{name}-filter.4*
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man4/%{name}-filter.4*
 #{_datadir}/applications/*.desktop
-%{_datadir}/appdata/%{name}.appdata.xml
-%{_datadir}/mime/packages/%{name}.xml
+#{_datadir}/appdata/%{name}.appdata.xml
+#{_datadir}/mime/packages/%{name}.xml
 
 %files tools
 %doc %{_docdir}/%{name}/androiddump.html
