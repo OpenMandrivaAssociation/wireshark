@@ -254,23 +254,23 @@ fi
 #{_datadir}/mime/packages/%{name}.xml
 
 %files tools
-%doc %{_docdir}/%{name}/androiddump.html
-%doc %{_docdir}/%{name}/capinfos.html
-%doc %{_docdir}/%{name}/captype.html
-%doc %{_docdir}/%{name}/ciscodump.html
-%doc %{_docdir}/%{name}/dftest.html
-%doc %{_docdir}/%{name}/dpauxmon.html
-%doc %{_docdir}/%{name}/editcap.html
-%doc %{_docdir}/%{name}/extcap.html
-%doc %{_docdir}/%{name}/mergecap.html
-%doc %{_docdir}/%{name}/mmdbresolve.html
-%doc %{_docdir}/%{name}/randpkt.html
-%doc %{_docdir}/%{name}/randpktdump.html
-%doc %{_docdir}/%{name}/reordercap.html
-%doc %{_docdir}/%{name}/sshdump.html
-%doc %{_docdir}/%{name}/text2pcap.html
-%doc %{_docdir}/%{name}/udpdump.html
-%doc %{_docdir}/%{name}/sdjournal.html
+#doc %{_docdir}/%{name}/androiddump.html
+#doc %{_docdir}/%{name}/capinfos.html
+#doc %{_docdir}/%{name}/captype.html
+#doc %{_docdir}/%{name}/ciscodump.html
+#doc %{_docdir}/%{name}/dftest.html
+#doc %{_docdir}/%{name}/dpauxmon.html
+#doc %{_docdir}/%{name}/editcap.html
+#doc %{_docdir}/%{name}/extcap.html
+#doc %{_docdir}/%{name}/mergecap.html
+#doc %{_docdir}/%{name}/mmdbresolve.html
+#doc %{_docdir}/%{name}/randpkt.html
+#doc %{_docdir}/%{name}/randpktdump.html
+#doc %{_docdir}/%{name}/reordercap.html
+#doc %{_docdir}/%{name}/sshdump.html
+#doc %{_docdir}/%{name}/text2pcap.html
+#doc %{_docdir}/%{name}/udpdump.html
+#doc %{_docdir}/%{name}/sdjournal.html
 %{_bindir}/capinfos
 %{_bindir}/captype
 %{_bindir}/editcap
