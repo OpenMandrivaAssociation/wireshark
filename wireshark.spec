@@ -1,8 +1,8 @@
 %define Werror_cflags %{nil}
 
-%define	major		14
-%define wiretapmajor	11
-%define wsutilmajor	12
+%define	major		15
+%define wiretapmajor	12
+%define wsutilmajor	13
 %define libname		%mklibname wireshark %{major}
 %define libwiretap	%mklibname wiretap %{wiretapmajor}
 %define libwsutil	%mklibname wsutil %{wsutilmajor}
@@ -10,7 +10,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.4.10
+Version:	3.6.0
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
@@ -182,7 +182,7 @@ install -Dpm0644 image/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
 
 # XDG menu
 install -d %{buildroot}%{_datadir}/applications/
-install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications/
+#install -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications/
 
 # remove uneeded files
 find %{buildroot} -name "*.la" -delete
@@ -229,13 +229,10 @@ if ! getent group wireshark > /dev/null ;then
 fi
 
 %files -n dumpcap
-%doc %{_docdir}/%{name}/dumpcap.html
 %attr(4750, root, wireshark) %{_bindir}/dumpcap
 %{_mandir}/man1/dumpcap.1*
 
 %files
-%doc %{_docdir}/%{name}/wireshark-filter.html
-%doc %{_docdir}/%{name}/wireshark.html
 %{_bindir}/%{name}
 %{_bindir}/%{name}-qt
 %dir %{_libdir}/%{name}/
@@ -247,30 +244,13 @@ fi
 %{_liconsdir}/*.png
 %{_iconsdir}/hicolor/*/*/*.png
 %{_iconsdir}/hicolor/*/*/*.svg
-%doc %{_mandir}/man1/%{name}.1*
-%doc %{_mandir}/man4/%{name}-filter.4*
-%{_datadir}/applications/*.desktop
-%{_datadir}/appdata/%{name}.appdata.xml
-%{_datadir}/mime/packages/%{name}.xml
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man4/%{name}-filter.4*
+%{_datadir}/applications/org.wireshark.Wireshark.desktop
+%{_datadir}/metainfo/org.wireshark.Wireshark.metainfo.xml
+%{_datadir}/mime/packages/org.wireshark.Wireshark.xml
 
 %files tools
-%doc %{_docdir}/%{name}/androiddump.html
-%doc %{_docdir}/%{name}/capinfos.html
-%doc %{_docdir}/%{name}/captype.html
-%doc %{_docdir}/%{name}/ciscodump.html
-%doc %{_docdir}/%{name}/dftest.html
-%doc %{_docdir}/%{name}/dpauxmon.html
-%doc %{_docdir}/%{name}/editcap.html
-%doc %{_docdir}/%{name}/extcap.html
-%doc %{_docdir}/%{name}/mergecap.html
-%doc %{_docdir}/%{name}/mmdbresolve.html
-%doc %{_docdir}/%{name}/randpkt.html
-%doc %{_docdir}/%{name}/randpktdump.html
-%doc %{_docdir}/%{name}/reordercap.html
-%doc %{_docdir}/%{name}/sshdump.html
-%doc %{_docdir}/%{name}/text2pcap.html
-%doc %{_docdir}/%{name}/udpdump.html
-%doc %{_docdir}/%{name}/sdjournal.html
 %{_bindir}/capinfos
 %{_bindir}/captype
 %{_bindir}/editcap
@@ -288,36 +268,34 @@ fi
 %{_libdir}/%{name}/extcap/sdjournal
 %{_libdir}/%{name}/extcap/sshdump
 %{_libdir}/%{name}/extcap/udpdump
-%doc %{_mandir}/man1/androiddump.1*
-%doc %{_mandir}/man1/capinfos.1*
-%doc %{_mandir}/man1/captype.1*
-%doc %{_mandir}/man1/ciscodump.1*
-%doc %{_mandir}/man1/dftest.1*
-%doc %{_mandir}/man1/dpauxmon.1*
-%doc %{_mandir}/man1/editcap.1*
-%doc %{_mandir}/man1/mergecap.1*
-%doc %{_mandir}/man1/mmdbresolve.1*
-%doc %{_mandir}/man1/randpkt.1*
-%doc %{_mandir}/man1/randpktdump.1*
-%doc %{_mandir}/man1/reordercap.1*
-%doc %{_mandir}/man1/sdjournal.1*
-%doc %{_mandir}/man1/sshdump.1*
-%doc %{_mandir}/man1/text2pcap.1*
-%doc %{_mandir}/man1/udpdump.1*
-%doc %{_mandir}/man4/extcap.4*
+%{_mandir}/man1/androiddump.1*
+%{_mandir}/man1/capinfos.1*
+%{_mandir}/man1/captype.1*
+%{_mandir}/man1/ciscodump.1*
+%{_mandir}/man1/dftest.1*
+%{_mandir}/man1/dpauxmon.1*
+%{_mandir}/man1/editcap.1*
+%{_mandir}/man1/mergecap.1*
+%{_mandir}/man1/mmdbresolve.1*
+%{_mandir}/man1/randpkt.1*
+%{_mandir}/man1/randpktdump.1*
+%{_mandir}/man1/reordercap.1*
+%{_mandir}/man1/sdjournal.1*
+%{_mandir}/man1/sshdump.1*
+%{_mandir}/man1/text2pcap.1*
+%{_mandir}/man1/udpdump.1*
+%{_mandir}/man4/extcap.4*
+%{_mandir}/man1/etwdump.1.*
 
 %files -n tshark
-%doc %{_docdir}/%{name}/tshark.html
 %{_bindir}/tshark
-%doc %{_mandir}/man1/tshark*
+%{_mandir}/man1/tshark*
 
 %files -n rawshark
-%doc %{_docdir}/%{name}/rawshark.html
 %{_bindir}/rawshark
-%doc %{_mandir}/man1/rawshark.1*
+%{_mandir}/man1/rawshark.1*
 
 %files -n %{libname}
-%doc AUTHORS NEWS README.{md,[lv]*} doc/{randpkt.txt,README.*}
 %{_libdir}/libwireshark.so.%{major}*
 
 %files -n %{libwiretap}
