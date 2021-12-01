@@ -229,7 +229,7 @@ if ! getent group wireshark > /dev/null ;then
 fi
 
 %files -n dumpcap
-%doc %{_docdir}/%{name}/dumpcap.html
+#doc %{_docdir}/%{name}/dumpcap.html
 %attr(4750, root, wireshark) %{_bindir}/dumpcap
 %{_mandir}/man1/dumpcap.1*
 
