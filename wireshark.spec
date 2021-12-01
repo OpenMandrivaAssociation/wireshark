@@ -307,17 +307,17 @@ fi
 %doc %{_mandir}/man4/extcap.4*
 
 %files -n tshark
-%doc %{_docdir}/%{name}/tshark.html
+#doc %{_docdir}/%{name}/tshark.html
 %{_bindir}/tshark
 %doc %{_mandir}/man1/tshark*
 
 %files -n rawshark
-%doc %{_docdir}/%{name}/rawshark.html
+#doc %{_docdir}/%{name}/rawshark.html
 %{_bindir}/rawshark
 %doc %{_mandir}/man1/rawshark.1*
 
 %files -n %{libname}
-%doc AUTHORS NEWS README.{md,[lv]*} doc/{randpkt.txt,README.*}
+#doc AUTHORS NEWS README.{md,[lv]*} doc/{randpkt.txt,README.*}
 %{_libdir}/libwireshark.so.%{major}*
 
 %files -n %{libwiretap}
