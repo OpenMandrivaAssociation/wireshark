@@ -32,6 +32,7 @@ BuildRequires:	perl-open
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	cmake(Qt5Core)
+BuildRequires:	cmake(Qt5Concurrent)
 BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Help)
 BuildRequires:	cmake(Qt5MultimediaWidgets)
