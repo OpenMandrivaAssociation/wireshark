@@ -177,9 +177,9 @@ mv %{buildroot}%{_bindir}/wireshark %{buildroot}%{_bindir}/wireshark-qt
 ln -s wireshark-qt %{buildroot}%{_bindir}/wireshark
 
 # icons
-install -Dpm0644 image/wsicon16.png %{buildroot}%{_miconsdir}/%{name}.png
-install -Dpm0644 image/wsicon32.png %{buildroot}%{_iconsdir}/%{name}.png
-install -Dpm0644 image/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
+install -Dpm0644 resources/icons/wsicon16.png %{buildroot}%{_miconsdir}/%{name}.png
+install -Dpm0644 resources/icons/wsicon32.png %{buildroot}%{_iconsdir}/%{name}.png
+install -Dpm0644 resources/icons/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
 
 # XDG menu
 install -d %{buildroot}%{_datadir}/applications/
