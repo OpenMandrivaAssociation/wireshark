@@ -1,8 +1,8 @@
 %define Werror_cflags %{nil}
 
-%define	major		15
-%define wiretapmajor	12
-%define wsutilmajor	13
+%define	major		16
+%define wiretapmajor	13
+%define wsutilmajor	14
 %define libname		%mklibname wireshark %{major}
 %define libwiretap	%mklibname wiretap %{wiretapmajor}
 %define libwsutil	%mklibname wsutil %{wsutilmajor}
@@ -10,7 +10,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	3.6.8
+Version:	4.0.0
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
@@ -32,6 +32,7 @@ BuildRequires:	perl-open
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	cmake(Qt5Core)
+BuildRequires:	cmake(Qt5Concurrent)
 BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Help)
 BuildRequires:	cmake(Qt5MultimediaWidgets)
@@ -176,9 +177,9 @@ mv %{buildroot}%{_bindir}/wireshark %{buildroot}%{_bindir}/wireshark-qt
 ln -s wireshark-qt %{buildroot}%{_bindir}/wireshark
 
 # icons
-install -Dpm0644 image/wsicon16.png %{buildroot}%{_miconsdir}/%{name}.png
-install -Dpm0644 image/wsicon32.png %{buildroot}%{_iconsdir}/%{name}.png
-install -Dpm0644 image/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
+install -Dpm0644 resources/icons/wsicon16.png %{buildroot}%{_miconsdir}/%{name}.png
+install -Dpm0644 resources/icons/wsicon32.png %{buildroot}%{_iconsdir}/%{name}.png
+install -Dpm0644 resources/icons/wsicon48.png %{buildroot}%{_liconsdir}/%{name}.png
 
 # XDG menu
 install -d %{buildroot}%{_datadir}/applications/
@@ -268,6 +269,7 @@ fi
 %{_libdir}/%{name}/extcap/sdjournal
 %{_libdir}/%{name}/extcap/sshdump
 %{_libdir}/%{name}/extcap/udpdump
+%{_libdir}/%{name}/extcap/wifidump
 %{_mandir}/man1/androiddump.1*
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
@@ -286,6 +288,7 @@ fi
 %{_mandir}/man1/udpdump.1*
 %{_mandir}/man4/extcap.4*
 %{_mandir}/man1/etwdump.1.*
+%{_mandir}/man1/wifidump.1.*
 
 %files -n tshark
 %{_bindir}/tshark
