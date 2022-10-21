@@ -269,6 +269,7 @@ fi
 %{_libdir}/%{name}/extcap/sdjournal
 %{_libdir}/%{name}/extcap/sshdump
 %{_libdir}/%{name}/extcap/udpdump
+%{_libdir}/%{name}/extcap/wifidump
 %{_mandir}/man1/androiddump.1*
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
@@ -287,6 +288,7 @@ fi
 %{_mandir}/man1/udpdump.1*
 %{_mandir}/man4/extcap.4*
 %{_mandir}/man1/etwdump.1.*
+%{_mandir}/man1/wifidump.1.*
 
 %files -n tshark
 %{_bindir}/tshark
