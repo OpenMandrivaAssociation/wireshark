@@ -36,14 +36,15 @@ BuildRequires:	tiff-devel
 BuildRequires:	perl-open
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libsystemd)
-BuildRequires:	cmake(Qt5Core)
-BuildRequires:	cmake(Qt5Concurrent)
-BuildRequires:	cmake(Qt5Gui)
-BuildRequires:	cmake(Qt5Help)
-BuildRequires:	cmake(Qt5MultimediaWidgets)
-BuildRequires:	cmake(Qt5PrintSupport)
-BuildRequires:	cmake(Qt5Svg)
-BuildRequires:	cmake(Qt5Widgets)
+BuildRequires:	cmake(Qt6)
+BuildRequires:	cmake(Qt6Core)
+BuildRequires:	cmake(Qt6Concurrent)
+BuildRequires:	cmake(Qt6Gui)
+BuildRequires:	cmake(Qt6Help)
+BuildRequires:	cmake(Qt6MultimediaWidgets)
+BuildRequires:	cmake(Qt6PrintSupport)
+BuildRequires:	cmake(Qt6Svg)
+BuildRequires:	cmake(Qt6Widgets)
 # Optional BRs
 BuildRequires:	doxygen
 BuildRequires:	git-core
