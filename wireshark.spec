@@ -246,6 +246,7 @@ fi
 %{_mandir}/man1/dumpcap.1*
 
 %files
+%doc %{_docdir}/%{name}
 %{_bindir}/%{name}
 %{_bindir}/%{name}-qt
 %dir %{_libdir}/%{name}/
@@ -285,9 +286,9 @@ fi
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
 %{_mandir}/man1/ciscodump.1*
-%{_mandir}/man1/dftest.1*
 %{_mandir}/man1/dpauxmon.1*
 %{_mandir}/man1/editcap.1*
+%{_mandir}/man1/falcodump.1*
 %{_mandir}/man1/mergecap.1*
 %{_mandir}/man1/mmdbresolve.1*
 %{_mandir}/man1/randpkt.1*
@@ -325,4 +326,3 @@ fi
 %{_libdir}/libwiretap.so
 %{_libdir}/libwsutil.so
 %{_libdir}/pkgconfig/*.pc
-%{_libdir}/wireshark/cmake/
