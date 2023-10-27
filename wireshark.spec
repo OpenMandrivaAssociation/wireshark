@@ -46,6 +46,7 @@ BuildRequires:	cmake(Qt6MultimediaWidgets)
 BuildRequires:	cmake(Qt6PrintSupport)
 BuildRequires:	cmake(Qt6Svg)
 BuildRequires:	cmake(Qt6Widgets)
+BuildRequires:	cmake(Qt6LinguistTools)
 # Optional BRs
 BuildRequires:	doxygen
 BuildRequires:	git-core
