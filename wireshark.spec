@@ -1,21 +1,26 @@
-%define Werror_cflags %{nil}
+%define Werror_cflags -Wno-error=unreachable-code
+#global optflags %{optflags} -Wno-error=unreachable-code
 
-%define	major		16
-%define wiretapmajor	13
-%define wsutilmajor	14
-%define libname		%mklibname wireshark %{major}
-%define libwiretap	%mklibname wiretap %{wiretapmajor}
-%define libwsutil	%mklibname wsutil %{wsutilmajor}
+%define	major		0
+%define wiretapmajor	0
+%define wsutilmajor	0
+%define oldlibname	%mklibname wireshark 16
+%define libname		%mklibname wireshark
+%define oldlibwiretap	%mklibname wiretap 13
+%define libwiretap	%mklibname wiretap
+%define oldlibwsutil	%mklibname wsutil 14
+%define libwsutil	%mklibname wsutil
 %define devname		%mklibname -d wireshark
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	4.0.10
+Version:	4.1.0
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
 URL:		https://www.wireshark.org
 Source0:	https://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
+Patch0:		wireshark-4.1.0-clang.patch
 BuildRequires:	bison
 BuildRequires:	cmake
 BuildRequires:	ninja
@@ -46,7 +51,7 @@ BuildRequires:	krb5-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	pkgconfig(libcap)
 BuildRequires:	libsmi-devel
-BuildRequires:	lua5.2-devel
+BuildRequires:	lua-devel
 #BuildRequires:	pkgconfig(libbcg729)
 BuildRequires:	pkgconfig(libcares)
 BuildRequires:	pkgconfig(libgcrypt)
@@ -81,6 +86,7 @@ capture and filtering library.
 %package -n	%{libname}
 Summary:	Network traffic and protocol analyzer libraries
 Group:		System/Libraries
+%rename %{oldlibname}
 
 %description -n	%{libname}
 Wireshark is a network traffic analyzer for Unix-ish operating systems. It is
@@ -90,6 +96,7 @@ capture and filtering library.
 %package -n	%{libwiretap}
 Summary:	Packet-capture library for %{name}
 Group:		System/Libraries
+%rename %{oldlibwiretap}
 
 %description -n	%{libwiretap}
 The wiretap library is a packet-capture library currently under development
@@ -100,6 +107,7 @@ Wiretap is used in wireshark for its ability to read multiple file types.
 %package -n	%{libwsutil}
 Summary:	Network packet dissection utilities library
 Group:		System/Libraries
+%rename %{oldlibwsutil}
 
 %description -n	%{libwsutil}
 The libwsutil library provides utility functions for wireshark.
@@ -244,7 +252,6 @@ fi
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
 %{_iconsdir}/hicolor/*/*/*.png
-%{_iconsdir}/hicolor/*/*/*.svg
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man4/%{name}-filter.4*
 %{_datadir}/applications/org.wireshark.Wireshark.desktop

@@ -1,0 +1,106 @@
+diff -up wireshark-4.1.0/ui/qt/about_dialog.cpp.omv~ wireshark-4.1.0/ui/qt/about_dialog.cpp
+--- wireshark-4.1.0/ui/qt/about_dialog.cpp.omv~	2023-10-27 01:06:32.602545519 +0200
++++ wireshark-4.1.0/ui/qt/about_dialog.cpp	2023-10-27 01:06:48.641663799 +0200
+@@ -463,12 +463,12 @@ void AboutDialog::updateWiresharkText()
+      * conversions from QByteArray to QString at -O2 and higher due to
+      * computing a branch that will never be taken.
+      */
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_OFF(stringop-overread)
+ #endif
+     clipboardInfo += gstring_free_to_qbytearray(get_compiled_version_info(gather_wireshark_qt_compiled_info)) + "\n";
+     clipboardInfo += gstring_free_to_qbytearray(get_runtime_version_info(gather_wireshark_runtime_info)) + "\n";
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_ON(stringop-overread)
+ #endif
+ }
+diff -up wireshark-4.1.0/ui/qt/follow_stream_dialog.cpp.omv~ wireshark-4.1.0/ui/qt/follow_stream_dialog.cpp
+--- wireshark-4.1.0/ui/qt/follow_stream_dialog.cpp.omv~	2023-10-27 01:07:09.996822202 +0200
++++ wireshark-4.1.0/ui/qt/follow_stream_dialog.cpp	2023-10-27 01:07:24.368929384 +0200
+@@ -879,11 +879,11 @@ FollowStreamDialog::showBuffer(char *buf
+              * conversions from QByteArray to QString at -O2 and higher due to
+              * computing a branch that will never be taken.
+              */
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_OFF(stringop-overread)
+ #endif
+             yaml_text += "      " + base64_data.toBase64() + "\n";
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_ON(stringop-overread)
+ #endif
+ 
+diff -up wireshark-4.1.0/ui/qt/interface_toolbar.cpp.omv~ wireshark-4.1.0/ui/qt/interface_toolbar.cpp
+--- wireshark-4.1.0/ui/qt/interface_toolbar.cpp.omv~	2023-10-27 01:08:15.553314637 +0200
++++ wireshark-4.1.0/ui/qt/interface_toolbar.cpp	2023-10-27 01:08:31.846438370 +0200
+@@ -13,14 +13,14 @@
+ 
+ #include <ws_diag_control.h>
+ 
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_OFF(stringop-overflow)
+ #if WS_IS_AT_LEAST_GNUC_VERSION(13,0)
+ DIAG_OFF(restrict)
+ #endif
+ #endif
+ #include "interface_toolbar.h"
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_ON(stringop-overflow)
+ #if WS_IS_AT_LEAST_GNUC_VERSION(13,0)
+ DIAG_ON(restrict)
+diff -up wireshark-4.1.0/ui/qt/show_packet_bytes_dialog.cpp.omv~ wireshark-4.1.0/ui/qt/show_packet_bytes_dialog.cpp
+--- wireshark-4.1.0/ui/qt/show_packet_bytes_dialog.cpp.omv~	2023-10-27 01:09:02.813674923 +0200
++++ wireshark-4.1.0/ui/qt/show_packet_bytes_dialog.cpp	2023-10-27 01:09:20.688812248 +0200
+@@ -850,11 +850,11 @@ void ShowPacketBytesDialog::updatePacket
+              * conversions from QByteArray to QString at -O2 and higher due to
+              * computing a branch that will never be taken.
+              */
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_OFF(stringop-overread)
+ #endif
+             text.append("  " + base64_data.toBase64() + "\n");
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_ON(stringop-overread)
+ #endif
+         }
+diff -up wireshark-4.1.0/ui/qt/utils/data_printer.cpp.omv~ wireshark-4.1.0/ui/qt/utils/data_printer.cpp
+--- wireshark-4.1.0/ui/qt/utils/data_printer.cpp.omv~	2023-10-27 01:11:25.166782887 +0200
++++ wireshark-4.1.0/ui/qt/utils/data_printer.cpp	2023-10-27 01:11:36.295870772 +0200
+@@ -55,11 +55,11 @@ void DataPrinter::toClipboard(DataPrinte
+             clipboard_text += QString("%1").arg((uint8_t) printData[i], 2, 16, QChar('0'));
+         break;
+     case DP_Base64:
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_OFF(stringop-overread)
+ #endif
+         clipboard_text = printData.toBase64();
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_ON(stringop-overread)
+ #endif
+         break;
+diff -up wireshark-4.1.0/ui/qt/wireshark_main_window_slots.cpp.omv~ wireshark-4.1.0/ui/qt/wireshark_main_window_slots.cpp
+--- wireshark-4.1.0/ui/qt/wireshark_main_window_slots.cpp.omv~	2023-10-27 01:17:08.218553803 +0200
++++ wireshark-4.1.0/ui/qt/wireshark_main_window_slots.cpp	2023-10-27 01:17:18.299636780 +0200
+@@ -959,11 +959,11 @@ void WiresharkMainWindow::startCapture(Q
+                      * even though the isEmpty() check guarantees that
+                      * filter_ba.constData() is never NULL or empty.
+                      */
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_OFF(stringop-overread)
+ #endif
+                     if (strcmp(interface_opts->cfilter, filter_ba.constData()) != 0) {
+-#if WS_IS_AT_LEAST_GNUC_VERSION(12,1)
++#if WS_IS_AT_LEAST_GNUC_VERSION(12,1) && !defined(__clang__)
+ DIAG_ON(stringop-overread)
+ #endif
+                         /* No, so not all selected interfaces have the same capture
