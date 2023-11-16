@@ -1,9 +1,9 @@
 %define Werror_cflags -Wno-error=unreachable-code
 #global optflags %{optflags} -Wno-error=unreachable-code
 
-%define	major		0
-%define wiretapmajor	0
-%define wsutilmajor	0
+%define	major		17
+%define wiretapmajor	14
+%define wsutilmajor	15
 %define oldlibname	%mklibname wireshark 16
 %define libname		%mklibname wireshark
 %define oldlibwiretap	%mklibname wiretap 13
