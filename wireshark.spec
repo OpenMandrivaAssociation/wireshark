@@ -20,6 +20,7 @@ License:	GPLv2+ and GPLv3
 Group:		Monitoring
 URL:		https://www.wireshark.org
 Source0:	https://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
+Source1:    	wireshark.sysusers
 Patch0:		wireshark-4.1.0-clang.patch
 BuildRequires:	bison
 BuildRequires:	cmake
@@ -184,6 +185,8 @@ live network and write the packets to a file. Many wireshark utilities require i
 %install
 %ninja_install -C build
 
+install -Dpm 644 %{SOURCE1}        %{buildroot}%{_sysusersdir}/%{name}.conf
+
 # link to main executable
 mv %{buildroot}%{_bindir}/wireshark %{buildroot}%{_bindir}/wireshark-qt
 ln -s wireshark-qt %{buildroot}%{_bindir}/wireshark
@@ -262,6 +265,7 @@ fi
 %{_datadir}/applications/org.wireshark.Wireshark.desktop
 %{_datadir}/metainfo/org.wireshark.Wireshark.metainfo.xml
 %{_datadir}/mime/packages/org.wireshark.Wireshark.xml
+%{_sysusersdir}/%{name}.conf
 
 %files tools
 %{_bindir}/capinfos
