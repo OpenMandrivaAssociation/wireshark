@@ -14,7 +14,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	4.2.1
+Version:	4.2.2
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
