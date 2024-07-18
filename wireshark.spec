@@ -1,9 +1,9 @@
 %define Werror_cflags -Wno-error=unreachable-code
 #global optflags %{optflags} -Wno-error=unreachable-code
 
-%define	major		17
-%define wiretapmajor	14
-%define wsutilmajor	15
+%define	major		0
+%define wiretapmajor	0
+%define wsutilmajor	0
 %define oldlibname	%mklibname wireshark 16
 %define libname		%mklibname wireshark
 %define oldlibwiretap	%mklibname wiretap 13
@@ -14,8 +14,8 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	4.2.2
-Release:	2
+Version:	4.3.0
+Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
 URL:		https://www.wireshark.org
@@ -30,9 +30,6 @@ BuildRequires:	elfutils-devel
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	perl-Pod-Html
 BuildRequires:	pcre-devel
-BuildRequires:	qt5-macros
-BuildRequires:	qmake5
-BuildRequires:	qt5-linguist-tools
 BuildRequires:	tiff-devel
 BuildRequires:	perl-open
 BuildRequires:	pkgconfig(glib-2.0)
@@ -170,10 +167,10 @@ Dumpcap is a network traffic dump tool. It lets you capture packet data from a
 live network and write the packets to a file. Many wireshark utilities require it.
 
 %prep
-%autosetup -p1
+%autosetup -p2
 
 %build
-%cmake_qt5 \
+%cmake \
 	-DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \
 	-DENABLE_EXTRA_COMPILER_WARNINGS:BOOL=ON \
 	-DDUMPCAP_INSTALL_OPTION:STRING="suid" \
