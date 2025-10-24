@@ -251,7 +251,7 @@ fi
 %{_bindir}/%{name}-qt
 %dir %{_libdir}/%{name}/
 %{_libdir}/%{name}/plugins/
-%dir %{_libdir}/%{name}/extcap/
+#dir %{_libdir}/%{name}/extcap/
 %{_datadir}/%{name}/
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
