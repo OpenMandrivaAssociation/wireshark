@@ -1,9 +1,9 @@
 %define Werror_cflags -Wno-error=unreachable-code
 #global optflags %{optflags} -Wno-error=unreachable-code
 
-%define	major		18
-%define wiretapmajor	15
-%define wsutilmajor	16
+%define	major		19
+%define wiretapmajor	16
+%define wsutilmajor	17
 %define oldlibname	%mklibname wireshark 16
 %define libname		%mklibname wireshark
 %define oldlibwiretap	%mklibname wiretap 13
@@ -14,7 +14,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	4.4.9
+Version:	4.6.0
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
