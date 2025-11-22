@@ -275,6 +275,7 @@ fi
 %{_bindir}/reordercap
 %{_bindir}/text2pcap
 %{_bindir}/sharkd
+%{_libexecdir}/wireshark/extcap/
 %{_mandir}/man1/androiddump.1*
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
@@ -291,6 +292,9 @@ fi
 %{_mandir}/man1/sshdump.1*
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*
+%{_mandir}/man1/sshdig.1.*
+%{_mandir}/man1/strato.1.*
+%{_mandir}/man1/stratoshark.1.*
 %{_mandir}/man4/extcap.4*
 %{_mandir}/man1/etwdump.1.*
 %{_mandir}/man1/wifidump.1.*
