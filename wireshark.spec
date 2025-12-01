@@ -15,12 +15,13 @@
 Summary:	Network traffic analyzer
 Name:		wireshark
 Version:	4.6.1
-Release:	1
+Release:	2
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
 URL:		https://www.wireshark.org
 Source0:	https://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
-Source1:    	wireshark.sysusers
+Source1:	wireshark.sysusers
+Source2:	99-usbmon.rules
 Patch0:		wireshark-4.1.0-clang.patch
 BuildRequires:	bison
 BuildRequires:	cmake
@@ -263,6 +264,7 @@ fi
 %{_datadir}/metainfo/org.wireshark.Wireshark.metainfo.xml
 %{_datadir}/mime/packages/org.wireshark.Wireshark.xml
 %{_sysusersdir}/%{name}.conf
+%{_udevrulesdir}/99-usbmon.rules
 
 %files tools
 %{_bindir}/capinfos

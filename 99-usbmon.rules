@@ -1,0 +1,5 @@
+# Set permissions and group ownership for usbmon nodes.
+# This ensures only root and members of the "usbmon" group
+# can access USB monitoring interfaces.
+
+SUBSYSTEM=="usbmon", MODE="0640", GROUP="usbmon"
