@@ -264,7 +264,6 @@ fi
 %{_datadir}/metainfo/org.wireshark.Wireshark.metainfo.xml
 %{_datadir}/mime/packages/org.wireshark.Wireshark.xml
 %{_sysusersdir}/%{name}.conf
-%{_udevrulesdir}/99-usbmon.rules
 
 %files tools
 %{_bindir}/capinfos
