@@ -294,6 +294,7 @@ fi
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*
 %{_mandir}/man1/sshdig.1.*
+%{_mandir}/man1/sharkd.1.*
 %{_mandir}/man1/strato.1.*
 %{_mandir}/man1/stratoshark.1.*
 %{_mandir}/man4/extcap.4*
