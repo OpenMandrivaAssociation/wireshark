@@ -172,9 +172,11 @@ live network and write the packets to a file. Many wireshark utilities require i
 %autosetup -p2
 
 %build
+# Clang -Werror fails on unused-but-set globals such as btsnoop_handle.
 %cmake \
 	-DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \
 	-DENABLE_EXTRA_COMPILER_WARNINGS:BOOL=ON \
+	-DENABLE_WERROR:BOOL=OFF \
 	-DDUMPCAP_INSTALL_OPTION:STRING="suid" \
 	-DENABLE_DUMPCAP_GROUP:BOOL=ON \
 	-DDUMPCAP_INSTALL_GROUP:STRING="wireshark" \
