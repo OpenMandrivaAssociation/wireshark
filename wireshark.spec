@@ -24,6 +24,10 @@ Source0:	https://www.wireshark.org/download/src/%{name}-%{version}.tar.xz
 Source1:	wireshark.sysusers
 Source2:	99-usbmon.rules
 Patch0:		wireshark-4.1.0-clang.patch
+# 4.7 links sdjournal to the Stratoshark flavor and installs it only
+# into Stratoshark's extcap directory. Keep it beside the other
+# Wireshark extcaps.
+Patch1:		wireshark-4.7.4-sdjournal-extcap.patch
 BuildRequires:	bison
 BuildRequires:	cmake
 BuildRequires:	ninja
@@ -173,13 +177,10 @@ live network and write the packets to a file. Many wireshark utilities require i
 
 %build
 # Clang -Werror fails on unused-but-set globals such as btsnoop_handle.
-# sdjournal is a Stratoshark extcap. Its install directory is unset
-# unless Stratoshark is built, and CMake then drops the binary in /usr/bin.
 %cmake \
 	-DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \
 	-DENABLE_EXTRA_COMPILER_WARNINGS:BOOL=ON \
 	-DENABLE_WERROR:BOOL=OFF \
-	-DBUILD_sdjournal:BOOL=OFF \
 	-DDUMPCAP_INSTALL_OPTION:STRING="suid" \
 	-DENABLE_DUMPCAP_GROUP:BOOL=ON \
 	-DDUMPCAP_INSTALL_GROUP:STRING="wireshark" \
@@ -284,8 +285,8 @@ fi
 %{_bindir}/text2pcap
 %{_bindir}/sharkd
 %{_libexecdir}/wireshark/extcap/
-# stratoshark, strato, sdjournal, sshdig, falcodump and etwdump pages
-# are installed only when those programs are built. They are off here.
+# stratoshark, strato, sshdig, falcodump and etwdump pages are installed
+# only when those programs are built. They are off in this package.
 %{_mandir}/man1/androiddump.1*
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
@@ -297,6 +298,7 @@ fi
 %{_mandir}/man1/randpkt.1*
 %{_mandir}/man1/randpktdump.1*
 %{_mandir}/man1/reordercap.1*
+%{_mandir}/man1/sdjournal.1*
 %{_mandir}/man1/sshdump.1*
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*

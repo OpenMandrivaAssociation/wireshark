@@ -1,0 +1,20 @@
+--- a/a/extcap/CMakeLists.txt
++++ b/b/extcap/CMakeLists.txt
+@@ -319,7 +319,7 @@
+ 	)
+ 	set(sdjournal_FILES
+ 		sdjournal.c
+-		../app/stratoshark_flavor.c
++		../app/wireshark_flavor.c
+ 	)
+ 
+ 	set_executable_resources(sdjournal "sdjournal")
+@@ -327,7 +327,7 @@
+ 	set_extlog_executable_properties(sdjournal)
+ 	target_link_libraries(sdjournal ${sdjournal_LIBS})
+ 	target_include_directories(sdjournal SYSTEM PRIVATE ${SYSTEMD_INCLUDE_DIRS})
+-	install(TARGETS sdjournal RUNTIME DESTINATION ${STRATOSHARK_EXTCAP_INSTALL_LIBDIR})
++	install(TARGETS sdjournal RUNTIME DESTINATION ${EXTCAP_INSTALL_LIBDIR})
+ 	add_dependencies(extcaps sdjournal)
+ endif()
+ 
