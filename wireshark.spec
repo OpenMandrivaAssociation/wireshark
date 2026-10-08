@@ -172,15 +172,34 @@ Group:		Monitoring
 Dumpcap is a network traffic dump tool. It lets you capture packet data from a
 live network and write the packets to a file. Many wireshark utilities require it.
 
+%package -n	stratoshark
+Summary:	System call and log analyzer
+Group:		Monitoring
+Requires:	wireshark = %{EVRD}
+
+%description -n	stratoshark
+Stratoshark is a system call and log analyzer built from the Wireshark
+sources. This package contains the graphical interface, the strato
+text-mode tool, and the Stratoshark extcap helpers.
+
+Syscall capture with dumpcalls and falcodump needs libsinsp, which is
+not packaged yet. sshdig and sdjournal are included.
+
 %prep
 %autosetup -p2
 
 %build
 # Clang -Werror fails on unused-but-set globals such as btsnoop_handle.
+# Stratoshark's CMake option defaults to off. Falco syscall capture needs
+# libsinsp, which cooker does not have, so leave that support off.
 %cmake \
 	-DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \
 	-DENABLE_EXTRA_COMPILER_WARNINGS:BOOL=ON \
 	-DENABLE_WERROR:BOOL=OFF \
+	-DBUILD_stratoshark:BOOL=ON \
+	-DBUILD_strato:BOOL=ON \
+	-DBUILD_sshdig:BOOL=ON \
+	-DENABLE_SINSP:BOOL=OFF \
 	-DDUMPCAP_INSTALL_OPTION:STRING="suid" \
 	-DENABLE_DUMPCAP_GROUP:BOOL=ON \
 	-DDUMPCAP_INSTALL_GROUP:STRING="wireshark" \
@@ -189,6 +208,11 @@ live network and write the packets to a file. Many wireshark utilities require i
 
 %install
 %ninja_install -C build
+
+# sdjournal is installed for Wireshark. Stratoshark only scans its own
+# extcap directory, so give it a copy as well.
+install -Dpm 0755 %{buildroot}%{_libexecdir}/wireshark/extcap/sdjournal \
+	%{buildroot}%{_libexecdir}/stratoshark/extcap/sdjournal
 
 install -Dpm 644 %{SOURCE1}        %{buildroot}%{_sysusersdir}/%{name}.conf
 
@@ -266,12 +290,28 @@ fi
 %{_miconsdir}/*.png
 %{_liconsdir}/*.png
 %{_iconsdir}/hicolor/*/*/*.png
+%exclude %{_iconsdir}/hicolor/*/apps/org.wireshark.Stratoshark.png
+%exclude %{_iconsdir}/hicolor/*/mimetypes/org.wireshark.Stratoshark-mimetype.png
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man4/%{name}-filter.4*
 %{_datadir}/applications/org.wireshark.Wireshark.desktop
 %{_datadir}/metainfo/org.wireshark.Wireshark.metainfo.xml
 %{_datadir}/mime/packages/org.wireshark.Wireshark.xml
 %{_sysusersdir}/%{name}.conf
+
+%files -n	stratoshark
+%{_bindir}/stratoshark
+%{_bindir}/strato
+%{_libexecdir}/stratoshark/
+%{_datadir}/stratoshark/
+%{_mandir}/man1/stratoshark.1*
+%{_mandir}/man1/strato.1*
+%{_mandir}/man1/sshdig.1*
+%{_datadir}/applications/org.wireshark.Stratoshark.desktop
+%{_datadir}/metainfo/org.wireshark.Stratoshark.metainfo.xml
+%{_datadir}/mime/packages/org.wireshark.Stratoshark.xml
+%{_iconsdir}/hicolor/*/apps/org.wireshark.Stratoshark.png
+%{_iconsdir}/hicolor/*/mimetypes/org.wireshark.Stratoshark-mimetype.png
 
 %files tools
 %{_bindir}/capinfos
@@ -285,8 +325,8 @@ fi
 %{_bindir}/text2pcap
 %{_bindir}/sharkd
 %{_libexecdir}/wireshark/extcap/
-# stratoshark, strato, sshdig, falcodump and etwdump pages are installed
-# only when those programs are built. They are off in this package.
+# stratoshark, strato and sshdig man pages belong to the stratoshark package.
+# falcodump and dumpcalls need libsinsp. etwdump is Windows-only.
 %{_mandir}/man1/androiddump.1*
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
