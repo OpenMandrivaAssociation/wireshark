@@ -1,9 +1,10 @@
 %define Werror_cflags -Wno-error=unreachable-code
 #global optflags %{optflags} -Wno-error=unreachable-code
 
-%define	major		19
-%define wiretapmajor	16
-%define wsutilmajor	17
+# 4.7 resets the three shared-library SONAMEs to 0.
+%define	major		0
+%define wiretapmajor	0
+%define wsutilmajor	0
 %define oldlibname	%mklibname wireshark 16
 %define libname		%mklibname wireshark
 %define oldlibwiretap	%mklibname wiretap 13
@@ -14,7 +15,7 @@
 
 Summary:	Network traffic analyzer
 Name:		wireshark
-Version:	4.6.9
+Version:	4.7.4
 Release:	1
 License:	GPLv2+ and GPLv3
 Group:		Monitoring
@@ -277,13 +278,14 @@ fi
 %{_bindir}/text2pcap
 %{_bindir}/sharkd
 %{_libexecdir}/wireshark/extcap/
+# stratoshark, strato, sshdig, falcodump and etwdump pages are installed
+# only when those programs are built. They are off in this package.
 %{_mandir}/man1/androiddump.1*
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
 %{_mandir}/man1/ciscodump.1*
 %{_mandir}/man1/dpauxmon.1*
 %{_mandir}/man1/editcap.1*
-%{_mandir}/man1/falcodump.1*
 %{_mandir}/man1/mergecap.1*
 %{_mandir}/man1/mmdbresolve.1*
 %{_mandir}/man1/randpkt.1*
@@ -293,12 +295,8 @@ fi
 %{_mandir}/man1/sshdump.1*
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*
-%{_mandir}/man1/sshdig.1.*
 %{_mandir}/man1/sharkd.1.*
-%{_mandir}/man1/strato.1.*
-%{_mandir}/man1/stratoshark.1.*
 %{_mandir}/man4/extcap.4*
-%{_mandir}/man1/etwdump.1.*
 %{_mandir}/man1/wifidump.1.*
 
 %files -n tshark
