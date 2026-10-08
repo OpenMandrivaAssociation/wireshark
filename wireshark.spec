@@ -173,10 +173,13 @@ live network and write the packets to a file. Many wireshark utilities require i
 
 %build
 # Clang -Werror fails on unused-but-set globals such as btsnoop_handle.
+# sdjournal is a Stratoshark extcap. Its install directory is unset
+# unless Stratoshark is built, and CMake then drops the binary in /usr/bin.
 %cmake \
 	-DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \
 	-DENABLE_EXTRA_COMPILER_WARNINGS:BOOL=ON \
 	-DENABLE_WERROR:BOOL=OFF \
+	-DBUILD_sdjournal:BOOL=OFF \
 	-DDUMPCAP_INSTALL_OPTION:STRING="suid" \
 	-DENABLE_DUMPCAP_GROUP:BOOL=ON \
 	-DDUMPCAP_INSTALL_GROUP:STRING="wireshark" \
@@ -253,6 +256,7 @@ fi
 %doc %{_docdir}/%{name}
 %{_bindir}/%{name}
 %{_bindir}/%{name}-qt
+%{_libdir}/libuiqt_plugin.so*
 %dir %{_libdir}/%{name}/
 %{_libdir}/%{name}/plugins/
 #dir %{_libdir}/%{name}/extcap/
@@ -280,8 +284,8 @@ fi
 %{_bindir}/text2pcap
 %{_bindir}/sharkd
 %{_libexecdir}/wireshark/extcap/
-# stratoshark, strato, sshdig, falcodump and etwdump pages are installed
-# only when those programs are built. They are off in this package.
+# stratoshark, strato, sdjournal, sshdig, falcodump and etwdump pages
+# are installed only when those programs are built. They are off here.
 %{_mandir}/man1/androiddump.1*
 %{_mandir}/man1/capinfos.1*
 %{_mandir}/man1/captype.1*
@@ -293,7 +297,6 @@ fi
 %{_mandir}/man1/randpkt.1*
 %{_mandir}/man1/randpktdump.1*
 %{_mandir}/man1/reordercap.1*
-%{_mandir}/man1/sdjournal.1*
 %{_mandir}/man1/sshdump.1*
 %{_mandir}/man1/text2pcap.1*
 %{_mandir}/man1/udpdump.1*
